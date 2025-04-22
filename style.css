@@ -1,0 +1,61 @@
+
+#All {
+	
+}
+
+#Parents {
+	align-items: right;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+
+}
+
+
+#Mama {
+	width: 100px;
+	border: 1px solid black; 
+	margin-right: 10px;
+	
+}
+
+#Papa {
+	margin-left: none;
+	width: 100px;
+	margin-left: 10px;
+	border: 1px solid black; 
+	
+}
+
+#Papa :only-child{
+	width: 80px;
+	
+}
+#Mama :only-child{
+	width: 80px;
+}
+#sex {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 10px;
+}
+
+
+ul {
+	
+	display: inline-block;
+	margin: 2px;
+	width: 200px;
+	background-color: none;
+	border: 1px solid black; 
+}
+
+
+
+
+#PoleWar {
+	text-align: center;
+	
+}
