@@ -101,3 +101,58 @@ let arrAtributt = new Array(
   "Ловкость",
   "Интеллект"
 );
+
+function createMonsters(name) {
+  topArr[0][2] = name;
+  //let x = Math.random() * 10;
+  for (let i = 1; i < lenghtTopArr; i++) {
+    topArr[i][2] = getRandomInt(0, topArr[i][3]);
+  }
+
+  //   for (let i = 0; i < lenghtTopArr; i++) {
+  //     console.log(topArr[i][0], topArr[i][2]);
+  //   }
+
+  let profileMonster = document.createElement("ul");
+
+  for (let i = 0; i < lenghtTopArr; i++) {
+    let x = document.createElement("li");
+    x.textContent = `${topArr[i][1]}: ${topArr[i][2]}`;
+    profileMonster.appendChild(x);
+  }
+  document.body.append(profileMonster);
+}
+
+class xren {
+  born_old(papa, mama) {
+    this.firstHp = newAttributeHpMana(monsters[dominant(papa, mama)].firstHp);
+    this.genetica.firstHp = getRandomInt(1, 300);
+
+    this.firstMana = newAttributeHpMana(
+      monsters[dominant(papa, mama)].firstMana
+    );
+    this.genetica.firstMana = getRandomInt(1, 300);
+
+    //this.gen = newAttributeHpMana(monsters[dominant(papa, mama)].gen);
+
+    this.attack = newAttribute(monsters[dominant(papa, mama)].attack);
+    this.armor = newAttribute(monsters[dominant(papa, mama)].armor);
+    this.crit = newAttribute(monsters[dominant(papa, mama)].crit);
+    this.dodge = newAttribute(monsters[dominant(papa, mama)].dodge);
+
+    this.genetica.attack = getRandomInt(1, 300);
+    this.genetica.armor = getRandomInt(1, 300);
+    this.genetica.crit = getRandomInt(1, 300);
+    this.genetica.dodge = getRandomInt(1, 300);
+
+    this.strength = newAttributeSAI(monsters[dominant(papa, mama)].strength);
+    this.agility = newAttributeSAI(monsters[dominant(papa, mama)].agility);
+    this.intelligence = newAttributeSAI(
+      monsters[dominant(papa, mama)].intelligence
+    );
+
+    this.genetica.strength = getRandomInt(1, 300);
+    this.genetica.agility = getRandomInt(1, 300);
+    this.genetica.intelligence = getRandomInt(1, 300);
+  }
+}

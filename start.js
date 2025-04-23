@@ -48,17 +48,43 @@ let topArr = new Array(
 const TOTAL_UP = 15;
 const TOTAL_NORM = 14;
 const TOTAL_DOWN = 13;
+const TOTAL_MONSTERS_BACKUP = ".monstersDivClass";
+const TOTAL_MONSTERS_WAR = ".monsterPlayerPoleWar";
 
 let mamaTarget = -1;
 let papaTarget = -1;
+let currentMonsterWar = -1;
+let oldMonsterWar = -1;
+
 let sexButton = document.getElementById("sexButton");
+let idDeleteMonsterInput = "";
 
 let monsters = new Array();
+function delete1MonsterClick() {
+  try {
+    document.getElementById(idDeleteMonsterInput).remove();
+  } catch (error) {
+    console.log(
+      "ERROR: Введите id монстра в формате числа от 0-99.  Ну и вот инфа где ты накосячил:\n",
+      error
+    );
+  }
+}
+
+function delete1Monster(id) {
+  try {
+    if (document.getElementById(id) != undefined) {
+      document.getElementById(id).remove();
+    }
+  } catch (error) {
+    console.log("ERROR: Я хуй знает, как ты все сломал.. \nПодробнее:", error);
+  }
+}
 
 function getRandomInt(min = 1, max) {
   return Math.floor(Math.random() * max + min);
 }
-let getRandomWeight = (weightss) => {
+let getRandomWeight = (weights) => {
   //   let weights = new Array(
   //     1,
   //     2,
@@ -93,16 +119,16 @@ let getRandomWeight = (weightss) => {
   for (let i = 0; i < weights.length; i++) {
     sumMax += weights[i];
   }
-  console.log("sumMax: ", sumMax);
+  //console.log("sumMax: ", sumMax);
 
   let result = 0;
   let x = getRandomInt(0, sumMax);
-  console.log("x:", x);
+  //console.log("x:", x);
   for (let i = 0; i < weights.length; i++) {
-    console.log("чилос: ", weights[i], " x: ", x);
+    //console.log("чилос: ", weights[i], " x: ", x);
     x -= weights[i];
     if (x < 0) {
-      console.log("result: ", weights[i]);
+      //console.log("result: ", weights[i]);
       result = weights[i];
       break;
     }
@@ -110,7 +136,7 @@ let getRandomWeight = (weightss) => {
 
   return result;
 };
-let newAttribute = (attribute) => {
+let newAttributeHpMana = (attribute) => {
   let result = 0;
   let resultUp = getRandomWeight([TOTAL_UP, TOTAL_NORM, TOTAL_DOWN]);
   if (resultUp == 15)
@@ -120,114 +146,211 @@ let newAttribute = (attribute) => {
   else result = attribute;
 
   //console.log("resultUp: ", resultUp);
+  if (result <= 0) result = 1;
+  return result;
+};
+
+let newAttributeSAI = (attribute) => {
+  let result = 0;
+  let resultUp = getRandomWeight([TOTAL_UP, TOTAL_NORM, TOTAL_DOWN]);
+  if (resultUp == 15) result = Math.floor(attribute + getRandomInt(1, 3));
+  else if (resultUp == 13) result = Math.floor(attribute - getRandomInt(1, 3));
+  else result = attribute;
+
+  //console.log("resultUp: ", resultUp);
+  if (result <= 0) result = 1;
 
   return result;
 };
 
-let dominant = (papa, mama) => {
-  let finalyDominant = papa;
-  let weightPapa = monsters[papa].gen;
-  let weightMama = monsters[mama].gen;
+let newAttributeAttack = (attribute) => {
+  let result = 0;
+  let resultUp = getRandomWeight([TOTAL_UP, TOTAL_NORM, TOTAL_DOWN]);
+  if (resultUp == 15) result = Math.floor(attribute + getRandomInt(1, 6));
+  else if (resultUp == 13) result = Math.floor(attribute - getRandomInt(1, 6));
+  else result = attribute;
 
-  let res = getRandomWeight(weightPapa, weightMama);
+  //console.log("resultUp: ", resultUp);
+  if (result <= 0) result = 1;
+
+  return result;
+};
+
+let dominant = (papa, mama, attribute) => {
+  let finalyDominant = papa;
+  let weightPapa = monsters[papa].genetica[`${attribute}`];
+  let weightMama = monsters[mama].genetica[`${attribute}`];
+
+  let res = getRandomWeight([weightPapa, weightMama]);
   finalyDominant = res === weightPapa ? papa : mama;
-  console.log("res: ", res);
+  //console.log("res: ", res);
+
+  //console.log("papa: ", papa);
+  //console.log("mama: ", mama);
 
   console.log("finalyDominant: ", finalyDominant);
 
   return finalyDominant;
 };
+
+let dominant_old = (papa, mama) => {
+  let finalyDominant = papa;
+  let weightPapa = monsters[papa].gen;
+  let weightMama = monsters[mama].gen;
+
+  let res = getRandomWeight([weightPapa, weightMama]);
+  finalyDominant = res === weightPapa ? papa : mama;
+  //console.log("res: ", res);
+
+  console.log("finalyDominant: ", finalyDominant);
+
+  return finalyDominant;
+};
+
 class Monster {
   name = "noname";
   id = 0;
   pol = true;
 
-  hp = 1;
-  mana = 1;
+  firstHp = 1;
+  firstMana = 1;
 
-  attack = 1;
-  armor = 1;
-  crit = 1;
-  dodge = 1;
+  firstAttack = 1;
+  firstArmor = 1;
+  firstCrit = 1;
+  firstDodge = 1;
   //
   strength = 1;
   agility = 1;
   intelligence = 1;
   //
-  gen = 1;
+  //gen = 1;
+
+  genetica = {
+    firstHp: 1,
+    firstMana: 1,
+
+    firstAttack: 1,
+    firstArmor: 1,
+    firstCrit: 1,
+    firstDodge: 1,
+
+    strength: 1,
+    agility: 1,
+    intelligence: 1,
+  };
+
+  getHp() {
+    let hp = this.firstHp + this.strength * 5;
+    return hp;
+  }
+
+  getMana() {
+    let mana = this.firstMana + this.intelligence * 5;
+    return mana;
+  }
+  getAttack() {
+    return Math.floor(
+      this.firstAttack +
+        this.agility / 2 +
+        this.strength / 2 +
+        this.intelligence / 1
+    );
+  }
+  getArmor() {
+    return Math.floor(this.firstArmor + this.strength / 4);
+  }
+  getCrit() {
+    return Math.floor(
+      this.firstCrit + this.agility / 10 + this.intelligence / 7
+    );
+  }
+  getDodge() {
+    return Math.floor(this.firstDodge + this.agility / 2);
+  }
 
   constructor(name, id, sex) {
+    this.name = name;
+    this.id = id;
+
     if (sex) {
-      this.name = name;
-      this.id = id;
       this.pol = getRandomInt(1, 10) >= 5 ? true : false;
 
       this.strength = getRandomInt(1, 20);
       this.agility = getRandomInt(1, 20);
       this.intelligence = getRandomInt(1, 20);
 
-      this.gen = getRandomInt(1, 300);
+      this.genetica.strength = getRandomInt(1, 300);
+      this.genetica.agility = getRandomInt(1, 300);
+      this.genetica.intelligence = getRandomInt(1, 300);
 
-      // this.strength = 20;
-      // this.agility = 50;
-      // this.intelligence = 80;
+      this.firstHp = getRandomInt(30, 300);
+      this.firstMana = getRandomInt(1, 150);
 
-      this.attack =
-        getRandomInt(5, 10) +
-        this.agility / 2 +
-        this.strength / 2 +
-        this.intelligence / 1;
+      this.genetica.firstHp = getRandomInt(1, 300);
+      this.genetica.firstMana = getRandomInt(1, 300);
 
-      this.hp = getRandomInt(30, 300) + this.strength * 5;
-      this.mana = getRandomInt(1, 150) + this.intelligence * 8;
+      this.firstAttack = getRandomInt(5, 10);
+      this.firstArmor = Math.floor(getRandomInt(0, 10));
+      this.firstCrit = Math.floor(getRandomInt(1, 10));
+      this.firstDodge = Math.floor(getRandomInt(1, 5));
 
-      this.armor = Math.floor(getRandomInt(0, 10) + this.strength / 4);
-      this.crit = Math.floor(
-        getRandomInt(1, 10) + this.agility / 10 + this.intelligence / 7
-      );
+      this.genetica.firstAttack = getRandomInt(1, 300);
+      this.genetica.firstArmor = getRandomInt(1, 300);
+      this.genetica.firstCrit = getRandomInt(1, 300);
+      this.genetica.firstDodge = getRandomInt(1, 300);
 
-      this.dodge = Math.floor(getRandomInt(1, 5) + this.agility / 2);
+      //
     } else if (!sex) {
-      this.name = name;
-      this.id = id;
       this.pol = getRandomInt(1, 10) >= 5 ? true : false;
       //console.log("Ураааа");
     }
   }
 
   born(papa, mama) {
-    //console.log(monsters);
-    //console.log(papa);
-    //let weightPapa = monsters[papa].gen;
-    //let weightMama = monsters[mama].gen;
+    this.firstHp = newAttributeHpMana(
+      monsters[dominant(papa, mama, "firstHp")].firstHp
+    );
+    this.genetica.firstHp = getRandomInt(1, 300);
 
-    //console.log("Гены папы:", weightPapa);
-    //console.log("Гены мамы:", weightMama);
+    this.firstMana = newAttributeHpMana(
+      monsters[dominant(papa, mama, "firstMana")].firstMana
+    );
+    this.genetica.firstMana = getRandomInt(1, 300);
 
-    let resultGen = getRandomWeight([weightPapa, weightMama]);
-    //let resultUp = getRandomWeight([TOTAL_UP, TOTAL_NORM, TOTAL_DOWN]);
-    //console.log("resultGen: ", resultGen);
+    //this.gen = newAttributeHpMana(monsters[dominant(papa, mama)].gen);
 
-    //this.hp = newAttribute(monsters[dominant(papa, mama)].hp);
+    this.firstAttack = newAttributeAttack(
+      monsters[dominant(papa, mama, "firstAttack")].firstAttack
+    );
+    this.firstArmor = newAttributeSAI(
+      monsters[dominant(papa, mama, "firstArmor")].firstArmor
+    );
+    this.firstCrit = newAttributeSAI(
+      monsters[dominant(papa, mama, "firstCrit")].firstCrit
+    );
+    this.firstDodge = newAttributeSAI(
+      monsters[dominant(papa, mama, "firstDodge")].firstDodge
+    );
 
-    //this.mana = newAttribute(monsters[dominant(papa, mama)].mana);
+    this.genetica.attack = getRandomInt(1, 300);
+    this.genetica.armor = getRandomInt(1, 300);
+    this.genetica.crit = getRandomInt(1, 300);
+    this.genetica.dodge = getRandomInt(1, 300);
 
-    //this.gen = newAttribute(monsters[dominant(papa, mama)].gen);
+    this.strength = newAttributeSAI(
+      monsters[dominant(papa, mama, "strength")].strength
+    );
+    this.agility = newAttributeSAI(
+      monsters[dominant(papa, mama, "agility")].agility
+    );
+    this.intelligence = newAttributeSAI(
+      monsters[dominant(papa, mama, "intelligence")].intelligence
+    );
 
-    //this.attack = newAttribute(monsters[dominant(papa, mama)].attack);
-    //this.armor = newAttribute(monsters[dominant(papa, mama)].armor);
-    //this.crit = newAttribute(monsters[dominant(papa, mama)].crit);
-    //this.dodge = newAttribute(monsters[dominant(papa, mama)].dodge);
-
-    //this.strength = newAttribute(monsters[dominant(papa, mama)].strength);
-    //this.agility = newAttribute(monsters[dominant(papa, mama)].agility);
-    // this.intelligence = newAttribute(
-    //   monsters[dominant(papa, mama)].intelligence
-    // );
-
-    //this.hp = newAttribute(this.hp);
-
-    //console.log("this.hp: ", this.hp);
+    this.genetica.strength = getRandomInt(1, 300);
+    this.genetica.agility = getRandomInt(1, 300);
+    this.genetica.intelligence = getRandomInt(1, 300);
   }
 
   printMonster() {
@@ -235,28 +358,40 @@ class Monster {
     console.log("Ид: ", this.id);
 
     console.log("Пол: ", this.pol ? "Мужской" : "Женский");
-    console.log("Здоровье: ", this.hp);
-    console.log("Мана: ", this.mana);
+    console.log("Здоровье: ", this.getHp());
+    console.log("ЗдоровьеFirst: ", this.firstHp);
 
-    console.log("Атака: ", this.attack);
-    console.log("Броня: ", this.armor);
-    console.log("Крит: ", this.crit);
-    console.log("Уворот: ", this.dodge);
+    console.log("Мана: ", this.getMana());
+    console.log("Манаfirst: ", this.mana);
+
+    console.log("Атака: ", this.getAttack());
+    console.log("Атакаfirst: ", this.firstAttack);
+    console.log("Броня: ", this.getArmor());
+    console.log("Броняfirst: ", this.firstArmor);
+    console.log("Крит: ", this.getCrit());
+    console.log("Критfirst: ", this.firstCrit);
+    console.log("Уворот: ", this.getDodge());
+    console.log("Уворотfirst: ", this.firstDodge);
 
     console.log("Сила: ", this.strength);
     console.log("Ловкость: ", this.agility);
     console.log("Интеллект: ", this.intelligence);
 
-    console.log("Генетика: ", this.gen);
+    console.log("Генетика: ", this.genetica);
   }
 
-  dviMonster() {
+  dviMonster(nameTeg) {
     let profileMonster = document.createElement("ul");
+    profileMonster.id = this.id;
+    profileMonster.onclick = function () {
+      getCurrentMonsterWar(profileMonster.id);
+    };
 
     let itemName = document.createElement("li");
 
     let itemPol = document.createElement("li");
     let itemHP = document.createElement("li");
+    let itemId = document.createElement("li");
     let itemMana = document.createElement("li");
 
     let itemAttack = document.createElement("li");
@@ -271,24 +406,26 @@ class Monster {
     let itemGen = document.createElement("li");
 
     itemName.textContent = "Имя: " + this.name;
+    itemId.textContent = "id: " + this.id;
 
     itemPol.textContent = "Пол: " + (this.pol ? "Мужской" : "Женский");
-    itemHP.textContent = "Здоровье: " + this.hp;
-    itemMana.textContent = "Мана: " + this.mana;
+    itemHP.textContent = "Здоровье: " + this.getHp();
+    itemMana.textContent = "Мана: " + this.getMana();
 
-    itemAttack.textContent = "Атака: " + this.attack;
-    itemArmor.textContent = "Броня: " + this.armor;
-    itemCrit.textContent = "Крит: " + this.crit;
-    itemDodge.textContent = "Уворот: " + this.dodge;
+    itemAttack.textContent = "Атака: " + this.getAttack();
+    itemArmor.textContent = "Броня: " + this.getArmor();
+    itemCrit.textContent = "Крит: " + this.getCrit();
+    itemDodge.textContent = "Уворот: " + this.getDodge();
 
     itemStrenth.textContent = "Сила: " + this.strength;
     itemAgility.textContent = "Ловкость: " + this.agility;
     itemIntelligence.textContent = "Интеллект: " + this.intelligence;
 
-    itemGen.textContent = "Генетика: " + this.gen;
+    itemGen.textContent = "Генетика: " + JSON.stringify(this.genetica);
 
     //profileMonster = document.getElementById("profileMonster1");
     profileMonster.appendChild(itemName);
+    profileMonster.appendChild(itemId);
 
     profileMonster.appendChild(itemPol);
     profileMonster.appendChild(itemHP);
@@ -303,12 +440,29 @@ class Monster {
     profileMonster.appendChild(itemAgility);
     profileMonster.appendChild(itemIntelligence);
 
-    profileMonster.appendChild(itemGen);
+    //profileMonster.appendChild(itemGen);
 
-    document.body.append(profileMonster);
+    //document.body.append(profileMonster);
+    //document.querySelector("monstersDivId").appendChild(profileMonster);
+    let x = document.querySelector(`${nameTeg}`);
+    x.appendChild(profileMonster);
+
+    console.log(x);
+    //x.append(profileMonster);
+    //document.body.append(profileMonster);
   }
 }
 
+function getCurrentMonsterWar(currentMonsterWar) {
+  if (oldMonsterWar != -1) {
+    delete1Monster(oldMonsterWar);
+    updateMonsters();
+  }
+  delete1Monster(currentMonsterWar);
+  monsters[currentMonsterWar].dviMonster(TOTAL_MONSTERS_WAR);
+  //alert(currentMonsterWar);
+  oldMonsterWar = currentMonsterWar;
+}
 let mapAtributtRU = new Map([
   ["Имя", "name"],
   ["Здоровье", "hp"],
@@ -345,36 +499,14 @@ function selectPolMonster(monster) {
   }
 }
 
-function createMonsters(name) {
-  topArr[0][2] = name;
-  //let x = Math.random() * 10;
-  for (let i = 1; i < lenghtTopArr; i++) {
-    topArr[i][2] = getRandomInt(0, topArr[i][3]);
-  }
-
-  //   for (let i = 0; i < lenghtTopArr; i++) {
-  //     console.log(topArr[i][0], topArr[i][2]);
-  //   }
-
-  let profileMonster = document.createElement("ul");
-
-  for (let i = 0; i < lenghtTopArr; i++) {
-    let x = document.createElement("li");
-    x.textContent = `${topArr[i][1]}: ${topArr[i][2]}`;
-    profileMonster.appendChild(x);
-  }
-  document.body.append(profileMonster);
-}
-
 function select() {
   //mama
-  const languagesSelectMama = document.mamaForm.mamaSelect;
+  const SelectMama = document.mamaForm.mamaSelect;
   const selectionMama = document.getElementById("selectionMama");
   mamaTarget = -1;
 
   function changeOptionMama() {
-    const selectedOptionMama =
-      languagesSelectMama.options[languagesSelectMama.selectedIndex];
+    const selectedOptionMama = SelectMama.options[SelectMama.selectedIndex];
     selectionMama.textContent = "Вы выбрали: " + selectedOptionMama.text;
 
     if (selectedOptionMama.value > -1) mamaTarget = selectedOptionMama.value;
@@ -384,17 +516,16 @@ function select() {
     //console.log("selectedOptionMama.value: ", selectedOptionMama.value);
   }
 
-  languagesSelectMama.addEventListener("change", changeOptionMama);
+  SelectMama.addEventListener("change", changeOptionMama);
   //
 
   //papa
-  const languagesSelectPapa = document.papaForm.papaSelect;
+  const SelectPapa = document.papaForm.papaSelect;
   const selectionPapa = document.getElementById("selectionPapa");
   papaTarget = -1;
 
   function changeOptionPapa() {
-    const selectedOptionPapa =
-      languagesSelectPapa.options[languagesSelectPapa.selectedIndex];
+    const selectedOptionPapa = SelectPapa.options[SelectPapa.selectedIndex];
     selectionPapa.textContent = "Вы выбрали: " + selectedOptionPapa.text;
 
     if (selectedOptionPapa.value > -1) papaTarget = selectedOptionPapa.value;
@@ -404,44 +535,72 @@ function select() {
     //console.log("selectedOptionPapa.value: ", selectedOptionPapa.value);
   }
 
-  languagesSelectPapa.addEventListener("change", changeOptionPapa);
+  SelectPapa.addEventListener("change", changeOptionPapa);
   //
 }
 
-function startGame() {
-  console.log("getRandomWeight: ", getRandomWeight([120, 130]));
-  for (let i = 0; i < 4; i++) {
-    let newMonster = new Monster(names[0], i, true);
-    names.shift();
-
-    newMonster.dviMonster();
-    selectPolMonster(newMonster);
-    monsters.push(newMonster);
-    //x.printMonster();
-  }
-  select();
-}
-
 function sexButtonClick() {
-  //alert("Ах Ах");
-  console.log("Мама: ", mamaTarget);
-  console.log("Папа: ", papaTarget);
-  //console.log(monsters.length);
-
   let newMonster = new Monster(names[0], monsters.length, false);
   names.shift();
 
-  //  weights.push(weight1);
-  //  weights.push(weight2);
+  console.log("papa");
+  monsters[papaTarget].printMonster();
+  console.log("mama");
+  monsters[mamaTarget].printMonster();
 
   newMonster.born(papaTarget, mamaTarget);
 
   monsters.push(newMonster);
-  newMonster.dviMonster();
+  newMonster.dviMonster(TOTAL_MONSTERS_BACKUP);
+  //newMonster.printMonster();
+  selectPolMonster(newMonster);
 
   //console.log(resultGen);
 }
 
-sexButton.addEventListener("click", sexButtonClick);
+function Events() {
+  //sex
+  sexButton.addEventListener("click", sexButtonClick);
 
+  //update
+  updateButton.addEventListener("click", updateMonsters);
+
+  //deleteMonster
+  document
+    .querySelector("#idDeleteMonster")
+    .addEventListener("input", function (event) {
+      idDeleteMonsterInput = event.target.value;
+    });
+  delButton.addEventListener("click", delete1MonsterClick);
+
+  //warButton.
+}
+
+function updateMonsters() {
+  for (let i = 0; i < monsters.length; i++) {
+    delete1Monster(monsters[i].id);
+  }
+
+  for (let i = 0; i < monsters.length; i++) {
+    monsters[i].dviMonster(TOTAL_MONSTERS_BACKUP);
+  }
+}
+
+function startGame() {
+  //console.log("getRandomWeight: ", getRandomWeight([120, 130]));
+  for (let i = 0; i < 4; i++) {
+    let newMonster = new Monster(names[0], i, true);
+    names.shift();
+
+    newMonster.dviMonster(TOTAL_MONSTERS_BACKUP);
+    selectPolMonster(newMonster);
+    monsters.push(newMonster);
+
+    //newMonster.printMonster();
+    //console.log("");
+  }
+  select();
+}
+
+Events();
 startGame();
