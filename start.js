@@ -58,8 +58,8 @@ let monsters = new Array();
 function getRandomInt(min = 1, max) {
   return Math.floor(Math.random() * max + min);
 }
-let getRandomWeight = (weights) => {
-  // 	let weights = new Array(
+let getRandomWeight = (weightss) => {
+  //   let weights = new Array(
   //     1,
   //     2,
   //     3,
@@ -88,7 +88,7 @@ let getRandomWeight = (weights) => {
   //     500
   //   );
 
-  console.log("weights: ", weights);
+  //console.log("weights: ", weights);
   let sumMax = 0;
   for (let i = 0; i < weights.length; i++) {
     sumMax += weights[i];
@@ -198,8 +198,8 @@ class Monster {
   born(papa, mama) {
     //console.log(monsters);
     //console.log(papa);
-    let weightPapa = monsters[papa].gen;
-    let weightMama = monsters[mama].gen;
+    //let weightPapa = monsters[papa].gen;
+    //let weightMama = monsters[mama].gen;
 
     //console.log("Гены папы:", weightPapa);
     //console.log("Гены мамы:", weightMama);
@@ -208,7 +208,8 @@ class Monster {
     //let resultUp = getRandomWeight([TOTAL_UP, TOTAL_NORM, TOTAL_DOWN]);
     //console.log("resultGen: ", resultGen);
 
-    this.hp = newAttribute(monsters[dominant(papa, mama)].hp);
+    //this.hp = newAttribute(monsters[dominant(papa, mama)].hp);
+
     //this.mana = newAttribute(monsters[dominant(papa, mama)].mana);
 
     //this.gen = newAttribute(monsters[dominant(papa, mama)].gen);
@@ -408,6 +409,7 @@ function select() {
 }
 
 function startGame() {
+  console.log("getRandomWeight: ", getRandomWeight([120, 130]));
   for (let i = 0; i < 4; i++) {
     let newMonster = new Monster(names[0], i, true);
     names.shift();
