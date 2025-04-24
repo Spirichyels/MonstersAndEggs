@@ -156,3 +156,17 @@ class xren {
     this.genetica.intelligence = getRandomInt(1, 300);
   }
 }
+
+let dominant_old = (papa, mama) => {
+  let finalyDominant = papa;
+  let weightPapa = monsters[papa].gen;
+  let weightMama = monsters[mama].gen;
+
+  let res = getRandomWeight([weightPapa, weightMama]);
+  finalyDominant = res === weightPapa ? papa : mama;
+  //console.log("res: ", res);
+
+  console.log("finalyDominant: ", finalyDominant);
+
+  return finalyDominant;
+};
