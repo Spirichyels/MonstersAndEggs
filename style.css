@@ -137,3 +137,11 @@ ul:hover {
 	height: 91px;
 	
 }
+
+#money {
+	
+	display: flex;
+justify-content: center;
+	align-items: center;
+	
+}
