@@ -23,15 +23,6 @@ let names = new Array(
   "Огурец"
 );
 
-// function createMamaMoster(monster) {
-//   let edMamaLista = document.createElement("option");
-//   edMamaLista.value = monster.name;
-//   edMamaLista.textContent = monster.name;
-//   //console.log(monster.name);
-//   mamaList = document.mamaForm.mamaSelect;
-//   //console.log(mamaList);
-//   mamaList.appendChild(edMamaLista);
-// }
 let lenghtTopArr = 8;
 //	0	1	  2			3			4			  5				6		7
 //name имя значение максЗнач шансСвойства шансТогоже шансУвеличения шансУменьшения
@@ -53,12 +44,17 @@ const TOTAL_MONSTERS_FIGHT_PLAYER = ".monsterPlayerPoleFights";
 const TOTAL_MONSTERS_FIGHT_ENEMY = ".monsterEnemyPoleFights";
 const TOTAL_TEG_MONSTER_CARD = "monsterCard";
 const TOTAL_TEG_MONSTER_PARENTS = "monsterParents";
+const TOTAL_PRICE_SEX = 50;
 
 let mamaTarget = -1;
 let papaTarget = -1;
 let currentMonsterFightP = -1;
 let oldMonsterFightP = -1;
 let countId = -1;
+
+let levelEnemy = 1;
+let oldEnemyLevel = levelEnemy;
+let money = document.querySelector("#money_count");
 
 let enemyMonster = "none";
 let playerHp = 0;
@@ -240,10 +236,28 @@ let dominant = (papa, mama, attribute) => {
   //console.log("papa: ", papa);
   //console.log("mama: ", mama);
 
-  console.log("finalyDominant: ", finalyDominant);
+  //console.log("finalyDominant: ", finalyDominant);
 
   return finalyDominant;
 };
+function getCurrentMonsterFight(currentMonsterFight) {
+  console.log("getCurrentMonsterFight: ", mapMonsters);
+  if (!poleFightsHaveMonster) {
+    if (oldMonsterFightP != -1) {
+      delete1Monster(oldMonsterFightP);
+      updateMonsters();
+    }
+    delete1Monster(currentMonsterFight);
+    selectPolMonsterDelete(currentMonsterFight);
+    console.log("currentMonsterFight: ", currentMonsterFight);
+    //monsters[currentMonsterFight].divMonster(TOTAL_MONSTERS_FIGHT_PLAYER);
+    mapMonsters
+      .get(currentMonsterFight)
+      .divMonster(TOTAL_MONSTERS_FIGHT_PLAYER);
+
+    oldMonsterFightP = currentMonsterFight;
+  }
+}
 
 class Monster {
   name = "noname";
@@ -252,6 +266,8 @@ class Monster {
 
   firstHp = 1;
   firstMana = 1;
+
+  currentHP = -1;
 
   firstAttack = 1;
   firstArmor = 1;
@@ -281,6 +297,12 @@ class Monster {
   getHp() {
     let hp = this.firstHp + this.strength * 5;
     return hp;
+  }
+
+  getCurrentHP() {
+    if (this.currentHP == -1) {
+      return this.getHp();
+    } else return this.currentHP;
   }
 
   getMana() {
@@ -344,7 +366,6 @@ class Monster {
   }
 
   bot(lvl) {
-    countId++;
     this.strength = getRandomInt(1, lvl * 15);
     this.agility = getRandomInt(1, lvl * 15);
     this.intelligence = getRandomInt(1, lvl * 15);
@@ -358,6 +379,7 @@ class Monster {
     this.firstDodge = Math.floor(getRandomInt(1, lvl * 2));
   }
   born(papa, mama) {
+    countId++;
     this.firstHp = newAttributeHpMana(
       //monsters[dominant(papa, mama, "firstHp")].firstHp
       mapMonsters.get(dominant(papa, mama, "firstHp")).firstHp
@@ -418,7 +440,7 @@ class Monster {
     console.log("Ид: ", this.id);
 
     console.log("Пол: ", this.pol ? "Мужской" : "Женский");
-    console.log("Здоровье: ", this.getHp());
+    console.log("Здоровье: ", this.getCurrentHP(), "/", this.getHp());
     console.log("ЗдоровьеFirst: ", this.firstHp);
 
     console.log("Мана: ", this.getMana());
@@ -444,10 +466,11 @@ class Monster {
     try {
       let profileMonster = document.createElement("ul");
       profileMonster.id = this.id + TOTAL_TEG_MONSTER_CARD;
-      profileMonster.value = this.id;
+      profileMonster.value = Math.floor(this.id);
 
       profileMonster.onclick = function () {
-        getCurrentMonsterFight(this.value);
+        console.log("this.value: ", this.value);
+        getCurrentMonsterFight(Math.floor(this.value));
       };
 
       let itemName = document.createElement("li");
@@ -472,7 +495,8 @@ class Monster {
       itemId.textContent = "id: " + this.id;
 
       itemPol.textContent = "Пол: " + (this.pol ? "Мужской" : "Женский");
-      itemHP.textContent = "Здоровье: " + this.getHp();
+      itemHP.textContent =
+        "Здоровье: " + this.getCurrentHP() + "/" + this.getHp();
       itemMana.textContent = "Мана: " + this.getMana();
 
       itemAttack.textContent = "Атака: " + this.getAttack();
@@ -523,23 +547,6 @@ class Monster {
   }
 }
 
-function getCurrentMonsterFight(currentMonsterFight) {
-  if (!poleFightsHaveMonster) {
-    if (oldMonsterFightP != -1) {
-      delete1Monster(oldMonsterFightP);
-      updateMonsters();
-    }
-    delete1Monster(currentMonsterFight);
-    selectPolMonsterDelete(currentMonsterFight);
-    console.log(currentMonsterFight);
-    //monsters[currentMonsterFight].divMonster(TOTAL_MONSTERS_FIGHT_PLAYER);
-    mapMonsters
-      .get(currentMonsterFight)
-      .divMonster(TOTAL_MONSTERS_FIGHT_PLAYER);
-
-    oldMonsterFightP = currentMonsterFight;
-  }
-}
 let mapAtributtRU = new Map([
   ["Имя", "name"],
   ["Здоровье", "hp"],
@@ -564,6 +571,7 @@ function selectPolMonster(monster) {
   let ed = document.createElement("option");
 
   ed.id = monster.id + TOTAL_TEG_MONSTER_PARENTS;
+  ed.value = monster.id;
   ed.textContent = monster.name;
 
   //console.log(monster.pol);
@@ -586,10 +594,12 @@ function select() {
     const selectedOptionMama = SelectMama.options[SelectMama.selectedIndex];
     selectionMama.textContent = "Вы выбрали: " + selectedOptionMama.text;
 
-    if (selectedOptionMama.value > -1) mamaTarget = selectedOptionMama.value;
+    if (selectedOptionMama.value != -1)
+      mamaTarget = Math.floor(selectedOptionMama.value);
     else {
       mamaTarget = -1;
     }
+    console.log("mamaTarget: ", mamaTarget);
     //console.log("selectedOptionMama.value: ", selectedOptionMama.value);
   }
 
@@ -605,10 +615,13 @@ function select() {
     const selectedOptionPapa = SelectPapa.options[SelectPapa.selectedIndex];
     selectionPapa.textContent = "Вы выбрали: " + selectedOptionPapa.text;
 
-    if (selectedOptionPapa.value > -1) papaTarget = selectedOptionPapa.value;
+    if (selectedOptionPapa.value != -1)
+      papaTarget = Math.floor(selectedOptionPapa.value);
     else {
       papaTarget = -1;
     }
+    console.log("papaTarget: ", papaTarget);
+
     //console.log("selectedOptionPapa.value: ", selectedOptionPapa.value);
   }
 
@@ -617,28 +630,30 @@ function select() {
 }
 
 function sexButtonClick() {
-  let newMonster = new Monster(
-    names[0],
-    /*monsters.length*/ mapMonsters.size,
-    false
-  );
-  names.shift();
+  if (money.textContent >= TOTAL_PRICE_SEX) {
+    let newMonster = new Monster(names[0], mapMonsters.size, false);
+    names.shift();
 
-  console.log("papa");
-  //monsters[papaTarget].printMonster();
-  mapMonsters.get(papaTarget).printMonster();
+    //console.log("papa");
 
-  console.log("mama");
-  //monsters[mamaTarget].printMonster();
-  mapMonsters.get(mamaTarget).printMonster();
+    //console.log(mapMonsters);
+    //console.log(papaTarget);
+    //console.log("map monster", mapMonsters.get(papaTarget));
 
-  newMonster.born(papaTarget, mamaTarget);
+    //mapMonsters.get(papaTarget).printMonster();
 
-  monsters.push(newMonster); //
-  mapMonsters.set(countId, newMonster);
-  newMonster.divMonster(TOTAL_MONSTERS_BACKUP);
-  //newMonster.printMonster();
-  selectPolMonster(newMonster);
+    //console.log("mama");
+
+    //mapMonsters.get(mamaTarget).printMonster();
+
+    newMonster.born(papaTarget, mamaTarget);
+
+    mapMonsters.set(countId, newMonster);
+    newMonster.divMonster(TOTAL_MONSTERS_BACKUP);
+
+    selectPolMonster(newMonster);
+    money.textContent = Math.floor(money.textContent - TOTAL_PRICE_SEX);
+  } else console.log("НУЖНО БОЛЬШЕ ЗОЛОТА!");
 
   //console.log(resultGen);
 }
@@ -647,8 +662,8 @@ function attackButtonCLick() {
   //если бой true, работает кнопка атаки
 
   let playerAttack = 0;
-  console.log(enemyMonster);
-  console.log(mapMonsters.get(3));
+  //console.log(enemyMonster);
+  //console.log(mapMonsters.get(3));
 
   let enemyAttack = 0;
 
@@ -681,18 +696,21 @@ function attackButtonCLick() {
       HpFightEnemy.textContent = enemyHp;
     }
     if (enemyHp <= 0) {
-      console.log("Победил: ", playerHp > enemyHp ? "Player" : "enemy");
-
+      //oldMonsterFightP.currentHP = playerHp;
+      mapMonsters.get(oldMonsterFightP).currentHP = playerHp;
       delete1Monster(oldMonsterFightP);
       delete1Monster(enemyMonster.id);
       updateMonsters();
-      poleFightsHaveMonster = false;
-    } else if (playerHp <= 0) {
+      money.textContent = Math.floor(money.textContent) + oldEnemyLevel * 10;
+      //console.log(money);
       console.log("Победил: ", playerHp > enemyHp ? "Player" : "enemy");
 
+      poleFightsHaveMonster = false;
+    } else if (playerHp <= 0) {
       delete1MonsterFull(oldMonsterFightP);
       delete1Monster(enemyMonster.id);
       poleFightsHaveMonster = false;
+      console.log("Победил: ", playerHp > enemyHp ? "Player" : "enemy");
     }
   }
 }
@@ -700,15 +718,16 @@ function attackButtonCLick() {
 function fight() {
   if (!poleFightsHaveMonster) {
     //если бой false, создает Enemy ставит true
-    enemy = new Monster("bot", -1, false);
+
+    let enemy = new Monster("bot", -1, false);
     console.log("fight countId:", countId);
-    enemy.bot(getRandomInt(1, 10));
+    enemy.bot(levelEnemy);
     enemy.divMonster(TOTAL_MONSTERS_FIGHT_ENEMY);
     poleFightsHaveMonster = true;
 
     enemyMonster = enemy;
     //playerHp = monsters[oldMonsterFightP].getHp();
-    playerHp = mapMonsters.get(oldMonsterFightP).getHp();
+    playerHp = mapMonsters.get(oldMonsterFightP).getCurrentHP();
 
     enemyHp = enemyMonster.getHp();
     HpFightPlayer.textContent = playerHp;
@@ -763,6 +782,12 @@ function Events() {
 
   fightButton.addEventListener("click", fight);
   attackButtonPl.addEventListener("click", attackButtonCLick);
+}
+
+function idRange() {
+  id_Count.innerHTML = id_range.value;
+  levelEnemy = Math.floor(id_range.value);
+  oldEnemyLevel = levelEnemy;
 }
 
 function startGame() {

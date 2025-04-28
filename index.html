@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="style.css">
 	<title>Document</title>
 
+
 </head>
 
 <body id="All">
@@ -49,10 +50,10 @@
 
 
 	</div>
-	<div id="money"><input type="range">
-		<div> Level: <a>0</a></div>
+	<div id="money"><input id="id_range" onInput="idRange()" min="1" max="10" , value="1" step="1" type="range">
+		<div> Level: <a id="id_Count">1</a></div>
 	</div>
-	<div id="money">Ваш счет: <a id="money-count">0</a>
+	<div id="money">Ваш счет: <a id="money_count">50</a>
 
 
 	</div>
@@ -95,7 +96,7 @@
 
 	</div>
 	<div id=sex>
-		<button id="sexButton">Скрестить</button>
+		<button id="sexButton">Скрестить 50 монет</button>
 	</div>
 	<div id=update>
 		<button id="updateButton">update</button>
@@ -107,6 +108,9 @@
 
 
 	<script>
+		// function idRange() {
+		// 	id_Count.innerHTML = id_range.value;
+		// }
 
 	</script>
 
@@ -114,5 +118,23 @@
 
 
 </body>
+
+<footer>
+	<div>alpha 0.00<a id="version">none</a></div>
+
+	<script>
+		let version = document.querySelector("#version")
+		date = new Date()
+		let year = date.getFullYear();
+		let month = date.getMonth()
+		let day = date.getDate();
+		month++;
+		month = month > 9 ? month : (0 + "" + month)
+		let text = day + "" + month + "" + year;
+		version.textContent = text;
+
+
+	</script>
+</footer>
 
 </html>
