@@ -205,7 +205,7 @@ function sell1MonsterClick() {
   }
 }
 
-function sell1MonsterClick() {
+function heal1MonsterClick() {
   //console.log("delete1MonsterClick idDeleteMonsterInput: ", idSellMonsterInput);
 
   try {
@@ -872,7 +872,7 @@ function Events() {
     .addEventListener("input", function (event) {
       idHealMonsterInput = Math.floor(event.target.value);
     });
-  healButton.addEventListener("click", sell1MonsterClick);
+  healButton.addEventListener("click", heal1MonsterClick);
 
   //fight
   fightButton.addEventListener("click", fight);
