@@ -850,13 +850,13 @@ function Events() {
   //update
   updateButton.addEventListener("click", updateMonsters);
 
-  //deleteMonster
-  //   document
-  //     .querySelector("#idDeleteMonster")
-  //     .addEventListener("input", function (event) {
-  //       idDeleteMonsterInput = Math.floor(event.target.value);
-  //     });
-  //   dellButton.addEventListener("click", delete1MonsterClick);
+  deleteMonster;
+  document
+    .querySelector("#idDeleteMonster")
+    .addEventListener("input", function (event) {
+      idDeleteMonsterInput = Math.floor(event.target.value);
+    });
+  dellButton.addEventListener("click", delete1MonsterClick);
 
   //sell продать
 
