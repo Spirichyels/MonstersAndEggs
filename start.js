@@ -44,8 +44,9 @@ const TOTAL_MONSTERS_FIGHT_PLAYER = ".monsterPlayerPoleFights";
 const TOTAL_MONSTERS_FIGHT_ENEMY = ".monsterEnemyPoleFights";
 const TOTAL_TEG_MONSTER_CARD = "monsterCard";
 const TOTAL_TEG_MONSTER_PARENTS = "monsterParents";
-const TOTAL_PRICE_SEX = 50;
+const TOTAL_PRICE_SEX = 20;
 const TOTAL_PRICE_SELL = 10;
+let TOTAL_CHEAT = false;
 
 let mamaTarget = -1;
 let papaTarget = -1;
@@ -225,6 +226,13 @@ function heal1MonsterClick() {
 
 function updateMonsters() {
   //console.log(mapMonsters);
+  if (TOTAL_CHEAT) {
+    createNewMonster();
+    mapMonsters.get(countId).strength = 1000;
+    mapMonsters.get(countId).agility = 1000;
+    mapMonsters.get(countId).intelligence = 1000;
+    TOTAL_CHEAT = false;
+  }
 
   for (let monster of mapMonsters.values()) {
     //console.log(monster.id);
@@ -247,8 +255,8 @@ function getRandomCrit(attack, crit) {
   return Math.floor(attack * (x <= crit ? 1.5 : 1));
 }
 
-function getRandomPercent(chanceToWin) {
-  let x = getRandomInt(1, 100);
+function getRandomPercent(max, chanceToWin) {
+  let x = getRandomInt(1, max);
   //console.log("chanceToWin: ", x <= chanceToWin ? "yes" : "no");
   //console.log("x: ", x);
   return x <= chanceToWin ? true : false;
@@ -709,7 +717,7 @@ function select() {
 
 function sexButtonClick() {
   if (money.textContent >= TOTAL_PRICE_SEX) {
-    let newMonster = new Monster(names[0], false);
+    let newMonster = new Monster(names[getRandomInt(0, names.length)], false);
 
     //mapMonsters.get(papaTarget).printMonster();
     //mapMonsters.get(mamaTarget).printMonster();
@@ -734,6 +742,13 @@ function createNewMonster() {
   selectPolMonster(newMonster);
   mapMonsters.set(countId, newMonster);
 }
+function chacnceNewMonster(max) {
+  let zet = getRandomPercent(max, Math.floor(oldEnemyLevel * 9));
+  if (zet) {
+    createNewMonster();
+    console.log("Вы нашли монстра: ", mapMonsters.get(countId).name);
+  }
+}
 function attackButtonCLick() {
   //если бой true, работает кнопка атаки
 
@@ -749,9 +764,10 @@ function attackButtonCLick() {
       //console.log("attackButtonCLick", oldMonsterFightP);
 
       playerDodge = getRandomPercent(
+        100,
         mapMonsters.get(oldMonsterFightP).getDodge()
       );
-      enemyDodge = getRandomPercent(enemyMonster.getDodge());
+      enemyDodge = getRandomPercent(100, enemyMonster.getDodge());
 
       playerAttack = playerAttack - enemyMonster.getArmor();
       playerAttack = getRandomCrit(
@@ -796,14 +812,10 @@ function attackButtonCLick() {
       updateMonsters();
       money.textContent = Math.floor(money.textContent) + oldEnemyLevel * 10;
       //console.log(money);
-      let zet = getRandomPercent(Math.floor(oldEnemyLevel * 9));
-      if (zet) {
-        createNewMonster();
-        console.log(
-          "Вы нашли монстра: ",
-          mapMonsters.get(mapMonsters.size - 1).name
-        );
-      }
+
+      chacnceNewMonster(100);
+      chacnceNewMonster(200);
+      chacnceNewMonster(400);
 
       console.log("Победил: ", "Player");
       //console.log("oldEnemyLevel", oldEnemyLevel);
@@ -905,7 +917,7 @@ function startGame() {
   }
   //console.log(noMoreWomens);
   select();
-  //createNewMonster();
+
   //createNewMonster();
   //createNewMonster();
   //createNewMonster();
