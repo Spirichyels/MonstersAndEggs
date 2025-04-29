@@ -58,14 +58,26 @@
 
 	</div>
 
-	<div id=deleteMonster>
+	<div id=sellMonster>
+		<div>введите id монстра (За здорового 10 монет) </div>
+		<input id=idSellMonster>
+		<button id="sellButton">Продать 1 монстра</button>
+	</div>
+
+	<div id=healMonster>
+		<div>введите id монстра (25 монет) </div>
+		<input id=idHealMonster>
+		<button id="healButton">Исцелить 1 монстра</button>
+	</div>
+
+
+
+	<!-- <div id=deleteMonster>
 		<div>введите id монстра</div>
 		<input id=idDeleteMonster>
-		<button id="delButton">Удалить 1 монстра</button>
-	</div>
-	<div id="date">
+		<button id="dellButton">Удалить 1 монстра</button>
+	</div> -->
 
-	</div>
 
 
 
@@ -130,8 +142,12 @@
 		let day = date.getDate();
 		month++;
 		month = month > 9 ? month : (0 + "" + month)
-		let text = day + "" + month + "" + year;
-		version.textContent = text;
+		//let text = day + "" + month + "" + year;
+		let text = year + "" + month + "" + day;
+
+		//version.textContent = text;
+		version.textContent = "20250429";
+
 
 
 	</script>

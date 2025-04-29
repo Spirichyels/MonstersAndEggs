@@ -13,9 +13,17 @@
 
 }
 
+#idSellMonster {
+	width: 50px;
+}
+
+#idHealMonster {
+	width: 50px;
+}
+
 
 #Mama {
-	width: 100px;
+	width: 200px;
 	border: 1px solid black; 
 	margin-right: 10px;
 	
@@ -23,18 +31,18 @@
 
 #Papa {
 	margin-left: none;
-	width: 100px;
+	width: 200px;
 	margin-left: 10px;
 	border: 1px solid black; 
 	
 }
 
 #Papa :only-child{
-	width: 80px;
+	width: 120px;
 	
 }
 #Mama :only-child{
-	width: 80px;
+	width: 120px;
 }
 #sex {
 	display: flex;
