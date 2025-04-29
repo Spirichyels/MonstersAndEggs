@@ -850,7 +850,7 @@ function Events() {
   //update
   updateButton.addEventListener("click", updateMonsters);
 
-  deleteMonster;
+  //deleteMonster
   document
     .querySelector("#idDeleteMonster")
     .addEventListener("input", function (event) {
