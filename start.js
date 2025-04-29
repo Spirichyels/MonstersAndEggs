@@ -391,7 +391,7 @@ function sell1MonsterClick() {
     let newMoney = Math.floor(
       (mapMonsters.get(idSellMonsterInput).getCurrentHP() /
         mapMonsters.get(idSellMonsterInput).getHp()) *
-        10
+        TOTAL_PRICE_SELL
     );
 
     let orDel = delete1MonsterFull(idSellMonsterInput);
