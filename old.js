@@ -1,4 +1,25 @@
 // OLD
+
+let mapAtributtRU = new Map([
+  ["Имя", "name"],
+  ["Здоровье", "hp"],
+  ["Мана", "mana"],
+  ["Броня", "armor"],
+  ["Сила", "strength"],
+  ["Ловкость", "agility"],
+  ["Интеллект", "intelligence"],
+]);
+
+let mapAtributt = new Map([
+  ["name", "noname"],
+  ["hp", -1],
+  ["mana", -2],
+  ["armor", -3],
+  ["strength", -4],
+  ["agility", -5],
+  ["intelligence", -6],
+]);
+
 function old_outMonsters2(monster) {
   //console.log(mapAtributt.get("hp"));
 

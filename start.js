@@ -1,4 +1,4 @@
-let names = new Array(
+const names = [
   "Амёба",
   "Тузик",
   "Сатир",
@@ -13,15 +13,239 @@ let names = new Array(
   "Бацыла",
   "Чмо",
   "Крысолук",
-  "Еблан",
+  "Елан",
   "Лох",
   "Ангел",
   "Вонючка",
   "Нечеловек",
   "Огрызок",
   "Огузок",
-  "Огурец"
-);
+  "Огурец",
+];
+
+let surname = [
+  "Аветисян",
+  "Лусине",
+  "Акопян",
+  "Меружан",
+  "Ангелов",
+  "Бабайцева",
+  "Бабойдо",
+  "Байдиков",
+  "Баран",
+  "Барсук",
+  "Басистый",
+  "Беззаборная",
+  "Благодатный",
+  "Блоха",
+  "Боцман",
+  "Бочечка",
+  "Брыкалова",
+  "Брыль",
+  "Бугай",
+  "Бутылкин",
+  "Вареник",
+  "Вдовушкина",
+  "Великий",
+  "Великая",
+  "Великородных",
+  "Вернигора",
+  "Вобликова",
+  "Врагов",
+  "Выставкина",
+  "Вышкварка",
+  "Гаврикова",
+  "Галимова",
+  "Гвоздь",
+  "Гниденко",
+  "Гнилюк",
+  "Гнусин",
+  "Гнусина",
+  "Гнусова",
+  "Голобля",
+  "Голопуз",
+  "Горбоконь",
+  "Граф",
+  "Грек",
+  "Двухличная",
+  "Девочкина",
+  "Дежурный",
+  "Денежкина",
+  "Дериземля",
+  "Дерикот",
+  "Дерконос",
+  "Доброскокина",
+  "Добрыдень",
+  "Догодайло",
+  "Доля",
+  "Дорогокупля",
+  "Дрюкина",
+  "Дуплякина",
+  "Дурак",
+  "Дурнева",
+  "Душная",
+  "Дымант",
+  "Дядя",
+  "Ел",
+  "Хави",
+  "Елисейкин",
+  "Жадобин",
+  "Жежеря",
+  "Жерлыкин",
+  "Жидконожкина",
+  "Жидов",
+  "Жуликов",
+  "Жучков",
+  "Жучкова",
+  "Забейворота",
+  "Задемидько",
+  "Заика",
+  "Зайка",
+  "Замогильный",
+  "Запорожец",
+  "Здорова",
+  "Зелепукин",
+  "Земляк",
+  "Земляной",
+  "Злых",
+  "Знов",
+  "Зюзюков",
+  "Зятьев",
+  "Иващенко",
+  "Ирискин",
+  "Иродов",
+  "Кадушкина",
+  "Казак",
+  "Кайфман",
+  "Капля",
+  "Кастрюлева",
+  "Кастрюлев",
+  "Кащеев",
+  "Кеда",
+  "Кикот",
+  "Кисель",
+  "Кислая",
+  "Клёва",
+  "Клюка",
+  "Ковцур",
+  "Габриельс",
+  "Козел",
+  "Козка",
+  "Козюлина",
+  "Колбасина",
+  "Колбасюк",
+  "Колоберда",
+  "Коноплёв",
+  "Корж",
+  "Кориш",
+  "Костыря",
+  "Кочетышкин",
+  "Кравец-Гомза",
+  "Криштофик",
+  "Кронштадт",
+  "Крошка",
+  "Кукишев",
+  "Кургузкина",
+  "Курочка",
+  "Кустикова",
+  "Лайкин",
+  "Лаптиёв",
+  "Ластовыря",
+  "Леваненок",
+  "Легеня",
+  "Лентяева",
+  "Липужин",
+  "Лобок",
+  "Лопата",
+  "Лысоконь",
+  "Майданюк",
+  "Малоедова",
+  "Мамудян",
+  "Мандрыкина",
+  "Масло",
+  "Мерная",
+  "Мишунькина",
+  "Могильник",
+  "Мотовиловец",
+  "Мудрик",
+  "Мурзикова",
+  "Мымрин",
+  "Мышка",
+  "Мышко",
+  "Мышьякова",
+  "Мякиш",
+  "Мясоедов",
+  "Мячик",
+  "Наливайко",
+  "Нараускене",
+  "Нахмансон",
+  "Негру",
+  "Недоносков",
+  "Неминущий",
+  "Немых",
+  "Ненужный",
+  "Нескладнова",
+  "Несмачная",
+  "Несоленый",
+  "Нетудыхатко",
+  "Неудачин",
+  "Нечепаев",
+  "Нохрина",
+  "Огрызко",
+  "Огуля",
+  "Однокозов",
+  "Окорочков",
+  "Орел",
+  "Остросаблина",
+  "Отрыгина",
+  "Падалка",
+  "Пападзе",
+  "Пархолуй",
+  "Пахучий",
+  "Пендюрина",
+  "Перебейнос",
+  "Перескокова",
+  "Переход",
+  "Пинемясов",
+  "Писеукова",
+  "Плаксивая",
+  "Плоский",
+  "Плуготыренко",
+  "Повеквечных",
+  "Погибельная",
+  "Подвальный",
+  "Подопригорин",
+  "Подрез",
+  "Подставкин",
+  "Подъяблонская",
+  "Подъяблонская",
+  "Поздоровкина",
+  "Покотило",
+  "Полевода",
+  "Полянк",
+  "Пономарь",
+  "Поперека",
+  "Попиков",
+  "Попикова",
+  "Попозогло",
+  "Потерпеева",
+  "Потеряйко",
+  "Похмелкин",
+  "Похабин",
+  "Почкун",
+  "Попиков",
+  "Пояниди",
+  "Поянова",
+  "Пресунько",
+  "Приз",
+  "Притыкин",
+  "Прокопало",
+  "Пузикова",
+  "Пурик",
+  "Пывин",
+  "Пысева",
+  "Пышнограев",
+];
 
 let lenghtTopArr = 8;
 //	0	1	  2			3			4			  5				6		7
@@ -44,12 +268,17 @@ const TOTAL_MONSTERS_FIGHT_PLAYER = ".monsterPlayerPoleFights";
 const TOTAL_MONSTERS_FIGHT_ENEMY = ".monsterEnemyPoleFights";
 const TOTAL_TEG_MONSTER_CARD = "monsterCard";
 const TOTAL_TEG_MONSTER_PARENTS = "monsterParents";
-const TOTAL_PRICE_SEX = 20;
-const TOTAL_PRICE_SELL = 10;
+const TOTAL_PRICE_SEX = 30;
+const TOTAL_PRICE_SELL = 20;
+const TOTAL_PRICE_HEAL = 35;
+
 let TOTAL_CHEAT = false;
 
 let mamaTarget = -1;
+let oldMamaTarget = -1;
 let papaTarget = -1;
+let oldPapaTarget = -1;
+
 let currentMonsterFightP = -1;
 let oldMonsterFightP = -1;
 let countId = -1;
@@ -82,35 +311,6 @@ function getRandomInt(min = 1, max) {
   return Math.floor(Math.random() * max + min);
 }
 let getRandomWeight = (weights) => {
-  //   let weights = new Array(
-  //     1,
-  //     2,
-  //     3,
-  //     4,
-  //     5,
-  //     6,
-  //     7,
-  //     8,
-  //     9,
-  //     10,
-  //     11,
-  //     12,
-  //     13,
-  //     14,
-  //     15,
-  //     16,
-  //     17,
-  //     18,
-  //     19,
-  //     20,
-  //     21,
-  //     22,
-  //     23,
-  //     24,
-  //     25,
-  //     500
-  //   );
-
   //console.log("weights: ", weights);
   let sumMax = 0;
   for (let i = 0; i < weights.length; i++) {
@@ -210,8 +410,8 @@ function heal1MonsterClick() {
   //console.log("delete1MonsterClick idDeleteMonsterInput: ", idSellMonsterInput);
 
   try {
-    if (Math.floor(money.textContent) >= 25) {
-      money.textContent = Math.floor(money.textContent) - 25;
+    if (Math.floor(money.textContent) >= TOTAL_PRICE_HEAL) {
+      money.textContent = Math.floor(money.textContent) - TOTAL_PRICE_HEAL;
 
       mapMonsters.get(idHealMonsterInput).currentHP = mapMonsters
         .get(idHealMonsterInput)
@@ -342,6 +542,7 @@ function getCurrentMonsterFight(currentMonsterFight) {
 
 class Monster {
   name = "noname";
+  surname = "surname";
   id = 0;
   pol = true;
 
@@ -420,6 +621,7 @@ class Monster {
     countId++;
     //console.log("constructor countId: ", countId);
     this.name = name;
+    this.surname = surname[getRandomInt(0, names.length)];
     this.id = countId;
     this.pol = getRandomInt(1, 10) > 5 ? true : false;
     this.createGen();
@@ -428,26 +630,13 @@ class Monster {
       this.agility = getRandomInt(1, 20);
       this.intelligence = getRandomInt(1, 20);
 
-      //this.genetica.strength = getRandomInt(1, 300);
-      //this.genetica.agility = getRandomInt(1, 300);
-      //this.genetica.intelligence = getRandomInt(1, 300);
-
       this.firstHp = getRandomInt(30, 300);
       this.firstMana = getRandomInt(1, 150);
-
-      //this.genetica.firstHp = getRandomInt(1, 300);
-      //this.genetica.firstMana = getRandomInt(1, 300);
 
       this.firstAttack = getRandomInt(5, 15);
       this.firstArmor = Math.floor(getRandomInt(0, 10));
       this.firstCrit = Math.floor(getRandomInt(1, 10));
       this.firstDodge = Math.floor(getRandomInt(1, 5));
-
-      //this.genetica.firstAttack = getRandomInt(1, 300);
-      //this.genetica.firstArmor = getRandomInt(1, 300);
-      //this.genetica.firstCrit = getRandomInt(1, 300);
-      //this.genetica.firstDodge = getRandomInt(1, 300);
-      //this.createGen();
 
       //
     } else if (!create) {
@@ -518,7 +707,7 @@ class Monster {
   }
 
   printMonster() {
-    console.log("Имя: ", this.name);
+    console.log("Имя: ", this.name, " ", this.surname);
     console.log("Ид: ", this.id);
 
     console.log("Пол: ", this.pol ? "Мужской" : "Женский");
@@ -577,7 +766,7 @@ class Monster {
 
       let itemGen = document.createElement("li");
 
-      itemName.textContent = "Имя: " + this.name;
+      itemName.textContent = "Имя: " + this.name + " " + this.surname;
       itemId.textContent = "id: " + this.id;
 
       itemPol.textContent = "Пол: " + (this.pol ? "Мужской" : "Женский");
@@ -633,32 +822,12 @@ class Monster {
   }
 }
 
-let mapAtributtRU = new Map([
-  ["Имя", "name"],
-  ["Здоровье", "hp"],
-  ["Мана", "mana"],
-  ["Броня", "armor"],
-  ["Сила", "strength"],
-  ["Ловкость", "agility"],
-  ["Интеллект", "intelligence"],
-]);
-
-let mapAtributt = new Map([
-  ["name", "noname"],
-  ["hp", -1],
-  ["mana", -2],
-  ["armor", -3],
-  ["strength", -4],
-  ["agility", -5],
-  ["intelligence", -6],
-]);
-
 function selectPolMonster(monster) {
   let ed = document.createElement("option");
 
   ed.id = monster.id + TOTAL_TEG_MONSTER_PARENTS;
   ed.value = monster.id;
-  ed.textContent = monster.name + " id:" + monster.id;
+  ed.textContent = monster.name + " " + monster.surname + " id:" + monster.id;
 
   //console.log(monster.pol);
   if (monster.pol == true) {
@@ -672,6 +841,7 @@ function selectPolMonster(monster) {
 
 function select() {
   //mama
+
   const SelectMama = document.mamaForm.mamaSelect;
   const selectionMama = document.getElementById("selectionMama");
   mamaTarget = -1;
@@ -680,9 +850,24 @@ function select() {
     const selectedOptionMama = SelectMama.options[SelectMama.selectedIndex];
     selectionMama.textContent = "Вы выбрали: " + selectedOptionMama.text;
 
-    if (selectedOptionMama.value != -1)
+    if (selectedOptionMama.value != -1) {
+      let colorBorderMama = document.getElementById(
+        oldMamaTarget + TOTAL_TEG_MONSTER_CARD
+      );
+      //console.log(colorBorderMama);
+      try {
+        colorBorderMama.classList.remove("mamaBorder");
+      } catch (error) {}
+
       mamaTarget = Math.floor(selectedOptionMama.value);
-    else {
+      oldMamaTarget = Math.floor(mamaTarget);
+
+      colorBorderMama = document.getElementById(
+        mamaTarget + TOTAL_TEG_MONSTER_CARD
+      );
+      //console.log("colorBorderMama: ", colorBorderMama);
+      colorBorderMama.classList.add("mamaBorder");
+    } else {
       mamaTarget = -1;
     }
     //console.log("mamaTarget: ", mamaTarget);
@@ -701,9 +886,24 @@ function select() {
     const selectedOptionPapa = SelectPapa.options[SelectPapa.selectedIndex];
     selectionPapa.textContent = "Вы выбрали: " + selectedOptionPapa.text;
 
-    if (selectedOptionPapa.value != -1)
+    if (selectedOptionPapa.value != -1) {
+      let colorBorderPapa = document.getElementById(
+        oldPapaTarget + TOTAL_TEG_MONSTER_CARD
+      );
+      //console.log(colorBorderPapa);
+      try {
+        colorBorderPapa.classList.remove("papaBorder");
+      } catch (error) {}
+
       papaTarget = Math.floor(selectedOptionPapa.value);
-    else {
+      oldPapaTarget = Math.floor(papaTarget);
+
+      colorBorderPapa = document.getElementById(
+        papaTarget + TOTAL_TEG_MONSTER_CARD
+      );
+      //console.log("colorBorderMama: ", colorBorderPapa);
+      colorBorderPapa.classList.add("papaBorder");
+    } else {
       papaTarget = -1;
     }
     //console.log("papaTarget: ", papaTarget);
@@ -810,8 +1010,9 @@ function attackButtonCLick() {
       delete1Monster(oldMonsterFightP);
       delete1Monster(enemyMonster.id);
       updateMonsters();
-      money.textContent = Math.floor(money.textContent) + oldEnemyLevel * 10;
-      //console.log(money);
+      let fightMoney = Math.floor(oldEnemyLevel * 15 + getRandomInt(0, 40));
+      money.textContent = Math.floor(money.textContent) + fightMoney;
+      console.log("Вы заработали за бой: ", fightMoney);
 
       chacnceNewMonster(100);
       chacnceNewMonster(200);
