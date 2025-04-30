@@ -268,9 +268,10 @@ const TOTAL_MONSTERS_FIGHT_PLAYER = ".monsterPlayerPoleFights";
 const TOTAL_MONSTERS_FIGHT_ENEMY = ".monsterEnemyPoleFights";
 const TOTAL_TEG_MONSTER_CARD = "monsterCard";
 const TOTAL_TEG_MONSTER_PARENTS = "monsterParents";
-const TOTAL_PRICE_SEX = 30;
+const TOTAL_PRICE_SEX = 70;
 const TOTAL_PRICE_SELL = 20;
-const TOTAL_PRICE_HEAL = 35;
+const TOTAL_PRICE_HEAL = 100;
+const TOTAL_PRICE_LEVEL = 15;
 
 let TOTAL_CHEAT = false;
 
@@ -436,7 +437,18 @@ function updateMonsters() {
 
   for (let monster of mapMonsters.values()) {
     //console.log(monster.id);
-    delete1Monster(monster.id);
+    if (monster.lvl <= -1) {
+      delete1MonsterFull(monster.id);
+      console.log(
+        monster.name,
+        " ",
+        monster.surname,
+        " id: ",
+        id,
+        "покинул наш мир"
+      );
+    } else delete1Monster(monster.id);
+
     selectPolMonsterDelete(monster.id);
   }
 
@@ -544,6 +556,7 @@ class Monster {
   name = "noname";
   surname = "surname";
   id = 0;
+  lvl = 1;
   pol = true;
 
   firstHp = 1;
@@ -590,6 +603,9 @@ class Monster {
   getMana() {
     let mana = this.firstMana + this.intelligence * 5;
     return mana;
+  }
+  upLvl() {
+    this.lvl = this.lvl + getRandomInt(-1, 3);
   }
   getAttack() {
     return Math.floor(this.firstAttack + this.strength / 2);
@@ -708,7 +724,7 @@ class Monster {
 
   printMonster() {
     console.log("Имя: ", this.name, " ", this.surname);
-    console.log("Ид: ", this.id);
+    console.log("Ид: ", this.id, "	lvl: ", this.lvl);
 
     console.log("Пол: ", this.pol ? "Мужской" : "Женский");
     console.log("Здоровье: ", this.getCurrentHP(), "/", this.getHp());
@@ -767,7 +783,7 @@ class Monster {
       let itemGen = document.createElement("li");
 
       itemName.textContent = "Имя: " + this.name + " " + this.surname;
-      itemId.textContent = "id: " + this.id;
+      itemId.textContent = "id: " + this.id + " lvl: " + this.lvl;
 
       itemPol.textContent = "Пол: " + (this.pol ? "Мужской" : "Женский");
       itemHP.textContent =
@@ -916,21 +932,39 @@ function select() {
 }
 
 function sexButtonClick() {
-  if (money.textContent >= TOTAL_PRICE_SEX) {
-    let newMonster = new Monster(names[getRandomInt(0, names.length)], false);
+  if (
+    mapMonsters.get(papaTarget).lvl < TOTAL_PRICE_LEVEL &&
+    mapMonsters.get(mamaTarget).lvl < TOTAL_PRICE_LEVEL
+  ) {
+    if (money.textContent >= TOTAL_PRICE_SEX) {
+      mapMonsters.get(papaTarget).upLvl();
+      mapMonsters.get(mamaTarget).upLvl();
 
-    //mapMonsters.get(papaTarget).printMonster();
-    //mapMonsters.get(mamaTarget).printMonster();
+      let newMonster = new Monster(names[getRandomInt(0, names.length)], false);
 
-    newMonster.born(papaTarget, mamaTarget);
-    //newMonster.printGeneticaMonster();
+      //mapMonsters.get(papaTarget).printMonster();
+      //mapMonsters.get(mamaTarget).printMonster();
 
-    mapMonsters.set(countId, newMonster);
-    newMonster.divMonster(TOTAL_MONSTERS_BACKUP);
+      newMonster.born(papaTarget, mamaTarget);
+      //newMonster.printGeneticaMonster();
 
-    selectPolMonster(newMonster);
-    money.textContent = Math.floor(money.textContent - TOTAL_PRICE_SEX);
-  } else console.log("НУЖНО БОЛЬШЕ ЗОЛОТА!");
+      mapMonsters.set(countId, newMonster);
+      newMonster.lvl = Math.floor(
+        (mapMonsters.get(papaTarget).lvl + mapMonsters.get(mamaTarget).lvl) /
+          2 -
+          getRandomInt(-1, 0)
+      );
+      newMonster.surname = mapMonsters.get(papaTarget).surname;
+      newMonster.divMonster(TOTAL_MONSTERS_BACKUP);
+
+      selectPolMonster(newMonster);
+      money.textContent = Math.floor(money.textContent - TOTAL_PRICE_SEX);
+      updateMonsters();
+    } else console.log("НУЖНО БОЛЬШЕ ЗОЛОТА!");
+  } else
+    console.log(
+      `Один из ваших монстров, больше не может размножаться (после ${TOTAL_PRICE_LEVEL} лвл нельзя) `
+    );
 
   //console.log(resultGen);
 }
