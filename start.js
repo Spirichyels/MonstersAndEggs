@@ -247,19 +247,12 @@ let surname = [
   "Пышнограев",
 ];
 
-let lenghtTopArr = 8;
-//	0	1	  2			3			4			  5				6		7
-//name имя значение максЗнач шансСвойства шансТогоже шансУвеличения шансУменьшения
-let topArr = new Array(
-  ["name", "Имя", "noname", -100, -100, -100, 1, 1], //0
-  ["hp", "Здоровье", 1, 300, -100, 1, 1, 1], //1
-  ["mana", "Мана", 1, 200, -100, 1, 1, 1], //2
-  ["attack", "Атака", 1, 30, -100, 1, 1, 1], //3
-  ["armor", "Броня", 1, 10, -100, 1, 1, 1], // 4
-  ["strength", "Сила", 1, 20, -100, 1, 1, 1], // 5
-  ["agility", "Ловкость", 1, 20, -100, 1, 1, 1], //6
-  ["intelligence", "Интеллект", 1, 20, -100, 1, 1, 1] //7
-);
+//let lenghtTopArr = 8;
+
+const TOTAL_TYPE_SKILL_FIRE = "FIRE";
+const TOTAL_TYPE_SKILL_ICE = "FIRE";
+const TOTAL_TYPE_SKILL_PHISICAL = "FIRE";
+
 const TOTAL_UP = 15;
 const TOTAL_NORM = 14;
 const TOTAL_DOWN = 13;
@@ -305,7 +298,6 @@ let idDeleteMonsterInput = -100;
 let idSellMonsterInput = -100;
 let idHealMonsterInput = -100;
 
-//let monsters = new Array();
 let mapMonsters = new Map();
 
 function getRandomInt(min = 1, max) {
@@ -389,18 +381,20 @@ function sell1MonsterClick() {
   //console.log("delete1MonsterClick idDeleteMonsterInput: ", idSellMonsterInput);
 
   try {
-    let newMoney = Math.floor(
-      (mapMonsters.get(idSellMonsterInput).getCurrentHP() /
-        mapMonsters.get(idSellMonsterInput).getHp()) *
-        TOTAL_PRICE_SELL
-    );
+    if (!poleFightsHaveMonsterPlayer) {
+      let newMoney = Math.floor(
+        (mapMonsters.get(idSellMonsterInput).getCurrentHP() /
+          mapMonsters.get(idSellMonsterInput).getHp()) *
+          TOTAL_PRICE_SELL
+      );
 
-    let orDel = delete1MonsterFull(idSellMonsterInput);
-    //console.log(orDel);
-    if (orDel) {
-      //console.log("newMoney: ", newMoney);
-      money.textContent = Math.floor(money.textContent) + newMoney;
-      console.log("Монст продан за: ", newMoney);
+      let orDel = delete1MonsterFull(idSellMonsterInput);
+      //console.log(orDel);
+      if (orDel) {
+        //console.log("newMoney: ", newMoney);
+        money.textContent = Math.floor(money.textContent) + newMoney;
+        console.log("Монст продан за: ", newMoney);
+      }
     }
   } catch (error) {
     console.log("Введите существующий id вашего монстра в формате от 0-99.");
@@ -411,7 +405,10 @@ function heal1MonsterClick() {
   //console.log("delete1MonsterClick idDeleteMonsterInput: ", idSellMonsterInput);
 
   try {
-    if (Math.floor(money.textContent) >= TOTAL_PRICE_HEAL) {
+    if (
+      Math.floor(money.textContent) >= TOTAL_PRICE_HEAL &&
+      !poleFightsHaveMonsterPlayer
+    ) {
       money.textContent = Math.floor(money.textContent) - TOTAL_PRICE_HEAL;
 
       mapMonsters.get(idHealMonsterInput).currentHP = mapMonsters
@@ -427,36 +424,38 @@ function heal1MonsterClick() {
 
 function updateMonsters() {
   //console.log(mapMonsters);
-  if (TOTAL_CHEAT) {
-    createNewMonster();
-    mapMonsters.get(countId).strength = 1000;
-    mapMonsters.get(countId).agility = 1000;
-    mapMonsters.get(countId).intelligence = 1000;
-    TOTAL_CHEAT = false;
-  }
+  if (!poleFightsHaveMonsterPlayer) {
+    if (TOTAL_CHEAT) {
+      createNewMonster();
+      mapMonsters.get(countId).strength = 1000;
+      mapMonsters.get(countId).agility = 1000;
+      mapMonsters.get(countId).intelligence = 1000;
+      TOTAL_CHEAT = false;
+    }
 
-  for (let monster of mapMonsters.values()) {
-    //console.log(monster.id);
-    if (monster.lvl <= -1) {
-      delete1MonsterFull(monster.id);
-      console.log(
-        monster.name,
-        " ",
-        monster.surname,
-        " id: ",
-        id,
-        "покинул наш мир"
-      );
-    } else delete1Monster(monster.id);
+    for (let monster of mapMonsters.values()) {
+      //console.log(monster.id);
+      if (monster.lvl <= -1) {
+        delete1MonsterFull(monster.id);
+        console.log(
+          monster.name,
+          " ",
+          monster.surname,
+          " id: ",
+          id,
+          "покинул наш мир"
+        );
+      } else delete1Monster(monster.id);
 
-    selectPolMonsterDelete(monster.id);
-  }
+      selectPolMonsterDelete(monster.id);
+    }
 
-  for (let monster of mapMonsters.values()) {
-    //console.log(monster.id);
+    for (let monster of mapMonsters.values()) {
+      //console.log(monster.id);
 
-    monster.divMonster(TOTAL_MONSTERS_BACKUP);
-    selectPolMonster(monster);
+      monster.divMonster(TOTAL_MONSTERS_BACKUP);
+      selectPolMonster(monster);
+    }
   }
 }
 
@@ -552,6 +551,33 @@ function getCurrentMonsterFight(currentMonsterFight) {
   }
 }
 
+class Skill {
+  lvl = 0;
+  firstDamage = 0;
+  duration = 0;
+  type = "";
+
+  constructor(lvl, intelligence) {
+    this.lvl = lvl;
+    this.firstDamage = intelligence;
+    this.duration = getRandomInt(1, 10) + lvl;
+  }
+}
+class FireBreath extends Skill {
+  damadge = [];
+  fullDamadge = 0;
+
+  getFireDamage() {
+    for (let i = 1; i < this.duration; i++) {
+      let x = Math.floor(((this.firstDamage / 2) * this.lvl) / 2 / i);
+      this.fullDamadge = this.fullDamadge + x;
+      this.damadge.push(x);
+    }
+
+    return this.damadge;
+  }
+}
+
 class Monster {
   name = "noname";
   surname = "surname";
@@ -589,6 +615,14 @@ class Monster {
     intelligence: 1,
   };
 
+  skillBacpack = [];
+
+  setSkillBacpack(skill) {
+    if (this.skillBacpack.length < 3) {
+      this.skillBacpack.push(skill);
+    }
+  }
+
   getHp() {
     let hp = this.firstHp + this.strength * 4;
     return hp;
@@ -617,7 +651,9 @@ class Monster {
     return Math.floor(this.firstCrit + this.intelligence / 5);
   }
   getDodge() {
-    return Math.floor(this.firstDodge + this.agility / 2);
+    let x = Math.floor(this.firstDodge + this.agility / 2);
+    if (x >= 90) return 90;
+    else return x;
   }
   createGen() {
     // console.log("genetica: ", this.genetica);
@@ -857,7 +893,6 @@ function selectPolMonster(monster) {
 
 function select() {
   //mama
-
   const SelectMama = document.mamaForm.mamaSelect;
   const selectionMama = document.getElementById("selectionMama");
   mamaTarget = -1;
@@ -934,7 +969,8 @@ function select() {
 function sexButtonClick() {
   if (
     mapMonsters.get(papaTarget).lvl < TOTAL_PRICE_LEVEL &&
-    mapMonsters.get(mamaTarget).lvl < TOTAL_PRICE_LEVEL
+    mapMonsters.get(mamaTarget).lvl < TOTAL_PRICE_LEVEL &&
+    !poleFightsHaveMonsterPlayer
   ) {
     if (money.textContent >= TOTAL_PRICE_SEX) {
       mapMonsters.get(papaTarget).upLvl();
@@ -1039,6 +1075,8 @@ function attackButtonCLick() {
       HpFightEnemy.textContent = enemyHp;
     }
     if (enemyHp <= 0 && playerHp > 0) {
+      poleFightsHaveMonsterEnemy = false;
+      poleFightsHaveMonsterPlayer = false;
       //oldMonsterFightP.currentHP = playerHp;
       mapMonsters.get(oldMonsterFightP).currentHP = playerHp;
       delete1Monster(oldMonsterFightP);
@@ -1054,12 +1092,12 @@ function attackButtonCLick() {
 
       console.log("Победил: ", "Player");
       //console.log("oldEnemyLevel", oldEnemyLevel);
-
-      poleFightsHaveMonsterEnemy = false;
     } else if (playerHp <= 0) {
+      poleFightsHaveMonsterEnemy = false;
+      poleFightsHaveMonsterPlayer = false;
       delete1MonsterFull(oldMonsterFightP);
       delete1Monster(enemyMonster.id);
-      poleFightsHaveMonsterEnemy = false;
+
       console.log("Победил: ", "enemy");
     }
   }
@@ -1068,11 +1106,11 @@ function attackButtonCLick() {
 function fight() {
   if (!poleFightsHaveMonsterEnemy && poleFightsHaveMonsterPlayer) {
     oldEnemyLevel = levelEnemy;
+    //если poleFightsHaveMonsterPlayer true, создает Enemy ставит poleFightsHaveMonsterEnemy true
 
     //console.log("oldEnemyLevel", oldEnemyLevel);
 
     //если poleFightsHaveMonsterEnemy false,
-    //если poleFightsHaveMonsterPlayer true, создает Enemy ставит poleFightsHaveMonsterEnemy true
 
     let enemy = new Monster("bot", -1, false);
     //console.log("fight countId:", countId);
@@ -1156,6 +1194,11 @@ function startGame() {
   //createNewMonster();
   //createNewMonster();
   //createNewMonster();
+
+  for (let i = 1; i < 10; i++) {
+    let fire = new FireBreath(10, 20);
+    console.log("getFire: ", fire.getFireDamage(), "FULL: ", fire.fullDamadge);
+  }
 }
 
 Events();
