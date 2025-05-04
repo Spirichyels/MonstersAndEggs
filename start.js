@@ -576,6 +576,22 @@ class FireBreath extends Skill {
 
     return this.damadge;
   }
+
+  getText() {
+    return (
+      "Огненное дыхание :\n",
+      "lvl: ",
+      this.lvl,
+      "duration: ",
+      this.duration,
+      "fullDamadge: ",
+      this.fullDamadge
+    );
+  }
+}
+
+function createNewSkill(lvl, intelligence) {
+  return new FireBreath(lvl, intelligence);
 }
 
 class Monster {
@@ -618,9 +634,11 @@ class Monster {
   skillBacpack = [];
 
   setSkillBacpack(skill) {
+    console.log("skill:", skill);
     if (this.skillBacpack.length < 3) {
       this.skillBacpack.push(skill);
     }
+    console.log("skillBacpack:", this.skillBacpack.get(0));
   }
 
   getHp() {
@@ -690,6 +708,10 @@ class Monster {
       this.firstCrit = Math.floor(getRandomInt(1, 10));
       this.firstDodge = Math.floor(getRandomInt(1, 5));
 
+      if (getRandomPercent(100, 50))
+        this.setSkillBacpack(
+          createNewSkill(getRandomInt(1, 2), this.intelligence)
+        );
       //
     } else if (!create) {
       //console.log("Ураааа");
@@ -816,6 +838,8 @@ class Monster {
       let itemAgility = document.createElement("li");
       let itemIntelligence = document.createElement("li");
 
+      let skills = document.createElement("li");
+
       let itemGen = document.createElement("li");
 
       itemName.textContent = "Имя: " + this.name + " " + this.surname;
@@ -835,6 +859,8 @@ class Monster {
       itemAgility.textContent = "Ловкость: " + this.agility;
       itemIntelligence.textContent = "Интеллект: " + this.intelligence;
 
+      skills.textContent = "Способности: " + this.skillBacpack;
+
       itemGen.textContent = "Генетика: " + JSON.stringify(this.genetica);
 
       //profileMonster = document.getElementById("profileMonster1");
@@ -853,6 +879,8 @@ class Monster {
       profileMonster.appendChild(itemStrenth);
       profileMonster.appendChild(itemAgility);
       profileMonster.appendChild(itemIntelligence);
+
+      profileMonster.appendChild(skills);
 
       //profileMonster.appendChild(itemGen);
 
@@ -1195,10 +1223,10 @@ function startGame() {
   //createNewMonster();
   //createNewMonster();
 
-  for (let i = 1; i < 10; i++) {
-    let fire = new FireBreath(10, 20);
-    console.log("getFire: ", fire.getFireDamage(), "FULL: ", fire.fullDamadge);
-  }
+  //   for (let i = 1; i < 10; i++) {
+  //     let fire = new FireBreath(10, 20);
+  //     console.log("getFire: ", fire.getFireDamage(), "FULL: ", fire.fullDamadge);
+  //   }
 }
 
 Events();
