@@ -564,28 +564,32 @@ class Skill {
   }
 }
 class FireBreath extends Skill {
-  damadge = [];
   fullDamadge = 0;
 
   getFireDamage() {
-    for (let i = 1; i < this.duration; i++) {
-      let x = Math.floor(((this.firstDamage / 2) * this.lvl) / 2 / i);
+    let damadge = [];
+    for (let i = 0; i < this.duration; i++) {
+      let x = Math.floor(((this.firstDamage / 2) * this.lvl) / 2 / (i + 1));
       this.fullDamadge = this.fullDamadge + x;
-      this.damadge.push(x);
+      damadge.push(x);
     }
 
-    return this.damadge;
+    console.log("zaebal" + damadge);
+    return damadge;
   }
 
   getText() {
     return (
-      "Огненное дыхание :\n",
-      "lvl: ",
-      this.lvl,
-      "duration: ",
-      this.duration,
-      "fullDamadge: ",
-      this.fullDamadge
+      "Огненное дыхание:\n" +
+      "ур: " +
+      this.lvl +
+      " длит: " +
+      this.duration +
+      " урон: " +
+      this.fullDamadge +
+      "[" +
+      this.getFireDamage() +
+      "]"
     );
   }
 }
@@ -634,11 +638,12 @@ class Monster {
   skillBacpack = [];
 
   setSkillBacpack(skill) {
-    console.log("skill:", skill);
+    //console.log("skill:", skill);
     if (this.skillBacpack.length < 3) {
       this.skillBacpack.push(skill);
     }
-    console.log("skillBacpack:", this.skillBacpack.get(0));
+    //console.log("skillBacpack:", JSON.stringify(this.skillBacpack[0]));
+    console.log("skillBacpack:", this.skillBacpack[0].getText());
   }
 
   getHp() {
@@ -839,6 +844,9 @@ class Monster {
       let itemIntelligence = document.createElement("li");
 
       let skills = document.createElement("li");
+      let skill0 = document.createElement("li");
+      let skill1 = document.createElement("li");
+      let skill2 = document.createElement("li");
 
       let itemGen = document.createElement("li");
 
@@ -858,8 +866,13 @@ class Monster {
       itemStrenth.textContent = "Сила: " + this.strength;
       itemAgility.textContent = "Ловкость: " + this.agility;
       itemIntelligence.textContent = "Интеллект: " + this.intelligence;
-
-      skills.textContent = "Способности: " + this.skillBacpack;
+      skills.textContent = "Способности: ";
+      try {
+        // this.skillBacpack[0].getText();
+        skill0.textContent = this.skillBacpack[0].getText();
+        //skill1.textContent = this.skillBacpack[1].getText();
+        //skill2.textContent = this.skillBacpack[2].getText();
+      } catch (error) {}
 
       itemGen.textContent = "Генетика: " + JSON.stringify(this.genetica);
 
@@ -881,6 +894,9 @@ class Monster {
       profileMonster.appendChild(itemIntelligence);
 
       profileMonster.appendChild(skills);
+      profileMonster.appendChild(skill0);
+      profileMonster.appendChild(skill1);
+      profileMonster.appendChild(skill2);
 
       //profileMonster.appendChild(itemGen);
 
@@ -1223,10 +1239,10 @@ function startGame() {
   //createNewMonster();
   //createNewMonster();
 
-  //   for (let i = 1; i < 10; i++) {
-  //     let fire = new FireBreath(10, 20);
-  //     console.log("getFire: ", fire.getFireDamage(), "FULL: ", fire.fullDamadge);
-  //   }
+  for (let i = 1; i < 10; i++) {
+    let fire = new FireBreath(2, 18);
+    console.log("getFire: ", fire.getFireDamage(), "FULL: ", fire.fullDamadge);
+  }
 }
 
 Events();
