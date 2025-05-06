@@ -250,9 +250,10 @@ let surname = [
 //let lenghtTopArr = 8;
 
 const TOTAL_TYPE_SKILL_FIRE = "FIRE";
-const TOTAL_TYPE_SKILL_ICE = "FIRE";
-const TOTAL_TYPE_SKILL_PHISICAL = "FIRE";
+const TOTAL_TYPE_SKILL_ICE = "ICE";
+const TOTAL_TYPE_SKILL_PHISICAL = "PHISICAL";
 
+let TOTAL_SIZE_ARR = 4;
 const TOTAL_UP = 15;
 const TOTAL_NORM = 14;
 const TOTAL_DOWN = 13;
@@ -423,40 +424,42 @@ function heal1MonsterClick() {
 }
 
 function updateMonsters() {
+  try {
+    if (!poleFightsHaveMonsterPlayer) {
+      if (TOTAL_CHEAT) {
+        createNewMonster();
+        mapMonsters.get(countId).strength = 1000;
+        mapMonsters.get(countId).agility = 1000;
+        mapMonsters.get(countId).intelligence = 1000;
+        TOTAL_CHEAT = false;
+      }
+
+      for (let monster of mapMonsters.values()) {
+        //console.log(monster.id);
+        if (monster.lvl <= -1) {
+          delete1MonsterFull(monster.id);
+          console.log(
+            monster.name,
+            " ",
+            monster.surname,
+            " id: ",
+            id,
+            "покинул наш мир"
+          );
+        } else delete1Monster(monster.id);
+
+        selectPolMonsterDelete(monster.id);
+      }
+
+      for (let monster of mapMonsters.values()) {
+        //console.log(monster.id);
+
+        monster.divMonster(TOTAL_MONSTERS_BACKUP);
+        selectPolMonster(monster);
+      }
+    }
+  } catch (error) {}
   //console.log(mapMonsters);
-  if (!poleFightsHaveMonsterPlayer) {
-    if (TOTAL_CHEAT) {
-      createNewMonster();
-      mapMonsters.get(countId).strength = 1000;
-      mapMonsters.get(countId).agility = 1000;
-      mapMonsters.get(countId).intelligence = 1000;
-      TOTAL_CHEAT = false;
-    }
-
-    for (let monster of mapMonsters.values()) {
-      //console.log(monster.id);
-      if (monster.lvl <= -1) {
-        delete1MonsterFull(monster.id);
-        console.log(
-          monster.name,
-          " ",
-          monster.surname,
-          " id: ",
-          id,
-          "покинул наш мир"
-        );
-      } else delete1Monster(monster.id);
-
-      selectPolMonsterDelete(monster.id);
-    }
-
-    for (let monster of mapMonsters.values()) {
-      //console.log(monster.id);
-
-      monster.divMonster(TOTAL_MONSTERS_BACKUP);
-      selectPolMonster(monster);
-    }
-  }
 }
 
 function getRandomCrit(attack, crit) {
@@ -490,8 +493,9 @@ let newAttributeHpMana = (attribute) => {
 let newAttributeSAI = (attribute) => {
   let result = 0;
   let resultUp = getRandomWeight([TOTAL_UP, TOTAL_NORM, TOTAL_DOWN]);
-  if (resultUp == 15) result = Math.floor(attribute + getRandomInt(1, 3));
-  else if (resultUp == 13) result = Math.floor(attribute - getRandomInt(1, 3));
+  if (resultUp == TOTAL_UP) result = Math.floor(attribute + getRandomInt(1, 3));
+  else if (resultUp == TOTAL_DOWN)
+    result = Math.floor(attribute - getRandomInt(1, 3));
   else result = attribute;
 
   //console.log("resultUp: ", resultUp);
@@ -503,8 +507,23 @@ let newAttributeSAI = (attribute) => {
 let newAttributeAttack = (attribute) => {
   let result = 0;
   let resultUp = getRandomWeight([TOTAL_UP, TOTAL_NORM, TOTAL_DOWN]);
-  if (resultUp == 15) result = Math.floor(attribute + getRandomInt(1, 10));
-  else if (resultUp == 13) result = Math.floor(attribute - getRandomInt(1, 10));
+  if (resultUp == TOTAL_UP)
+    result = Math.floor(attribute + getRandomInt(1, 10));
+  else if (resultUp == TOTAL_DOWN)
+    result = Math.floor(attribute - getRandomInt(1, 10));
+  else result = attribute;
+
+  //console.log("resultUp: ", resultUp);
+  if (result <= 0) result = 1;
+
+  return result;
+};
+
+let newAttributeSkill = (attribute) => {
+  let result = 0;
+  let resultUp = getRandomWeight([TOTAL_UP, TOTAL_NORM, TOTAL_DOWN]);
+  if (resultUp == TOTAL_UP) result = Math.floor(attribute + 1);
+  else if (resultUp == 13) result = Math.floor(attribute - 1);
   else result = attribute;
 
   //console.log("resultUp: ", resultUp);
@@ -521,12 +540,18 @@ let dominant = (papa, mama, attribute) => {
 
   let res = getRandomWeight([weightPapa, weightMama]);
   finalyDominant = res === weightPapa ? papa : mama;
-  //console.log("res: ", res);
 
-  //console.log("papa: ", papa);
-  //console.log("mama: ", mama);
-
-  //console.log("finalyDominant: ", finalyDominant);
+  //   console.log(
+  //     "res: ",
+  //     res,
+  //     "papa: ",
+  //     papa,
+  //     "mama: ",
+  //     mama,
+  //     "attribute: ",
+  //     attribute
+  //   );
+  //   console.log("finalyDominant: ", finalyDominant);
 
   return finalyDominant;
 };
@@ -553,32 +578,37 @@ function getCurrentMonsterFight(currentMonsterFight) {
 
 class Skill {
   lvl = 0;
-  firstDamage = 0;
   duration = 0;
   type = "";
 
-  constructor(lvl, intelligence) {
+  constructor(lvl) {
     this.lvl = lvl;
-    this.firstDamage = intelligence;
     this.duration = getRandomInt(1, 10) + lvl;
   }
 }
 class FireBreath extends Skill {
   fullDamadge = 0;
+  type = TOTAL_TYPE_SKILL_FIRE;
 
-  getFireDamage() {
+  getDamadge(intelligence) {
     let damadge = [];
     for (let i = 0; i < this.duration; i++) {
-      let x = Math.floor(((this.firstDamage / 2) * this.lvl) / 2 / (i + 1));
-      this.fullDamadge = this.fullDamadge + x;
+      let x = Math.floor(((intelligence / 2) * this.lvl) / 2 / (i + 1));
       damadge.push(x);
     }
-
-    console.log("zaebal" + damadge);
     return damadge;
   }
 
-  getText() {
+  getFullDamadge(intelligence) {
+    let fullDamadge = 0;
+    for (let i = 0; i < this.duration; i++) {
+      let x = Math.floor(((intelligence / 2) * this.lvl) / 2 / (i + 1));
+      fullDamadge = fullDamadge + x;
+    }
+    return fullDamadge;
+  }
+
+  getText(intelligence) {
     return (
       "Огненное дыхание:\n" +
       "ур: " +
@@ -586,16 +616,16 @@ class FireBreath extends Skill {
       " длит: " +
       this.duration +
       " урон: " +
-      this.fullDamadge +
+      this.getFullDamadge(intelligence) +
       "[" +
-      this.getFireDamage() +
+      this.getDamadge(intelligence) +
       "]"
     );
   }
 }
 
-function createNewSkill(lvl, intelligence) {
-  return new FireBreath(lvl, intelligence);
+function createNewSkill(lvl) {
+  return new FireBreath(lvl);
 }
 
 class Monster {
@@ -633,17 +663,21 @@ class Monster {
     strength: 1,
     agility: 1,
     intelligence: 1,
+    skill0: 1,
+    skill1: 1,
+    skill2: 1,
   };
 
   skillBacpack = [];
 
   setSkillBacpack(skill) {
-    //console.log("skill:", skill);
     if (this.skillBacpack.length < 3) {
       this.skillBacpack.push(skill);
     }
-    //console.log("skillBacpack:", JSON.stringify(this.skillBacpack[0]));
-    console.log("skillBacpack:", this.skillBacpack[0].getText());
+  }
+  removeSkillBackPack(id) {
+    console.log(id);
+    this.skillBacpack.splice(id, 1);
   }
 
   getHp() {
@@ -679,14 +713,6 @@ class Monster {
     else return x;
   }
   createGen() {
-    // console.log("genetica: ", this.genetica);
-    // //let x = Array.from(Object.entries(this.genetica));
-    // let x = Object.keys(this.genetica).map((key) => ({
-    //   key: key,
-    //   value: getRandomInt(1, 100),
-    // }));
-    // console.log("gen map: ", x);
-
     for (var key in this.genetica) {
       this.genetica[key] = getRandomInt(1, 100);
     }
@@ -705,18 +731,43 @@ class Monster {
       this.agility = getRandomInt(1, 20);
       this.intelligence = getRandomInt(1, 20);
 
-      this.firstHp = getRandomInt(30, 300);
-      this.firstMana = getRandomInt(1, 150);
+      this.firstHp = getRandomInt(30, 100);
+      this.firstMana = getRandomInt(1, 20);
 
-      this.firstAttack = getRandomInt(5, 15);
+      this.firstAttack = getRandomInt(3, 10);
       this.firstArmor = Math.floor(getRandomInt(0, 10));
       this.firstCrit = Math.floor(getRandomInt(1, 10));
       this.firstDodge = Math.floor(getRandomInt(1, 5));
 
-      if (getRandomPercent(100, 50))
-        this.setSkillBacpack(
-          createNewSkill(getRandomInt(1, 2), this.intelligence)
-        );
+      if (getRandomPercent(1000, 200))
+        this.setSkillBacpack(createNewSkill(getRandomInt(1, 2)));
+      if (getRandomPercent(10000, 200))
+        this.setSkillBacpack(createNewSkill(getRandomInt(1, 2)));
+      if (getRandomPercent(100000, 200)) {
+        this.setSkillBacpack(createNewSkill(getRandomInt(1, 2)));
+      }
+
+      //console.log("start: ", this.skillBacpack);
+
+      let x = false;
+      let y = false;
+      try {
+        x = this.skillBacpack[0].type == this.skillBacpack[1].type;
+        y = this.skillBacpack[0].type == this.skillBacpack[2].type;
+      } catch (error) {}
+
+      if (y) {
+        this.removeSkillBackPack(2);
+        //console.log("y: ", this.skillBacpack);
+      }
+
+      if (x) {
+        //console.log("this.skillBacpack[0].type: ", this.skillBacpack[0].type);
+        //console.log(this.skillBacpack);
+        this.removeSkillBackPack(1);
+        //console.log("x: ", this.skillBacpack);
+      }
+
       //
     } else if (!create) {
       //console.log("Ураааа");
@@ -738,6 +789,7 @@ class Monster {
     this.firstCrit = Math.floor(getRandomInt(1, lvl * 2));
     this.firstDodge = Math.floor(getRandomInt(1, lvl * 2));
   }
+
   born(papa, mama) {
     this.firstHp = newAttributeHpMana(
       mapMonsters.get(dominant(papa, mama, "firstHp")).firstHp
@@ -779,6 +831,20 @@ class Monster {
       //monsters[dominant(papa, mama, "intelligence")].intelligence
       mapMonsters.get(dominant(papa, mama, "intelligence")).intelligence
     );
+
+    try {
+      let x = mapMonsters.get(dominant(papa, mama, "skill0")).skillBacpack[0];
+      //console.log("skill0 x:", x);
+      this.skillBacpack[0] = createNewSkill(newAttributeSkill(x.lvl));
+
+      x = mapMonsters.get(dominant(papa, mama, "skill1")).skillBacpack[1];
+      //console.log("skill1 x:", x);
+      this.skillBacpack[1] = createNewSkill(newAttributeSkill(x.lvl));
+
+      x = mapMonsters.get(dominant(papa, mama, "skill2")).skillBacpack[2];
+      //console.log("skill2 x:", x);
+      this.skillBacpack[2] = createNewSkill(newAttributeSkill(x.lvl));
+    } catch (error) {}
 
     //this.genetica.strength = getRandomInt(1, 300);
     //this.genetica.agility = getRandomInt(1, 300);
@@ -869,7 +935,10 @@ class Monster {
       skills.textContent = "Способности: ";
       try {
         // this.skillBacpack[0].getText();
-        skill0.textContent = this.skillBacpack[0].getText();
+        skill0.textContent = this.skillBacpack[0].getText(this.intelligence);
+        skill1.textContent = this.skillBacpack[1].getText(this.intelligence);
+        skill2.textContent = this.skillBacpack[2].getText(this.intelligence);
+
         //skill1.textContent = this.skillBacpack[1].getText();
         //skill2.textContent = this.skillBacpack[2].getText();
       } catch (error) {}
@@ -1216,7 +1285,6 @@ function idRange() {
 }
 
 function startGame() {
-  let TOTAL_SIZE_ARR = 4;
   let noMoreWomens = 1;
 
   for (let i = 0; i < TOTAL_SIZE_ARR; i++) {
@@ -1234,15 +1302,6 @@ function startGame() {
   }
   //console.log(noMoreWomens);
   select();
-
-  //createNewMonster();
-  //createNewMonster();
-  //createNewMonster();
-
-  for (let i = 1; i < 10; i++) {
-    let fire = new FireBreath(2, 18);
-    console.log("getFire: ", fire.getFireDamage(), "FULL: ", fire.fullDamadge);
-  }
 }
 
 Events();
