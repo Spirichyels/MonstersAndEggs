@@ -251,9 +251,13 @@ let surname = [
 
 const TOTAL_TYPE_SKILL_FIRE = "FIRE";
 const TOTAL_TYPE_SKILL_ICE = "ICE";
+const TOTAL_TYPE_SKILL_lightning = "lightning";
+const TOTAL_TYPE_SKILL_WATER = "WATER"; // взаиводействует с другими
+
 const TOTAL_TYPE_SKILL_PHISICAL = "PHISICAL";
 
 let TOTAL_SIZE_ARR = 4;
+
 const TOTAL_UP = 15;
 const TOTAL_NORM = 14;
 const TOTAL_DOWN = 13;
@@ -262,10 +266,22 @@ const TOTAL_MONSTERS_FIGHT_PLAYER = ".monsterPlayerPoleFights";
 const TOTAL_MONSTERS_FIGHT_ENEMY = ".monsterEnemyPoleFights";
 const TOTAL_TEG_MONSTER_CARD = "monsterCard";
 const TOTAL_TEG_MONSTER_PARENTS = "monsterParents";
+const TOTAL_MAX_LEVEL = 15;
+
 const TOTAL_PRICE_SEX = 70;
 const TOTAL_PRICE_SELL = 20;
 const TOTAL_PRICE_HEAL = 100;
-const TOTAL_PRICE_LEVEL = 15;
+const TOTAL_START_MONEY = 350;
+
+let sex_price = document.getElementById("sex_price");
+let sell_price = document.getElementById("sell_price");
+let heal_price = document.getElementById("heal_price");
+let money = document.querySelector("#money_count");
+
+sex_price.textContent = TOTAL_PRICE_SEX;
+sell_price.textContent = TOTAL_PRICE_SELL;
+heal_price.textContent = TOTAL_PRICE_HEAL;
+money.textContent = TOTAL_START_MONEY;
 
 let TOTAL_CHEAT = false;
 
@@ -280,7 +296,6 @@ let countId = -1;
 
 let levelEnemy = 1;
 let oldEnemyLevel = levelEnemy;
-let money = document.querySelector("#money_count");
 
 let enemyMonster = "none";
 let playerHp = 0;
@@ -290,10 +305,17 @@ let poleFightsHaveMonsterEnemy = false; //Если True нельзя добав�
 let poleFightsHaveMonsterPlayer = false; //Если True нельзя добавлять монстров (Игрока) на стол
 
 let sexButton = document.getElementById("sexButton");
-let attackButtonPl = document.getElementById("attackButtonPl");
+
 let sellButton = document.getElementById("sellButton");
 let dellButton = document.getElementById("dellButton");
 let healButton = document.getElementById("healButton");
+
+let endMoveButtonPl = document.getElementById("endMoveButtonPl");
+
+let attackButtonPl = document.getElementById("attackButtonPl");
+let skillButtonPl1 = document.getElementById("skillButtonPl1");
+let skillButtonPl2 = document.getElementById("skillButtonPl2");
+let skillButtonPl3 = document.getElementById("skillButtonPl3");
 
 let idDeleteMonsterInput = -100;
 let idSellMonsterInput = -100;
@@ -425,7 +447,7 @@ function heal1MonsterClick() {
 
 function updateMonsters() {
   try {
-    if (!poleFightsHaveMonsterPlayer) {
+    if (!poleFightsHaveMonsterEnemy) {
       if (TOTAL_CHEAT) {
         createNewMonster();
         mapMonsters.get(countId).strength = 1000;
@@ -557,7 +579,9 @@ let dominant = (papa, mama, attribute) => {
 };
 function getCurrentMonsterFight(currentMonsterFight) {
   //console.log("getCurrentMonsterFight: ", mapMonsters);
+
   if (!poleFightsHaveMonsterEnemy) {
+    fightButton.disabled = false;
     if (oldMonsterFightP != -1) {
       delete1Monster(oldMonsterFightP);
       updateMonsters();
@@ -572,6 +596,7 @@ function getCurrentMonsterFight(currentMonsterFight) {
 
     oldMonsterFightP = currentMonsterFight;
     poleFightsHaveMonsterPlayer = true;
+
     //если игрок на столе то true, чтобы можно было начать бой
   }
 }
@@ -583,10 +608,11 @@ class Skill {
 
   constructor(lvl) {
     this.lvl = lvl;
-    this.duration = getRandomInt(1, 10) + lvl;
+    //this.duration = getRandomInt(1, 10) + lvl;
   }
 }
 class FireBreath extends Skill {
+  duration = getRandomInt(1, this.lvl + 3);
   fullDamadge = 0;
   type = TOTAL_TYPE_SKILL_FIRE;
 
@@ -917,7 +943,7 @@ class Monster {
       let itemGen = document.createElement("li");
 
       itemName.textContent = "Имя: " + this.name + " " + this.surname;
-      itemId.textContent = "id: " + this.id + " lvl: " + this.lvl;
+      itemId.textContent = "Уровень: " + this.lvl + "  id: " + this.id;
 
       itemPol.textContent = "Пол: " + (this.pol ? "Мужской" : "Женский");
       itemHP.textContent =
@@ -1081,8 +1107,8 @@ function select() {
 
 function sexButtonClick() {
   if (
-    mapMonsters.get(papaTarget).lvl < TOTAL_PRICE_LEVEL &&
-    mapMonsters.get(mamaTarget).lvl < TOTAL_PRICE_LEVEL &&
+    mapMonsters.get(papaTarget).lvl < TOTAL_MAX_LEVEL &&
+    mapMonsters.get(mamaTarget).lvl < TOTAL_MAX_LEVEL &&
     !poleFightsHaveMonsterPlayer
   ) {
     if (money.textContent >= TOTAL_PRICE_SEX) {
@@ -1112,7 +1138,7 @@ function sexButtonClick() {
     } else console.log("НУЖНО БОЛЬШЕ ЗОЛОТА!");
   } else
     console.log(
-      `Один из ваших монстров, больше не может размножаться (после ${TOTAL_PRICE_LEVEL} лвл нельзя) `
+      `Один из ваших монстров, больше не может размножаться (после ${TOTAL_MAX_LEVEL} лвл нельзя) `
     );
 
   //console.log(resultGen);
@@ -1204,6 +1230,12 @@ function attackButtonCLick() {
       chacnceNewMonster(400);
 
       console.log("Победил: ", "Player");
+      fightButton.disabled = false;
+      attackButtonPl.disabled = true;
+      skillButtonPl1.disabled = true;
+      skillButtonPl2.disabled = true;
+      skillButtonPl3.disabled = true;
+
       //console.log("oldEnemyLevel", oldEnemyLevel);
     } else if (playerHp <= 0) {
       poleFightsHaveMonsterEnemy = false;
@@ -1212,6 +1244,11 @@ function attackButtonCLick() {
       delete1Monster(enemyMonster.id);
 
       console.log("Победил: ", "enemy");
+      fightButton.disabled = false;
+      attackButtonPl.disabled = true;
+      skillButtonPl1.disabled = true;
+      skillButtonPl2.disabled = true;
+      skillButtonPl3.disabled = true;
     }
   }
 }
@@ -1238,6 +1275,11 @@ function fight() {
     enemyHp = enemyMonster.getHp();
     HpFightPlayer.textContent = playerHp;
     HpFightEnemy.textContent = enemyHp;
+    fightButton.disabled = true;
+    attackButtonPl.disabled = false;
+    skillButtonPl1.disabled = false;
+    skillButtonPl2.disabled = false;
+    skillButtonPl3.disabled = false;
   }
 }
 

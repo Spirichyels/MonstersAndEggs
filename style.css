@@ -82,7 +82,7 @@ ul:hover {
 	display: inline-block;
 
 	width: 160px;
-	height: 70px;
+	height: 140px;
 
 	margin-right: 150px;
 
@@ -94,7 +94,8 @@ ul:hover {
 .monsterEnemyAttack {
 	display: inline-table;
 	width: 160px;
-	height: 70px;
+	height: 140px;
+
 	
 	
 	margin-left:  150px;
@@ -115,7 +116,7 @@ ul:hover {
 
 .monsterEnemyPoleFights {
 	display: inline-block;
-
+	
 	margin-left: 150px;
 
 	
@@ -129,14 +130,14 @@ ul:hover {
 	margin-left: auto;
 	margin-right: auto;
 
-	height: 400px;
+	height: 560px;
 	width: 800px;
 	border: 1px solid black; 
 	
 }
 
 #str1 {
-	margin-top: 10px;
+	margin-top: 40px;
 	align-items: right;
 	display: flex;
 	justify-content: center;
@@ -146,13 +147,17 @@ ul:hover {
 }
 
 #str2 {
-	margin-top: 30px;
+	margin-top: 90px;
 	align-items: right;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	height: 91px;
 	
+}
+
+.aStrSkill {
+	margin: 2px;
 }
 
 #money {

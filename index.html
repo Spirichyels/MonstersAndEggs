@@ -15,7 +15,7 @@
 		<div id="tableFights">Поле боя
 
 			<div id="textPoleFights">Нажмите на кнопку, чтобы сразиться</div>
-			<button id="fightButton">Бой</button>
+			<button disabled id="fightButton">Бой</button>
 		</div>
 		<div id=str1>
 
@@ -32,14 +32,25 @@
 				<div>Здоровье: <a id="HpFightPlayer">--</a>
 				</div>
 				<div class="ManaFightPlayer">Мана</div>
-				<div class=""><button id="attackButtonPl">Ударить</button></div>
+				<div class="aStrSkill"><button disabled id="attackButtonPl">Ударить</button></div>
+				<div class="aStrSkill"><button disabled id="skillButtonPl1">1 сп</button> <a id="skillName0">name</a>
+				</div>
+				<div class="aStrSkill"><button disabled id="skillButtonPl2">2 сп</button> <a id="skillName1">name</a>
+				</div>
+				<div class="aStrSkill"><button disabled id="skillButtonPl3">3 сп</button> <a id="skillName2">name</a>
+				</div>
+
 
 			</div>
 
 			<div class="monsterEnemyAttack">
 				<div>Здоровье: <a id="HpFightEnemy">--</a></div>
 				<div class="ManaFightEnemy">Мана</div>
+				<div class="aStrSkill"> <a>name</a></div>
+				<div class="aStrSkill"><a>name</a></div>
+				<div class="aStrSkill"> <a>name</a></div>
 				<div class=""></div>
+
 
 
 
@@ -53,19 +64,19 @@
 	<div id="money"><input id="id_range" onInput="idRange()" min="1" max="10" , value="1" step="1" type="range">
 		<div> Level: <a id="id_Count">1</a></div>
 	</div>
-	<div id="money">Ваш счет: <a id="money_count">500</a>
+	<div id="money">Ваш счет: <a id="money_count">0</a>
 
 
 	</div>
 
 	<div id=sellMonster>
-		<div>введите id монстра (За здорового 20 монет) </div>
+		<div>введите id монстра (За здорового <a id="sell_price">??</a> монет) </div>
 		<input id=idSellMonster>
 		<button id="sellButton">Продать 1 монстра</button>
 	</div>
 
 	<div id=healMonster>
-		<div>введите id монстра (100 монет) </div>
+		<div>введите id монстра (<a id="heal_price">??</a> монет) </div>
 		<input id=idHealMonster>
 		<button id="healButton">Исцелить 1 монстра</button>
 	</div>
@@ -108,7 +119,7 @@
 
 	</div>
 	<div id=sex>
-		<button id="sexButton">Скрестить 70 монет</button>
+		<button id="sexButton">Скрестить <a id="sex_price">??</a> монет</button>
 	</div>
 	<div id=update>
 		<button id="updateButton">update</button>
@@ -146,7 +157,7 @@
 		let text = year + "" + month + "" + day;
 
 		if (false) version.textContent = text;
-		else version.textContent = "2025056";
+		else version.textContent = "2025057";
 
 
 
