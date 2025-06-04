@@ -42,6 +42,10 @@
 
 
 			</div>
+			<div>
+				<div><button disabled id="endMoveButtonPl">Закончить ход</button></div>
+				<div id><a id="endMovePlayerText"></a></div>
+			</div>
 
 			<div class="monsterEnemyAttack">
 				<div>Здоровье: <a id="HpFightEnemy">--</a></div>
@@ -154,10 +158,10 @@
 		month++;
 		month = month > 9 ? month : (0 + "" + month)
 		//let text = day + "" + month + "" + year;
-		let text = year + "" + month + "" + day;
+		let text = year + "" + month + "" + 1;
 
 		if (false) version.textContent = text;
-		else version.textContent = "2025057";
+		else version.textContent = "2025061";
 
 
 

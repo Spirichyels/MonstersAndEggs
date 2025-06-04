@@ -247,13 +247,18 @@ let surname = [
   "Пышнограев",
 ];
 
+let skillId = [
+  { skillButtonPl1: 1 },
+  { skillButtonPl2: 2 },
+  { skillButtonPl3: 3 },
+];
+
 //let lenghtTopArr = 8;
 
 const TOTAL_TYPE_SKILL_FIRE = "FIRE";
 const TOTAL_TYPE_SKILL_ICE = "ICE";
 const TOTAL_TYPE_SKILL_lightning = "lightning";
 const TOTAL_TYPE_SKILL_WATER = "WATER"; // взаиводействует с другими
-
 const TOTAL_TYPE_SKILL_PHISICAL = "PHISICAL";
 
 let TOTAL_SIZE_ARR = 4;
@@ -267,6 +272,7 @@ const TOTAL_MONSTERS_FIGHT_ENEMY = ".monsterEnemyPoleFights";
 const TOTAL_TEG_MONSTER_CARD = "monsterCard";
 const TOTAL_TEG_MONSTER_PARENTS = "monsterParents";
 const TOTAL_MAX_LEVEL = 15;
+const TOTAL_PLAYER_MOVE_END_TEXT = "В этот ход вы: ";
 
 const TOTAL_PRICE_SEX = 70;
 const TOTAL_PRICE_SELL = 20;
@@ -311,11 +317,13 @@ let dellButton = document.getElementById("dellButton");
 let healButton = document.getElementById("healButton");
 
 let endMoveButtonPl = document.getElementById("endMoveButtonPl");
-
 let attackButtonPl = document.getElementById("attackButtonPl");
 let skillButtonPl1 = document.getElementById("skillButtonPl1");
 let skillButtonPl2 = document.getElementById("skillButtonPl2");
 let skillButtonPl3 = document.getElementById("skillButtonPl3");
+
+let endMovePlayerText = document.getElementById("endMovePlayerText");
+endMovePlayerText.textContent = TOTAL_PLAYER_MOVE_END_TEXT;
 
 let idDeleteMonsterInput = -100;
 let idSellMonsterInput = -100;
@@ -1158,7 +1166,43 @@ function chacnceNewMonster(max) {
     console.log("Вы нашли монстра: ", mapMonsters.get(countId).name);
   }
 }
+
 function attackButtonCLick() {
+  attackButtonPl.disabled = true;
+  skillButtonPl1.disabled = false;
+  skillButtonPl2.disabled = false;
+  skillButtonPl3.disabled = false;
+  endMoveButtonPl.disabled = false;
+  endMovePlayerText.textContent =
+    TOTAL_PLAYER_MOVE_END_TEXT + "просто атакуете";
+}
+function useAbility(id) {
+  let x = 0;
+  if (id == skillButtonPl1.id) {
+    skillButtonPl1.disabled = true;
+    skillButtonPl2.disabled = false;
+    skillButtonPl3.disabled = false;
+    x = 1;
+  } else if (id == skillButtonPl2.id) {
+    skillButtonPl1.disabled = false;
+
+    skillButtonPl2.disabled = true;
+    skillButtonPl3.disabled = false;
+    x = 2;
+  } else if (id == skillButtonPl3.id) {
+    skillButtonPl1.disabled = false;
+    skillButtonPl2.disabled = false;
+    skillButtonPl3.disabled = true;
+    x = 3;
+  }
+
+  attackButtonPl.disabled = false;
+  endMoveButtonPl.disabled = false;
+  endMovePlayerText.textContent =
+    TOTAL_PLAYER_MOVE_END_TEXT + "используете " + x + " способность";
+}
+
+function attackButtonCLick2() {
   //если бой true, работает кнопка атаки
 
   let playerAttack = 0;
@@ -1283,6 +1327,19 @@ function fight() {
   }
 }
 
+function endMove() {
+  attackButtonPl.disabled = true;
+  skillButtonPl1.disabled = true;
+  skillButtonPl2.disabled = true;
+  skillButtonPl3.disabled = true;
+  endMoveButtonPl.disabled = true;
+}
+
+function skillEvents(skill) {
+  skill.addEventListener("click", () => {
+    useAbility(skill.id);
+  });
+}
 function Events() {
   //sex
   sexButton.addEventListener("click", sexButtonClick);
@@ -1317,6 +1374,15 @@ function Events() {
   //fight
   fightButton.addEventListener("click", fight);
   attackButtonPl.addEventListener("click", attackButtonCLick);
+  endMoveButtonPl.addEventListener("click", endMove);
+
+  skillEvents(skillButtonPl1);
+  skillEvents(skillButtonPl2);
+  skillEvents(skillButtonPl3);
+
+  //   skillButtonPl1.addEventListener("click", () => {
+  //     useAbility(skillButtonPl1.id);
+  //   });
 }
 
 function idRange() {
