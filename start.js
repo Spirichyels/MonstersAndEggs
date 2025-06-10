@@ -306,9 +306,15 @@ let oldEnemyLevel = levelEnemy;
 let enemyMonster = "none";
 let playerHp = 0;
 let enemyHp = 0;
+let fireDamadge = [];
 
 let poleFightsHaveMonsterEnemy = false; //Если True нельзя добавлять монстров (врагов) на стол
 let poleFightsHaveMonsterPlayer = false; //Если True нельзя добавлять монстров (Игрока) на стол
+
+let endAttackPl = true;
+let endAttackEn = true;
+
+let endSkillPl = 1;
 
 let sexButton = document.getElementById("sexButton");
 
@@ -1175,125 +1181,165 @@ function attackButtonCLick() {
   endMoveButtonPl.disabled = false;
   endMovePlayerText.textContent =
     TOTAL_PLAYER_MOVE_END_TEXT + "просто атакуете";
+  endAttackPl = true;
 }
-function useAbility(id) {
+function useAbilityPl(id) {
   let x = 0;
+  endAttackPl = false;
   if (id == skillButtonPl1.id) {
     skillButtonPl1.disabled = true;
     skillButtonPl2.disabled = false;
     skillButtonPl3.disabled = false;
-    x = 1;
+    x = 0;
   } else if (id == skillButtonPl2.id) {
     skillButtonPl1.disabled = false;
 
     skillButtonPl2.disabled = true;
     skillButtonPl3.disabled = false;
-    x = 2;
+    x = 1;
   } else if (id == skillButtonPl3.id) {
     skillButtonPl1.disabled = false;
     skillButtonPl2.disabled = false;
     skillButtonPl3.disabled = true;
-    x = 3;
+    x = 2;
   }
 
   attackButtonPl.disabled = false;
   endMoveButtonPl.disabled = false;
   endMovePlayerText.textContent =
     TOTAL_PLAYER_MOVE_END_TEXT + "используете " + x + " способность";
+  endSkillPl = x;
 }
+function endMove() {
+  attackButtonPl.disabled = true;
+  skillButtonPl1.disabled = true;
+  skillButtonPl2.disabled = true;
+  skillButtonPl3.disabled = true;
+  endMoveButtonPl.disabled = true;
 
-function attackButtonCLick2() {
-  //если бой true, работает кнопка атаки
-
+  // переменные для атаки
   let playerAttack = 0;
-  //console.log(enemyMonster);
-
   let enemyAttack = 0;
   let playerDodge = false;
   let enemyDodge = false;
 
+  //
+
   if (poleFightsHaveMonsterEnemy) {
     if (playerHp >= 0 && enemyHp >= 0) {
-      //console.log("attackButtonCLick", oldMonsterFightP);
-
+      // шанс увернуться от урона
       playerDodge = getRandomPercent(
         100,
         mapMonsters.get(oldMonsterFightP).getDodge()
       );
       enemyDodge = getRandomPercent(100, enemyMonster.getDodge());
+      //
 
-      playerAttack = playerAttack - enemyMonster.getArmor();
-      playerAttack = getRandomCrit(
-        mapMonsters.get(oldMonsterFightP).getAttack(),
-        mapMonsters.get(oldMonsterFightP).getCrit()
-      );
+      // Рассчет обычной атаки
+      if (endAttackPl) {
+        playerAttack = playerAttack - enemyMonster.getArmor();
+        playerAttack = getRandomCrit(
+          mapMonsters.get(oldMonsterFightP).getAttack(),
+          mapMonsters.get(oldMonsterFightP).getCrit()
+        );
+      } else {
+        let skill = mapMonsters.get(oldMonsterFightP).skillBacpack[endSkillPl];
+        if (skill) {
+          if (skill.type == TOTAL_TYPE_SKILL_FIRE) {
+            fireDamadge = skill.getDamadge(
+              mapMonsters.get(oldMonsterFightP).intelligence
+            );
+          }
+        }
 
-      enemyAttack = enemyAttack - mapMonsters.get(oldMonsterFightP).getArmor();
-      enemyAttack = getRandomCrit(
-        enemyMonster.getAttack(),
-        enemyMonster.getCrit()
-      );
+        console.log(
+          "0 skill: ",
+          mapMonsters
+            .get(oldMonsterFightP)
+            .skillBacpack[endSkillPl].getDamadge(
+              mapMonsters.get(oldMonsterFightP).intelligence
+            )
+        );
+
+        // if (fireDamadge[0]) {
+        //   enemyHp = enemyHp - fireDamadge[0];
+        //   console.log("еще ожёг: ", fireDamadge[0]);
+        //   fireDamadge.shift();
+        // }
+      }
+
+      if (endAttackEn) {
+        enemyAttack =
+          enemyAttack - mapMonsters.get(oldMonsterFightP).getArmor();
+        enemyAttack = getRandomCrit(
+          enemyMonster.getAttack(),
+          enemyMonster.getCrit()
+        );
+      }
 
       if (playerDodge) {
         console.log("Игрок увернулся");
       } else if (!playerDodge) {
-        //console.log("playerAtack: ", playerAttack);
-
-        playerHp = playerHp - enemyAttack;
-        //console.log("playerAtack: ", playerAttack);
+        if (endAttackEn) {
+          playerHp = playerHp - enemyAttack;
+        }
       }
 
       if (enemyDodge) {
         console.log("Враг увернулся");
+        if (fireDamadge[0] != undefined) fireDamadge.shift();
       } else if (!enemyDodge) {
-        //console.log("enemyAttack: ", enemyAttack);
-
-        enemyHp = enemyHp - playerAttack;
-        //console.log("enemyAttack: ", enemyAttack);
+        if (endAttackPl) {
+          enemyHp = enemyHp - playerAttack;
+        }
+        if (fireDamadge[0] != undefined) {
+          enemyHp = enemyHp - fireDamadge[0];
+          console.log("еще ожёг: ", fireDamadge[0]);
+          fireDamadge.shift();
+        }
       }
-      //console.log("PlsyerHp: ", playerHp);
-      //console.log("enemyHp: ", enemyHp);
-
       HpFightPlayer.textContent = playerHp;
       HpFightEnemy.textContent = enemyHp;
     }
-    if (enemyHp <= 0 && playerHp > 0) {
-      poleFightsHaveMonsterEnemy = false;
-      poleFightsHaveMonsterPlayer = false;
-      //oldMonsterFightP.currentHP = playerHp;
-      mapMonsters.get(oldMonsterFightP).currentHP = playerHp;
-      delete1Monster(oldMonsterFightP);
-      delete1Monster(enemyMonster.id);
-      updateMonsters();
-      let fightMoney = Math.floor(oldEnemyLevel * 15 + getRandomInt(0, 40));
-      money.textContent = Math.floor(money.textContent) + fightMoney;
-      console.log("Вы заработали за бой: ", fightMoney);
+  }
+  if (enemyHp <= 0 && playerHp > 0) {
+    poleFightsHaveMonsterEnemy = false;
+    poleFightsHaveMonsterPlayer = false;
+    mapMonsters.get(oldMonsterFightP).currentHP = playerHp;
+    delete1Monster(oldMonsterFightP);
+    delete1Monster(enemyMonster.id);
+    updateMonsters();
+    let fightMoney = Math.floor(oldEnemyLevel * 15 + getRandomInt(0, 40));
+    money.textContent = Math.floor(money.textContent) + fightMoney;
+    console.log("Вы заработали за бой: ", fightMoney);
 
-      chacnceNewMonster(100);
-      chacnceNewMonster(200);
-      chacnceNewMonster(400);
+    chacnceNewMonster(100);
+    chacnceNewMonster(200);
+    chacnceNewMonster(400);
 
-      console.log("Победил: ", "Player");
-      fightButton.disabled = false;
-      attackButtonPl.disabled = true;
-      skillButtonPl1.disabled = true;
-      skillButtonPl2.disabled = true;
-      skillButtonPl3.disabled = true;
+    console.log("Победил: ", "Player");
+    fightButton.disabled = false;
+    attackButtonPl.disabled = true;
+    skillButtonPl1.disabled = true;
+    skillButtonPl2.disabled = true;
+    skillButtonPl3.disabled = true;
+  } else if (playerHp <= 0) {
+    poleFightsHaveMonsterEnemy = false;
+    poleFightsHaveMonsterPlayer = false;
+    delete1MonsterFull(oldMonsterFightP);
+    delete1Monster(enemyMonster.id);
 
-      //console.log("oldEnemyLevel", oldEnemyLevel);
-    } else if (playerHp <= 0) {
-      poleFightsHaveMonsterEnemy = false;
-      poleFightsHaveMonsterPlayer = false;
-      delete1MonsterFull(oldMonsterFightP);
-      delete1Monster(enemyMonster.id);
-
-      console.log("Победил: ", "enemy");
-      fightButton.disabled = false;
-      attackButtonPl.disabled = true;
-      skillButtonPl1.disabled = true;
-      skillButtonPl2.disabled = true;
-      skillButtonPl3.disabled = true;
-    }
+    console.log("Победил: ", "enemy");
+    fightButton.disabled = false;
+    attackButtonPl.disabled = true;
+    skillButtonPl1.disabled = true;
+    skillButtonPl2.disabled = true;
+    skillButtonPl3.disabled = true;
+  } else {
+    attackButtonPl.disabled = false;
+    skillButtonPl1.disabled = false;
+    skillButtonPl2.disabled = false;
+    skillButtonPl3.disabled = false;
   }
 }
 
@@ -1316,7 +1362,7 @@ function fight() {
 
     playerHp = mapMonsters.get(oldMonsterFightP).getCurrentHP();
 
-    enemyHp = enemyMonster.getHp();
+    enemyHp = enemyMonster.getCurrentHP();
     HpFightPlayer.textContent = playerHp;
     HpFightEnemy.textContent = enemyHp;
     fightButton.disabled = true;
@@ -1327,17 +1373,9 @@ function fight() {
   }
 }
 
-function endMove() {
-  attackButtonPl.disabled = true;
-  skillButtonPl1.disabled = true;
-  skillButtonPl2.disabled = true;
-  skillButtonPl3.disabled = true;
-  endMoveButtonPl.disabled = true;
-}
-
 function skillEvents(skill) {
   skill.addEventListener("click", () => {
-    useAbility(skill.id);
+    useAbilityPl(skill.id);
   });
 }
 function Events() {

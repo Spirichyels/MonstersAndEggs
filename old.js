@@ -204,3 +204,94 @@ let dominant_old = (papa, mama) => {
 
   return finalyDominant;
 };
+
+function attackButtonCLick2() {
+  //если бой true, работает кнопка атаки
+
+  let playerAttack = 0;
+  //console.log(enemyMonster);
+
+  let enemyAttack = 0;
+  let playerDodge = false;
+  let enemyDodge = false;
+
+  if (poleFightsHaveMonsterEnemy) {
+    if (playerHp >= 0 && enemyHp >= 0) {
+      //console.log("attackButtonCLick", oldMonsterFightP);
+
+      playerDodge = getRandomPercent(
+        100,
+        mapMonsters.get(oldMonsterFightP).getDodge()
+      );
+      enemyDodge = getRandomPercent(100, enemyMonster.getDodge());
+
+      playerAttack = playerAttack - enemyMonster.getArmor();
+      playerAttack = getRandomCrit(
+        mapMonsters.get(oldMonsterFightP).getAttack(),
+        mapMonsters.get(oldMonsterFightP).getCrit()
+      );
+
+      enemyAttack = enemyAttack - mapMonsters.get(oldMonsterFightP).getArmor();
+      enemyAttack = getRandomCrit(
+        enemyMonster.getAttack(),
+        enemyMonster.getCrit()
+      );
+
+      if (playerDodge) {
+        console.log("Игрок увернулся");
+      } else if (!playerDodge) {
+        //console.log("playerAtack: ", playerAttack);
+
+        playerHp = playerHp - enemyAttack;
+        //console.log("playerAtack: ", playerAttack);
+      }
+
+      if (enemyDodge) {
+        console.log("Враг увернулся");
+      } else if (!enemyDodge) {
+        enemyHp = enemyHp - playerAttack;
+      }
+      HpFightPlayer.textContent = playerHp;
+      HpFightEnemy.textContent = enemyHp;
+    }
+    if (enemyHp <= 0 && playerHp > 0) {
+      poleFightsHaveMonsterEnemy = false;
+      poleFightsHaveMonsterPlayer = false;
+      mapMonsters.get(oldMonsterFightP).currentHP = playerHp;
+      delete1Monster(oldMonsterFightP);
+      delete1Monster(enemyMonster.id);
+      updateMonsters();
+      let fightMoney = Math.floor(oldEnemyLevel * 15 + getRandomInt(0, 40));
+      money.textContent = Math.floor(money.textContent) + fightMoney;
+      console.log("Вы заработали за бой: ", fightMoney);
+
+      chacnceNewMonster(100);
+      chacnceNewMonster(200);
+      chacnceNewMonster(400);
+
+      console.log("Победил: ", "Player");
+      fightButton.disabled = false;
+      attackButtonPl.disabled = true;
+      skillButtonPl1.disabled = true;
+      skillButtonPl2.disabled = true;
+      skillButtonPl3.disabled = true;
+    } else if (playerHp <= 0) {
+      poleFightsHaveMonsterEnemy = false;
+      poleFightsHaveMonsterPlayer = false;
+      delete1MonsterFull(oldMonsterFightP);
+      delete1Monster(enemyMonster.id);
+
+      console.log("Победил: ", "enemy");
+      fightButton.disabled = false;
+      attackButtonPl.disabled = true;
+      skillButtonPl1.disabled = true;
+      skillButtonPl2.disabled = true;
+      skillButtonPl3.disabled = true;
+    } else {
+      attackButtonPl.disabled = false;
+      skillButtonPl1.disabled = false;
+      skillButtonPl2.disabled = false;
+      skillButtonPl3.disabled = false;
+    }
+  }
+}
