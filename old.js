@@ -1,5 +1,11 @@
 // OLD
 
+let skillId = [
+  { skillButtonPl1: 1 },
+  { skillButtonPl2: 2 },
+  { skillButtonPl3: 3 },
+];
+
 let mapAtributtRU = new Map([
   ["Имя", "name"],
   ["Здоровье", "hp"],

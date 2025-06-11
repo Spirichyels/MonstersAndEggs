@@ -1,284 +1,3 @@
-const names = [
-  "Амёба",
-  "Тузик",
-  "Сатир",
-  "Мундир",
-  "Мутант",
-  "Черепаха",
-  "Крыса",
-  "Орк",
-  "Носорог",
-  "Носоног",
-  "РукаХер",
-  "Бацыла",
-  "Чмо",
-  "Крысолук",
-  "Елан",
-  "Лох",
-  "Ангел",
-  "Вонючка",
-  "Нечеловек",
-  "Огрызок",
-  "Огузок",
-  "Огурец",
-];
-
-let surname = [
-  "Аветисян",
-  "Лусине",
-  "Акопян",
-  "Меружан",
-  "Ангелов",
-  "Бабайцева",
-  "Бабойдо",
-  "Байдиков",
-  "Баран",
-  "Барсук",
-  "Басистый",
-  "Беззаборная",
-  "Благодатный",
-  "Блоха",
-  "Боцман",
-  "Бочечка",
-  "Брыкалова",
-  "Брыль",
-  "Бугай",
-  "Бутылкин",
-  "Вареник",
-  "Вдовушкина",
-  "Великий",
-  "Великая",
-  "Великородных",
-  "Вернигора",
-  "Вобликова",
-  "Врагов",
-  "Выставкина",
-  "Вышкварка",
-  "Гаврикова",
-  "Галимова",
-  "Гвоздь",
-  "Гниденко",
-  "Гнилюк",
-  "Гнусин",
-  "Гнусина",
-  "Гнусова",
-  "Голобля",
-  "Голопуз",
-  "Горбоконь",
-  "Граф",
-  "Грек",
-  "Двухличная",
-  "Девочкина",
-  "Дежурный",
-  "Денежкина",
-  "Дериземля",
-  "Дерикот",
-  "Дерконос",
-  "Доброскокина",
-  "Добрыдень",
-  "Догодайло",
-  "Доля",
-  "Дорогокупля",
-  "Дрюкина",
-  "Дуплякина",
-  "Дурак",
-  "Дурнева",
-  "Душная",
-  "Дымант",
-  "Дядя",
-  "Ел",
-  "Хави",
-  "Елисейкин",
-  "Жадобин",
-  "Жежеря",
-  "Жерлыкин",
-  "Жидконожкина",
-  "Жидов",
-  "Жуликов",
-  "Жучков",
-  "Жучкова",
-  "Забейворота",
-  "Задемидько",
-  "Заика",
-  "Зайка",
-  "Замогильный",
-  "Запорожец",
-  "Здорова",
-  "Зелепукин",
-  "Земляк",
-  "Земляной",
-  "Злых",
-  "Знов",
-  "Зюзюков",
-  "Зятьев",
-  "Иващенко",
-  "Ирискин",
-  "Иродов",
-  "Кадушкина",
-  "Казак",
-  "Кайфман",
-  "Капля",
-  "Кастрюлева",
-  "Кастрюлев",
-  "Кащеев",
-  "Кеда",
-  "Кикот",
-  "Кисель",
-  "Кислая",
-  "Клёва",
-  "Клюка",
-  "Ковцур",
-  "Габриельс",
-  "Козел",
-  "Козка",
-  "Козюлина",
-  "Колбасина",
-  "Колбасюк",
-  "Колоберда",
-  "Коноплёв",
-  "Корж",
-  "Кориш",
-  "Костыря",
-  "Кочетышкин",
-  "Кравец-Гомза",
-  "Криштофик",
-  "Кронштадт",
-  "Крошка",
-  "Кукишев",
-  "Кургузкина",
-  "Курочка",
-  "Кустикова",
-  "Лайкин",
-  "Лаптиёв",
-  "Ластовыря",
-  "Леваненок",
-  "Легеня",
-  "Лентяева",
-  "Липужин",
-  "Лобок",
-  "Лопата",
-  "Лысоконь",
-  "Майданюк",
-  "Малоедова",
-  "Мамудян",
-  "Мандрыкина",
-  "Масло",
-  "Мерная",
-  "Мишунькина",
-  "Могильник",
-  "Мотовиловец",
-  "Мудрик",
-  "Мурзикова",
-  "Мымрин",
-  "Мышка",
-  "Мышко",
-  "Мышьякова",
-  "Мякиш",
-  "Мясоедов",
-  "Мячик",
-  "Наливайко",
-  "Нараускене",
-  "Нахмансон",
-  "Негру",
-  "Недоносков",
-  "Неминущий",
-  "Немых",
-  "Ненужный",
-  "Нескладнова",
-  "Несмачная",
-  "Несоленый",
-  "Нетудыхатко",
-  "Неудачин",
-  "Нечепаев",
-  "Нохрина",
-  "Огрызко",
-  "Огуля",
-  "Однокозов",
-  "Окорочков",
-  "Орел",
-  "Остросаблина",
-  "Отрыгина",
-  "Падалка",
-  "Пападзе",
-  "Пархолуй",
-  "Пахучий",
-  "Пендюрина",
-  "Перебейнос",
-  "Перескокова",
-  "Переход",
-  "Пинемясов",
-  "Писеукова",
-  "Плаксивая",
-  "Плоский",
-  "Плуготыренко",
-  "Повеквечных",
-  "Погибельная",
-  "Подвальный",
-  "Подопригорин",
-  "Подрез",
-  "Подставкин",
-  "Подъяблонская",
-  "Подъяблонская",
-  "Поздоровкина",
-  "Покотило",
-  "Полевода",
-  "Полянк",
-  "Пономарь",
-  "Поперека",
-  "Попиков",
-  "Попикова",
-  "Попозогло",
-  "Потерпеева",
-  "Потеряйко",
-  "Похмелкин",
-  "Похабин",
-  "Почкун",
-  "Попиков",
-  "Пояниди",
-  "Поянова",
-  "Пресунько",
-  "Приз",
-  "Притыкин",
-  "Прокопало",
-  "Пузикова",
-  "Пурик",
-  "Пывин",
-  "Пысева",
-  "Пышнограев",
-];
-
-let skillId = [
-  { skillButtonPl1: 1 },
-  { skillButtonPl2: 2 },
-  { skillButtonPl3: 3 },
-];
-
-//let lenghtTopArr = 8;
-
-const TOTAL_TYPE_SKILL_FIRE = "FIRE";
-const TOTAL_TYPE_SKILL_ICE = "ICE";
-const TOTAL_TYPE_SKILL_lightning = "lightning";
-const TOTAL_TYPE_SKILL_WATER = "WATER"; // взаиводействует с другими
-const TOTAL_TYPE_SKILL_PHISICAL = "PHISICAL";
-
-let TOTAL_SIZE_ARR = 4;
-
-const TOTAL_UP = 15;
-const TOTAL_NORM = 14;
-const TOTAL_DOWN = 13;
-const TOTAL_MONSTERS_BACKUP = ".monstersDivClass";
-const TOTAL_MONSTERS_FIGHT_PLAYER = ".monsterPlayerPoleFights";
-const TOTAL_MONSTERS_FIGHT_ENEMY = ".monsterEnemyPoleFights";
-const TOTAL_TEG_MONSTER_CARD = "monsterCard";
-const TOTAL_TEG_MONSTER_PARENTS = "monsterParents";
-const TOTAL_MAX_LEVEL = 15;
-const TOTAL_PLAYER_MOVE_END_TEXT = "В этот ход вы: ";
-
-const TOTAL_PRICE_SEX = 70;
-const TOTAL_PRICE_SELL = 20;
-const TOTAL_PRICE_HEAL = 100;
-const TOTAL_START_MONEY = 350;
-
 let sex_price = document.getElementById("sex_price");
 let sell_price = document.getElementById("sell_price");
 let heal_price = document.getElementById("heal_price");
@@ -288,8 +7,6 @@ sex_price.textContent = TOTAL_PRICE_SEX;
 sell_price.textContent = TOTAL_PRICE_SELL;
 heal_price.textContent = TOTAL_PRICE_HEAL;
 money.textContent = TOTAL_START_MONEY;
-
-let TOTAL_CHEAT = false;
 
 let mamaTarget = -1;
 let oldMamaTarget = -1;
@@ -307,6 +24,7 @@ let enemyMonster = "none";
 let playerHp = 0;
 let enemyHp = 0;
 let fireDamadge = [];
+let iceDamadge = [];
 
 let poleFightsHaveMonsterEnemy = false; //Если True нельзя добавлять монстров (врагов) на стол
 let poleFightsHaveMonsterPlayer = false; //Если True нельзя добавлять монстров (Игрока) на стол
@@ -363,6 +81,43 @@ let getRandomWeight = (weights) => {
 
   return result;
 };
+
+let getRandomSkill = (mapSkills) => {
+  getRandomWeight(mapSkills.keys());
+  //console.log("weights: ", weights);
+  let sumMax = 0;
+
+  for (let weight of mapSkills.keys()) {
+    sumMax += weight;
+  }
+  //console.log("sumMax: ", sumMax);
+
+  let result = 0;
+  let x = getRandomInt(0, sumMax);
+  //console.log("x:", x);
+
+  for (let weight of mapSkills.keys()) {
+    x -= weight;
+    if (x < 0) {
+      result = weight;
+      break;
+    }
+  }
+  return result;
+};
+function getRandomCrit(attack, crit) {
+  let x = getRandomInt(1, 100);
+  //console.log("crit: ", x <= crit ? 2 : 1);
+  //console.log("x: ", x);
+  return Math.floor(attack * (x <= crit ? 1.5 : 1));
+}
+
+function getRandomPercent(max, chanceToWin) {
+  let x = getRandomInt(1, max);
+  //console.log("chanceToWin: ", x <= chanceToWin ? "yes" : "no");
+  //console.log("x: ", x);
+  return x <= chanceToWin ? true : false;
+}
 
 function selectPolMonsterDelete(id) {
   try {
@@ -498,20 +253,6 @@ function updateMonsters() {
   //console.log(mapMonsters);
 }
 
-function getRandomCrit(attack, crit) {
-  let x = getRandomInt(1, 100);
-  //console.log("crit: ", x <= crit ? 2 : 1);
-  //console.log("x: ", x);
-  return Math.floor(attack * (x <= crit ? 1.5 : 1));
-}
-
-function getRandomPercent(max, chanceToWin) {
-  let x = getRandomInt(1, max);
-  //console.log("chanceToWin: ", x <= chanceToWin ? "yes" : "no");
-  //console.log("x: ", x);
-  return x <= chanceToWin ? true : false;
-}
-
 let newAttributeHpMana = (attribute) => {
   let result = 0;
   let resultUp = getRandomWeight([TOTAL_UP, TOTAL_NORM, TOTAL_DOWN]);
@@ -625,15 +366,20 @@ class Skill {
     //this.duration = getRandomInt(1, 10) + lvl;
   }
 }
+
 class FireBreath extends Skill {
   duration = getRandomInt(1, this.lvl + 3);
   fullDamadge = 0;
-  type = TOTAL_TYPE_SKILL_FIRE;
+  type = TOTAL_TYPE_SKILL_FIRE_BREATH;
+
+  formula(intelligence, i) {
+    return Math.floor(((intelligence / 1.4) * (this.lvl + 1)) / (i + 1) / 1.8);
+  }
 
   getDamadge(intelligence) {
     let damadge = [];
     for (let i = 0; i < this.duration; i++) {
-      let x = Math.floor(((intelligence / 2) * this.lvl) / 2 / (i + 1));
+      let x = this.formula(intelligence, i);
       damadge.push(x);
     }
     return damadge;
@@ -642,7 +388,7 @@ class FireBreath extends Skill {
   getFullDamadge(intelligence) {
     let fullDamadge = 0;
     for (let i = 0; i < this.duration; i++) {
-      let x = Math.floor(((intelligence / 2) * this.lvl) / 2 / (i + 1));
+      let x = this.formula(intelligence, i);
       fullDamadge = fullDamadge + x;
     }
     return fullDamadge;
@@ -663,9 +409,60 @@ class FireBreath extends Skill {
     );
   }
 }
+class IceBreath extends Skill {
+  duration = Math.floor(getRandomInt(3, this.lvl) / 3);
+  fullDamadge = 0;
+  type = TOTAL_TYPE_SKILL_ICE_BREATH;
+
+  formula(intelligence, i) {
+    return Math.floor(((intelligence / 1.5) * this.lvl) / (i + 1) / 2);
+  }
+
+  getDamadge(intelligence) {
+    let damadge = [];
+    for (let i = 0; i < this.duration; i++) {
+      let x = this.formula(intelligence, i);
+      damadge.push(x);
+    }
+    return damadge;
+  }
+
+  getFullDamadge(intelligence) {
+    let fullDamadge = 0;
+    for (let i = 0; i < this.duration; i++) {
+      let x = this.formula(intelligence, i);
+      fullDamadge = fullDamadge + x;
+    }
+    return fullDamadge;
+  }
+  getText(intelligence) {
+    return (
+      "Морозное дыхание:\n" +
+      "ур: " +
+      this.lvl +
+      " длит: " +
+      this.duration +
+      " урон: " +
+      this.getFullDamadge(intelligence) +
+      "[" +
+      this.getDamadge(intelligence) +
+      "]"
+    );
+  }
+}
 
 function createNewSkill(lvl) {
-  return new FireBreath(lvl);
+  let weightSkills = new Map([
+    [21, new FireBreath(lvl)],
+    [20, new IceBreath(lvl)],
+    //
+  ]);
+
+  let resWeight = getRandomSkill(weightSkills);
+
+  newSkill = weightSkills.get(resWeight);
+
+  return newSkill;
 }
 
 class Monster {
@@ -721,7 +518,12 @@ class Monster {
   }
 
   getHp() {
-    let hp = this.firstHp + this.strength * 4;
+    let hp = Math.floor(
+      this.firstHp +
+        this.strength * 4 +
+        this.agility * 3 +
+        this.intelligence * 2
+    );
     return hp;
   }
 
@@ -739,13 +541,13 @@ class Monster {
     this.lvl = this.lvl + getRandomInt(-1, 3);
   }
   getAttack() {
-    return Math.floor(this.firstAttack + this.strength / 2);
+    return Math.floor(this.firstAttack + this.strength * 1.6);
   }
   getArmor() {
-    return Math.floor(this.firstArmor + this.agility / 3);
+    return Math.floor(this.firstArmor + this.agility / 1.3);
   }
   getCrit() {
-    return Math.floor(this.firstCrit + this.intelligence / 5);
+    return Math.floor(this.firstCrit + this.agility / 4);
   }
   getDodge() {
     let x = Math.floor(this.firstDodge + this.agility / 2);
@@ -771,7 +573,7 @@ class Monster {
       this.agility = getRandomInt(1, 20);
       this.intelligence = getRandomInt(1, 20);
 
-      this.firstHp = getRandomInt(30, 100);
+      this.firstHp = getRandomInt(30, 60);
       this.firstMana = getRandomInt(1, 20);
 
       this.firstAttack = getRandomInt(3, 10);
@@ -779,34 +581,31 @@ class Monster {
       this.firstCrit = Math.floor(getRandomInt(1, 10));
       this.firstDodge = Math.floor(getRandomInt(1, 5));
 
-      if (getRandomPercent(1000, 200))
+      if (getRandomPercent(100, 20))
         this.setSkillBacpack(createNewSkill(getRandomInt(1, 2)));
-      if (getRandomPercent(10000, 200))
-        this.setSkillBacpack(createNewSkill(getRandomInt(1, 2)));
-      if (getRandomPercent(100000, 200)) {
-        this.setSkillBacpack(createNewSkill(getRandomInt(1, 2)));
-      }
+
+      //if (true) this.setSkillBacpack(createNewSkill(10));
 
       //console.log("start: ", this.skillBacpack);
 
-      let x = false;
-      let y = false;
-      try {
-        x = this.skillBacpack[0].type == this.skillBacpack[1].type;
-        y = this.skillBacpack[0].type == this.skillBacpack[2].type;
-      } catch (error) {}
+      //   let x = false;
+      //   let y = false;
+      //   try {
+      //     x = this.skillBacpack[0].type == this.skillBacpack[1].type;
+      //     y = this.skillBacpack[0].type == this.skillBacpack[2].type;
+      //   } catch (error) {}
 
-      if (y) {
-        this.removeSkillBackPack(2);
-        //console.log("y: ", this.skillBacpack);
-      }
+      //   if (y) {
+      //     this.removeSkillBackPack(2);
+      //     //console.log("y: ", this.skillBacpack);
+      //   }
 
-      if (x) {
-        //console.log("this.skillBacpack[0].type: ", this.skillBacpack[0].type);
-        //console.log(this.skillBacpack);
-        this.removeSkillBackPack(1);
-        //console.log("x: ", this.skillBacpack);
-      }
+      //   if (x) {
+      //     //console.log("this.skillBacpack[0].type: ", this.skillBacpack[0].type);
+      //     //console.log(this.skillBacpack);
+      //     this.removeSkillBackPack(1);
+      //     //console.log("x: ", this.skillBacpack);
+      //   }
 
       //
     } else if (!create) {
@@ -817,6 +616,7 @@ class Monster {
   bot(lvl) {
     countId--;
     //console.log("bot countId: ", countId);
+    this.lvl = lvl;
     this.strength = getRandomInt(1, lvl * 15);
     this.agility = getRandomInt(1, lvl * 15);
     this.intelligence = getRandomInt(1, lvl * 15);
@@ -854,11 +654,6 @@ class Monster {
       mapMonsters.get(dominant(papa, mama, "firstDodge")).firstDodge
     );
 
-    //this.genetica.attack = getRandomInt(1, 300);
-    //this.genetica.armor = getRandomInt(1, 300);
-    //this.genetica.crit = getRandomInt(1, 300);
-    //this.genetica.dodge = getRandomInt(1, 300);
-
     this.strength = newAttributeSAI(
       //monsters[dominant(papa, mama, "strength")].strength
       mapMonsters.get(dominant(papa, mama, "strength")).strength
@@ -885,10 +680,6 @@ class Monster {
       //console.log("skill2 x:", x);
       this.skillBacpack[2] = createNewSkill(newAttributeSkill(x.lvl));
     } catch (error) {}
-
-    //this.genetica.strength = getRandomInt(1, 300);
-    //this.genetica.agility = getRandomInt(1, 300);
-    //this.genetica.intelligence = getRandomInt(1, 300);
   }
 
   printMonster() {
@@ -1152,7 +943,7 @@ function sexButtonClick() {
     } else console.log("НУЖНО БОЛЬШЕ ЗОЛОТА!");
   } else
     console.log(
-      `Один из ваших монстров, больше не может размножаться (после ${TOTAL_MAX_LEVEL} лвл нельзя) `
+      `Один из ваших монстров находится в бою или больше не может размножаться (после ${TOTAL_MAX_LEVEL} лвл нельзя) `
     );
 
   //console.log(resultGen);
@@ -1164,6 +955,14 @@ function createNewMonster() {
   newMonster.divMonster(TOTAL_MONSTERS_BACKUP);
   selectPolMonster(newMonster);
   mapMonsters.set(countId, newMonster);
+}
+
+function testMonsters() {
+  for (let monster of mapMonsters.values()) {
+    monster.strength = 50;
+    monster.agility = 50;
+    monster.intelligence = 50;
+  }
 }
 function chacnceNewMonster(max) {
   let zet = getRandomPercent(max, Math.floor(oldEnemyLevel * 9));
@@ -1223,7 +1022,8 @@ function endMove() {
   let playerDodge = false;
   let enemyDodge = false;
 
-  //
+  // для скиллов
+  let stunEnemy = false;
 
   if (poleFightsHaveMonsterEnemy) {
     if (playerHp >= 0 && enemyHp >= 0) {
@@ -1245,8 +1045,12 @@ function endMove() {
       } else {
         let skill = mapMonsters.get(oldMonsterFightP).skillBacpack[endSkillPl];
         if (skill) {
-          if (skill.type == TOTAL_TYPE_SKILL_FIRE) {
+          if (skill.type == TOTAL_TYPE_SKILL_FIRE_BREATH) {
             fireDamadge = skill.getDamadge(
+              mapMonsters.get(oldMonsterFightP).intelligence
+            );
+          } else if (skill.type == TOTAL_TYPE_SKILL_ICE_BREATH) {
+            iceDamadge = skill.getDamadge(
               mapMonsters.get(oldMonsterFightP).intelligence
             );
           }
@@ -1269,12 +1073,17 @@ function endMove() {
       }
 
       if (endAttackEn) {
-        enemyAttack =
-          enemyAttack - mapMonsters.get(oldMonsterFightP).getArmor();
-        enemyAttack = getRandomCrit(
-          enemyMonster.getAttack(),
-          enemyMonster.getCrit()
-        );
+        if (iceDamadge[0] != undefined) {
+          console.log("Враг заморожен");
+          enemyAttack = 0;
+        } else {
+          enemyAttack =
+            enemyAttack - mapMonsters.get(oldMonsterFightP).getArmor();
+          enemyAttack = getRandomCrit(
+            enemyMonster.getAttack(),
+            enemyMonster.getCrit()
+          );
+        }
       }
 
       if (playerDodge) {
@@ -1297,6 +1106,11 @@ function endMove() {
           console.log("еще ожёг: ", fireDamadge[0]);
           fireDamadge.shift();
         }
+        if (iceDamadge[0] != undefined) {
+          enemyHp = enemyHp - iceDamadge[0];
+          console.log("еще мороз: ", iceDamadge[0]);
+          iceDamadge.shift();
+        }
       }
       HpFightPlayer.textContent = playerHp;
       HpFightEnemy.textContent = enemyHp;
@@ -1306,10 +1120,12 @@ function endMove() {
     poleFightsHaveMonsterEnemy = false;
     poleFightsHaveMonsterPlayer = false;
     mapMonsters.get(oldMonsterFightP).currentHP = playerHp;
+    let fightMoney = Math.floor(oldEnemyLevel * 30 + getRandomInt(0, 9));
+
     delete1Monster(oldMonsterFightP);
     delete1Monster(enemyMonster.id);
     updateMonsters();
-    let fightMoney = Math.floor(oldEnemyLevel * 15 + getRandomInt(0, 40));
+
     money.textContent = Math.floor(money.textContent) + fightMoney;
     console.log("Вы заработали за бой: ", fightMoney);
 
@@ -1318,6 +1134,7 @@ function endMove() {
     chacnceNewMonster(400);
 
     console.log("Победил: ", "Player");
+    fireDamadge = [];
     fightButton.disabled = false;
     attackButtonPl.disabled = true;
     skillButtonPl1.disabled = true;
@@ -1330,6 +1147,7 @@ function endMove() {
     delete1Monster(enemyMonster.id);
 
     console.log("Победил: ", "enemy");
+    fireDamadge = [];
     fightButton.disabled = false;
     attackButtonPl.disabled = true;
     skillButtonPl1.disabled = true;
@@ -1362,7 +1180,7 @@ function fight() {
 
     playerHp = mapMonsters.get(oldMonsterFightP).getCurrentHP();
 
-    enemyHp = enemyMonster.getCurrentHP();
+    enemyHp = enemyMonster.getHp();
     HpFightPlayer.textContent = playerHp;
     HpFightEnemy.textContent = enemyHp;
     fightButton.disabled = true;
@@ -1447,6 +1265,8 @@ function startGame() {
     updateMonsters();
   }
   //console.log(noMoreWomens);
+  //testMonsters();
+  //updateMonsters();
   select();
 }
 
