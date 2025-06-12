@@ -261,14 +261,78 @@ const TOTAL_PLAYER_MOVE_END_TEXT = "В этот ход вы: ";
 const TOTAL_PRICE_SEX = 70;
 const TOTAL_PRICE_SELL = 25;
 const TOTAL_PRICE_HEAL = 100;
-const TOTAL_START_MONEY = 350;
+const TOTAL_START_MONEY = 99999;
 
-const TOTAL_TYPE_SKILL_FIRE_BREATH = "FIRE_BREATH";
-const TOTAL_TYPE_SKILL_ICE_BREATH = "ICE_BREATH";
-const TOTAL_TYPE_SKILL_lightning = "lightning";
-const TOTAL_TYPE_SKILL_WATER = "WATER"; // взаиводействует с другими
+const TOTAL_TYPE_SKILL_FIRE_BREATH = 21;
+const TOTAL_TYPE_SKILL_ICE_BREATH = 19;
+const TOTAL_TYPE_SKILL_LIGHTING_STRIKE = 20;
+const TOTAL_TYPE_SKILL_WATER_STRIKE = 16; // взаиводействует с другими
 const TOTAL_TYPE_SKILL_PHISICAL = "PHISICAL";
 
 const TOTAL_SIZE_ARR = 4;
 
+//переменные
 let TOTAL_CHEAT = false; //let чтобы можно было менять
+
+let sex_price = document.getElementById("sex_price");
+let sell_price = document.getElementById("sell_price");
+let heal_price = document.getElementById("heal_price");
+let money = document.querySelector("#money_count");
+
+sex_price.textContent = TOTAL_PRICE_SEX;
+sell_price.textContent = TOTAL_PRICE_SELL;
+heal_price.textContent = TOTAL_PRICE_HEAL;
+money.textContent = TOTAL_START_MONEY;
+
+let mamaTarget = -1;
+let oldMamaTarget = -1;
+let papaTarget = -1;
+let oldPapaTarget = -1;
+
+let currentMonsterFightP = -1;
+let oldMonsterFightP = -1;
+let countId = -1;
+
+let levelEnemy = 1;
+let oldEnemyLevel = levelEnemy;
+
+let enemyMonster = "none";
+let playerHp = 0;
+let enemyHp = 0;
+let fireDamadge = [];
+let iceDamadge = [];
+let waterDamadge = [];
+let lightingDamadge = 0;
+
+let oldHighHumidityEn = false;
+let percentHighHumidityEn = 0;
+//let highHumidity
+
+let poleFightsHaveMonsterEnemy = false; //Если True нельзя добавлять монстров (врагов) на стол
+let poleFightsHaveMonsterPlayer = false; //Если True нельзя добавлять монстров (Игрока) на стол
+
+let endAttackPl = true;
+let endAttackEn = true;
+
+let endSkillPl = 1;
+
+let sexButton = document.getElementById("sexButton");
+
+let sellButton = document.getElementById("sellButton");
+let dellButton = document.getElementById("dellButton");
+let healButton = document.getElementById("healButton");
+
+let endMoveButtonPl = document.getElementById("endMoveButtonPl");
+let attackButtonPl = document.getElementById("attackButtonPl");
+let skillButtonPl1 = document.getElementById("skillButtonPl1");
+let skillButtonPl2 = document.getElementById("skillButtonPl2");
+let skillButtonPl3 = document.getElementById("skillButtonPl3");
+
+let endMovePlayerText = document.getElementById("endMovePlayerText");
+endMovePlayerText.textContent = TOTAL_PLAYER_MOVE_END_TEXT;
+
+let idDeleteMonsterInput = -100;
+let idSellMonsterInput = -100;
+let idHealMonsterInput = -100;
+
+let mapMonsters = new Map();
