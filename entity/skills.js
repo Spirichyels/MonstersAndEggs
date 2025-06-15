@@ -1,11 +1,15 @@
+let TOTAL_ID_SKILLS = 0;
 class Skill {
   lvl = 0;
+  id = 0;
   duration = 0;
   type = "";
   text = "Просто способность";
 
   constructor(lvl) {
     this.lvl = lvl;
+    this.id = TOTAL_ID_SKILLS;
+    TOTAL_ID_SKILLS += 1;
     //this.duration = getRandomInt(1, 10) + lvl;
   }
 

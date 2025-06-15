@@ -43,6 +43,8 @@ class Monster {
     strength: 1,
     agility: 1,
     intelligence: 1,
+  };
+  genskills = {
     skill0: 1,
     skill1: 1,
     skill2: 1,
@@ -107,6 +109,13 @@ class Monster {
     }
     //console.log("genetica: ", this.genetica);
   }
+
+  createGenSkills() {
+    for (var key in this.genskills) {
+      this.genskills[key] = getRandomInt(1, 100);
+    }
+    //console.log("genetica: ", this.genetica);
+  }
   constructor(name, create) {
     countId++;
     //console.log("constructor countId: ", countId);
@@ -115,6 +124,7 @@ class Monster {
     this.id = countId;
     this.pol = getRandomInt(1, 10) > 5 ? true : false;
     this.createGen();
+    this.createGenSkills();
     if (create) {
       this.strength = getRandomInt(1, 20);
       this.agility = getRandomInt(1, 20);
@@ -181,6 +191,40 @@ class Monster {
     this.firstCrit = Math.floor(getRandomInt(1, lvl * 2));
     this.firstDodge = Math.floor(getRandomInt(1, lvl * 2));
   }
+  printSkillsBackpack(backpack) {
+    let s = "";
+    for (let x of backpack) {
+      s += String(x[0] + ":" + x[1].text + " ");
+    }
+    console.log(s);
+  }
+  helpFunc(monster) {
+    let x = monster.skillBacpack;
+    let gen = [];
+
+    for (var key in monster.genskills) {
+      gen.push(monster.genskills[key]);
+    }
+
+    for (let i = 0; i < x.length; i++) {
+      this.newSkillBackpack.push([gen[i], x[i]]);
+    }
+  }
+  bornSkills(mama, papa) {
+    this.helpFunc(mama);
+    this.helpFunc(papa);
+
+    this.printSkillsBackpack(this.newSkillBackpack);
+
+    this.newSkillBackpack.sort((b, a) =>
+      a[0] !== b[0] ? a[0] - b[0] : a[1] - b[1]
+    );
+    this.printSkillsBackpack(this.newSkillBackpack);
+
+    let weightsArray = [];
+    {
+    }
+  }
 
   born(papa, mama) {
     this.firstHp = newAttributeHpMana(
@@ -219,75 +263,55 @@ class Monster {
       mapMonsters.get(dominant(papa, mama, "intelligence")).intelligence
     );
 
-    let x = mapMonsters.get(mama).skillBacpack;
-    for (let i = 0; i < x.length; i++) {
-      console.log(x[i].type, x[i], this.genetica[i]);
-      //   this.newSkillBackpack.push([
-      //     x[i].type,
-      //     x[i],
-      //     this.genetica[`${"skill" + i}`],
-      //   ]);
+    this.bornSkills(mapMonsters.get(mama), mapMonsters.get(papa));
 
-      for (var key in this.genetica) {
-        this.genetica[key] = getRandomInt(1, 100);
-      }
-    }
+    // let newArray = [];
+    // let res = 0;
+    // for (let a = 0; a < 1; a++) {
+    //   for (let b = 1; b < this.newSkillBackpack.length; b++) {
+    //     if (this.newSkillBackpack[a][0] == this.newSkillBackpack[b][0])
+    //       console.log(
+    //         `this.newSkillBackpack[${a}][0]: `,
+    //         this.newSkillBackpack[a][0]
+    //       );
+    //     console.log(
+    //       `this.newSkillBackpack[${b}][0]: `,
+    //       this.newSkillBackpack[b][0]
+    //     );
 
-    x = mapMonsters.get(papa).skillBacpack;
-    for (let i = 0; i < x.length; i++) {
-      this.newSkillBackpack.push([
-        x[i].type,
-        x[i],
-        this.genetica[`${"skill" + i}`],
-      ]);
-    }
-    this.newSkillBackpack.sort();
-    this.newSkillBackpack.reverse();
-    let s = "";
-    for (let x of this.newSkillBackpack) {
-      s += String(x[0] + ":" + x[1].text + ":" + x[2] + " ");
-    }
-    console.log(s);
+    //     newArray.push([
+    //       this.newSkillBackpack[b][0],
+    //       this.newSkillBackpack[b][1],
+    //       this.newSkillBackpack[b][2],
+    //     ]);
+    //     this.newSkillBackpack.splice(b, 1);
+    //     b--;
+    //   }
+    //   newArray.push([
+    //     this.newSkillBackpack[a][0],
+    //     this.newSkillBackpack[a][1],
+    //     this.newSkillBackpack[a][2],
+    //   ]);
+    //   this.newSkillBackpack.splice(a, 1);
 
-    let newArray = [];
-    let res = 0;
-    for (let a = 0; a < 1; a++) {
-      for (let b = 1; b < this.newSkillBackpack.length; b++) {
-        console.log(
-          `this.newSkillBackpack[${a}][0]: `,
-          this.newSkillBackpack[a][0]
-        );
-        console.log(
-          `this.newSkillBackpack[${b}][0]: `,
-          this.newSkillBackpack[b][0]
-        );
-        if (this.newSkillBackpack[a][0] == this.newSkillBackpack[b][0])
-          newArray.push([
-            this.newSkillBackpack[b][0],
-            this.newSkillBackpack[b][1],
-            this.newSkillBackpack[b][2],
-          ]);
-        this.newSkillBackpack.splice(b, 1);
-        b--;
-      }
-      newArray.push([
-        this.newSkillBackpack[a][0],
-        this.newSkillBackpack[a][1],
-        this.newSkillBackpack[a][2],
-      ]);
-      this.newSkillBackpack.splice(a, 1);
+    //   let zaebal = [];
+    //   for (let i = 0; i < newArray.length; i++) {
+    //     zaebal.push(newArray[i][2]);
+    //   }
 
-      let zaebal = [];
-      for (let i = 0; i < newArray.length; i++) {
-        zaebal.push(newArray[i][2]);
-      }
-
-      res = getRandomWeight(zaebal);
-      console.log(res);
-    }
-
-    console.log(this.newSkillBackpack);
-    console.log(newArray);
+    //   res = getRandomWeight(zaebal);
+    //   for (let i = 0; i < newArray.length; i++) {
+    //     if (newArray[i][2] == res) {
+    //       this.newSkillBackpack2.push([
+    //         newArray[i][0],
+    //         newArray[i][1],
+    //         newArray[i][2],
+    //       ]);
+    //     }
+    //   }
+    //   console.log(newArray);
+    //   console.log(res);
+    // }
   }
 
   printMonster() {
