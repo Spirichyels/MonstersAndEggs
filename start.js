@@ -61,6 +61,12 @@ function updateMonsters() {
     for (let monster of mapMonsters.values()) {
       //console.log(monster.id);
 
+      if (monster.getCurrentMana() < monster.getMana()) {
+        monster.currentMana += 10;
+      }
+      if (monster.getCurrentMana() > monster.getMana()) {
+        monster.currentMana = monster.getMana();
+      }
       monster.divMonster(TOTAL_MONSTERS_BACKUP);
       selectPolMonster(monster);
     }
@@ -204,36 +210,37 @@ function endMove() {
           mapMonsters.get(oldMonsterFightP).getCrit()
         );
         playerAttack = playerAttack - enemyMonster.getArmor();
+        if (playerAttack <= 0) playerAttack = 1;
       } else {
-        let skill = mapMonsters.get(oldMonsterFightP).skillBacpack[endSkillPl];
-        if (skill) {
-          if (skill.type == TOTAL_TYPE_SKILL_FIRE_BREATH) {
-            fireDamadge = skill.getDamadge(
-              mapMonsters.get(oldMonsterFightP).intelligence
+        if (playerMana >= mapMonsters.get(oldMonsterFightP).intelligence) {
+          let skill =
+            mapMonsters.get(oldMonsterFightP).skillBacpack[endSkillPl];
+          if (skill) {
+            if (skill.type == TOTAL_TYPE_SKILL_FIRE_BREATH) {
+              fireDamadge = skill.getDamadge(
+                mapMonsters.get(oldMonsterFightP).intelligence
+              );
+            } else if (skill.type == TOTAL_TYPE_SKILL_ICE_BREATH) {
+              iceDamadge = skill.getDamadge(
+                mapMonsters.get(oldMonsterFightP).intelligence
+              );
+            } else if (skill.type == TOTAL_TYPE_SKILL_WATER_STRIKE) {
+              waterDamadge = skill.getDamadge(
+                mapMonsters.get(oldMonsterFightP).intelligence
+              );
+            } else if (skill.type == TOTAL_TYPE_SKILL_LIGHTING_STRIKE) {
+              lightingDamadge = skill.formula(
+                mapMonsters.get(oldMonsterFightP).intelligence
+              );
+              console.log("lightingDamadge", lightingDamadge);
+            }
+            playerMana = Math.floor(
+              playerMana - mapMonsters.get(oldMonsterFightP).intelligence
             );
-          } else if (skill.type == TOTAL_TYPE_SKILL_ICE_BREATH) {
-            iceDamadge = skill.getDamadge(
-              mapMonsters.get(oldMonsterFightP).intelligence
-            );
-          } else if (skill.type == TOTAL_TYPE_SKILL_WATER_STRIKE) {
-            waterDamadge = skill.getDamadge(
-              mapMonsters.get(oldMonsterFightP).intelligence
-            );
-          } else if (skill.type == TOTAL_TYPE_SKILL_LIGHTING_STRIKE) {
-            lightingDamadge = skill.formula(
-              mapMonsters.get(oldMonsterFightP).intelligence
-            );
-            console.log("lightingDamadge", lightingDamadge);
           }
+        } else {
+          console.log("Игроку не хватило маны");
         }
-        // console.log(
-        //   "0 skill: ",
-        //   mapMonsters
-        //     .get(oldMonsterFightP)
-        //     .skillBacpack[endSkillPl].getDamadge(
-        //       mapMonsters.get(oldMonsterFightP).intelligence
-        //     )
-        // );
       }
 
       if (waterDamadge[0] != undefined) {
@@ -243,10 +250,6 @@ function endMove() {
         updateEnemyMonster(enemyMonster);
         waterDamadge.shift();
       }
-      //   else {
-      //     enemyMonster.highHumidity = false;
-      //     updateEnemyMonster(enemyMonster);
-      //   }
 
       if (endAttackEn) {
         if (iceDamadge[0] != undefined) {
@@ -262,7 +265,7 @@ function endMove() {
           enemyAttack = getRandomCrit(newAttack, enemyMonster.getCrit());
           enemyAttack =
             enemyAttack - mapMonsters.get(oldMonsterFightP).getArmor();
-          if (enemyAttack <= 0) enemyAttack = 0;
+          if (enemyAttack <= 0) enemyAttack = 1;
 
           //console.log(enemyAttack);
         }
@@ -304,18 +307,16 @@ function endMove() {
         }
       }
       HpFightPlayer.textContent = playerHp;
+      ManaFightPlayer.textContent = playerMana;
       HpFightEnemy.textContent = enemyHp;
-
-      //   if (waterDamadge[0] == undefined) {
-      //     enemyMonster.highHumidity = false;
-      //     updateEnemyMonster(enemyMonster);
-      //   }
     }
   }
   if (enemyHp <= 0 && playerHp > 0) {
     poleFightsHaveMonsterEnemy = false;
     poleFightsHaveMonsterPlayer = false;
     mapMonsters.get(oldMonsterFightP).currentHP = playerHp;
+    mapMonsters.get(oldMonsterFightP).currentMana = playerMana;
+
     let fightMoney = Math.floor(oldEnemyLevel * 30 + getRandomInt(0, 9));
 
     delete1Monster(oldMonsterFightP);
@@ -325,9 +326,9 @@ function endMove() {
     money.textContent = Math.floor(money.textContent) + fightMoney;
     console.log("Вы заработали за бой: ", fightMoney);
 
-    chacnceNewMonster(100);
-    chacnceNewMonster(200);
-    chacnceNewMonster(400);
+    chacnceNewMonster(80);
+    chacnceNewMonster(180);
+    chacnceNewMonster(360);
 
     win("Player");
   } else if (playerHp <= 0) {
@@ -363,9 +364,11 @@ function fight() {
     enemyMonster = enemy;
 
     playerHp = mapMonsters.get(oldMonsterFightP).getCurrentHP();
+    playerMana = mapMonsters.get(oldMonsterFightP).getCurrentMana();
 
     enemyHp = enemyMonster.getHp();
     HpFightPlayer.textContent = playerHp;
+    ManaFightPlayer.textContent = playerMana;
     HpFightEnemy.textContent = enemyHp;
     fightButton.disabled = true;
     attackButtonPl.disabled = false;

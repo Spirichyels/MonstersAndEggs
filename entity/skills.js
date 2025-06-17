@@ -117,12 +117,35 @@ class WaterStrike extends Skill {
   }
 }
 
+class Wampirism extends Skill {
+  duration = 1;
+  fullDamadge = 0;
+  type = TOTAL_TYPE_SKILL_Wampirism;
+  text = "Вампиризм";
+
+  formula(intelligence, i) {
+    return Math.floor(1);
+  }
+}
+
+class BladeMail extends Skill {
+  duration = 1;
+  fullDamadge = 0;
+  type = TOTAL_TYPE_SKILL_BladeMail;
+  text = "Отражение";
+
+  formula(intelligence, i) {
+    return Math.floor(1);
+  }
+}
+
 function createNewSkill(lvl, born, type) {
   let weightSkills = new Map([
     [TOTAL_TYPE_SKILL_WATER_STRIKE, new WaterStrike(lvl)],
     [TOTAL_TYPE_SKILL_ICE_BREATH, new IceBreath(lvl)],
     [TOTAL_TYPE_SKILL_LIGHTING_STRIKE, new LightningStrike(lvl)],
     [TOTAL_TYPE_SKILL_FIRE_BREATH, new FireBreath(lvl)],
+    //[TOTAL_TYPE_SKILL_Wampirism, new Wampirism(lvl)],
 
     //
   ]);

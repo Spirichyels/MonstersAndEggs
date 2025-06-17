@@ -247,9 +247,9 @@ const surname = [
   "Пышнограев",
 ];
 
-const TOTAL_UP = 15;
-const TOTAL_NORM = 14;
-const TOTAL_DOWN = 13;
+const TOTAL_UP = 17;
+const TOTAL_NORM = 16;
+const TOTAL_DOWN = 14;
 const TOTAL_MONSTERS_BACKUP = ".monstersDivClass";
 const TOTAL_MONSTERS_FIGHT_PLAYER = ".monsterPlayerPoleFights";
 const TOTAL_MONSTERS_FIGHT_ENEMY = ".monsterEnemyPoleFights";
@@ -263,10 +263,12 @@ const TOTAL_PRICE_SELL = 25;
 const TOTAL_PRICE_HEAL = 100;
 const TOTAL_START_MONEY = 99999;
 
-const TOTAL_TYPE_SKILL_FIRE_BREATH = 21;
-const TOTAL_TYPE_SKILL_ICE_BREATH = 19;
-const TOTAL_TYPE_SKILL_LIGHTING_STRIKE = 20;
-const TOTAL_TYPE_SKILL_WATER_STRIKE = 16; // взаиводействует с другими
+const TOTAL_TYPE_SKILL_FIRE_BREATH = 200;
+const TOTAL_TYPE_SKILL_ICE_BREATH = 140;
+const TOTAL_TYPE_SKILL_LIGHTING_STRIKE = 180;
+const TOTAL_TYPE_SKILL_WATER_STRIKE = 160; // взаиводействует с другими
+const TOTAL_TYPE_SKILL_Wampirism = 90;
+const TOTAL_TYPE_SKILL_BladeMail = 50;
 const TOTAL_TYPE_SKILL_PHISICAL = "PHISICAL";
 
 const TOTAL_SIZE_ARR = 4;

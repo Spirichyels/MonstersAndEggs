@@ -31,7 +31,7 @@
 			<div class="monsterPlayerAttack">
 				<div>Здоровье: <a id="HpFightPlayer">--</a>
 				</div>
-				<div class="ManaFightPlayer">Мана</div>
+				<div>Мана: <a id="ManaFightPlayer">--</a></div>
 				<div class="aStrSkill"><button disabled id="attackButtonPl">Ударить</button></div>
 				<div class="aStrSkill"><button disabled id="skillButtonPl1">1 сп</button> <a id="skillName0">name</a>
 				</div>
@@ -65,7 +65,7 @@
 
 
 	</div>
-	<div id="money"><input id="id_range" onInput="idRange()" min="1" max="10" , value="1" step="1" type="range">
+	<div id="money"><input id="id_range" onInput="idRange()" min="1" max="15" , value="1" step="1" type="range">
 		<div> Level: <a id="id_Count">1</a></div>
 	</div>
 	<div id="money">Ваш счет: <a id="money_count">0</a>
@@ -126,7 +126,7 @@
 		<button id="sexButton">Скрестить <a id="sex_price">??</a> монет</button>
 	</div>
 	<div id=update>
-		<button id="updateButton">update</button>
+		<button disabled id="updateButton">update</button>
 	</div>
 	<div ">monsters</div>
 
@@ -167,7 +167,7 @@
 		let text = year + "" + month + "" + 1;
 
 		if (false) version.textContent = text;
-		else version.textContent = "2025066";
+		else version.textContent = "2025067";
 
 
 

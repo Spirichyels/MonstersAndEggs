@@ -245,5 +245,5 @@ function idRange() {
   id_Count.innerHTML = id_range.value;
   levelEnemy = Math.floor(id_range.value);
   //oldEnemyLevel = levelEnemy;
-  console.log("levelEnemy: ", levelEnemy);
+  //console.log("levelEnemy: ", levelEnemy);
 }

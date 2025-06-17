@@ -18,6 +18,7 @@ class Monster {
   firstMana = 1;
 
   currentHP = -1;
+  currentMana = -1;
 
   firstAttack = 1;
   firstArmor = 1;
@@ -91,6 +92,13 @@ class Monster {
     let mana = this.firstMana + this.intelligence * 5;
     return mana;
   }
+
+  getCurrentMana() {
+    if (this.currentMana == -1) {
+      return this.getMana();
+    } else return this.currentMana;
+  }
+
   upLvl() {
     this.lvl = this.lvl + getRandomInt(-1, 3);
   }
@@ -144,7 +152,7 @@ class Monster {
       this.firstCrit = Math.floor(getRandomInt(1, 10));
       this.firstDodge = Math.floor(getRandomInt(1, 5));
 
-      if (getRandomPercent(100, 20))
+      if (getRandomPercent(100, 35))
         this.setSkillBacpack(createNewSkill(getRandomInt(1, 2), false, 0));
     } else if (!create) {
       //console.log("Ураааа");
@@ -155,12 +163,13 @@ class Monster {
     countId--;
     //console.log("bot countId: ", countId);
     this.lvl = lvl;
-    this.strength = getRandomInt(1, lvl * 15);
-    this.agility = getRandomInt(1, lvl * 15);
-    this.intelligence = getRandomInt(1, lvl * 15);
+    const xren = 1.2;
+    this.strength = getRandomInt(1, Math.floor((lvl * 15) / xren));
+    this.agility = getRandomInt(1, Math.floor((lvl * 15) / xren));
+    this.intelligence = getRandomInt(1, Math.floor((lvl * 15) / xren));
 
-    this.firstHp = getRandomInt(30, lvl * 100);
-    this.firstMana = getRandomInt(1, lvl * 100);
+    this.firstHp = getRandomInt(30, Math.floor((lvl * 100) / xren));
+    this.firstMana = getRandomInt(1, Math.floor((lvl * 100) / xren));
 
     this.firstAttack = getRandomInt(5, lvl * 2);
     this.firstArmor = Math.floor(getRandomInt(0, lvl * 2));
@@ -168,11 +177,13 @@ class Monster {
     this.firstDodge = Math.floor(getRandomInt(1, lvl * 2));
   }
   printSkillsBackpack(backpack) {
-    let s = "";
-    for (let x of backpack) {
-      s += String(x[0].text + ":" + x[1] + " ");
-    }
-    console.log(s);
+    try {
+      let s = "";
+      for (let x of backpack) {
+        s += String(x[0].text + ":" + x[1] + " ");
+      }
+      console.log(s);
+    } catch (error) {}
   }
   helpFunc(monster) {
     let x = monster.skillBacpack;
@@ -183,31 +194,38 @@ class Monster {
     }
 
     for (let i = 0; i < x.length; i++) {
-      this.newSkillBackpack.push([x[i], gen[i]]);
+      if (x[i] != undefined) {
+        this.newSkillBackpack.push([x[i], gen[i]]);
+      }
     }
-    console.log(this.newSkillBackpack);
+    //console.log(this.newSkillBackpack);
   }
   bornSkills(mama, papa) {
     try {
       this.helpFunc(mama);
       this.helpFunc(papa);
 
-      this.printSkillsBackpack(this.newSkillBackpack);
+      //this.printSkillsBackpack(this.newSkillBackpack);
 
       this.newSkillBackpack.sort((b, a) =>
         a[1] !== b[1] ? a[1] - b[1] : a[0] - b[0]
       );
-      this.printSkillsBackpack(this.newSkillBackpack);
+      //this.printSkillsBackpack(this.newSkillBackpack);
 
       let x1 = [];
-      x1.push([this.newSkillBackpack[0][0], this.newSkillBackpack[0][1]]);
-      //this.newSkillBackpack.shift();
+
+      try {
+        x1.push([this.newSkillBackpack[0][0], this.newSkillBackpack[0][1]]);
+      } catch (error) {
+        console.log(error);
+      }
 
       let x2 = [];
       let x3 = [];
 
       for (let i = 1; i < this.newSkillBackpack.length; i++) {
-        console.log("i: ", i);
+        //console.log("i: ", i);
+
         if (this.newSkillBackpack[i][0].type == x1[0][0].type) {
           //console.log(this.newSkillBackpack);
           x1.push([this.newSkillBackpack[i][0], this.newSkillBackpack[i][1]]);
@@ -237,13 +255,19 @@ class Monster {
         }
       }
 
-      console.log("x1:", x1);
-      console.log("x2:", x2);
-      console.log("x3:", x3);
+      //console.log("x1:", x1);
+      //console.log("x2:", x2);
+      //console.log("x3:", x3);
 
-      this.setNewSkillBackback(x1);
-      this.setNewSkillBackback(x2);
-      this.setNewSkillBackback(x3);
+      if (getRandomPercent(100, 60)) {
+        this.setNewSkillBackback(x1);
+      }
+      if (getRandomPercent(100, 60)) {
+        this.setNewSkillBackback(x2);
+      }
+      if (getRandomPercent(100, 60)) {
+        this.setNewSkillBackback(x3);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -253,12 +277,10 @@ class Monster {
     this.firstHp = newAttributeHpMana(
       mapMonsters.get(dominant(papa, mama, "firstHp")).firstHp
     );
-    //this.genetica.firstHp = getRandomInt(1, 300);
 
     this.firstMana = newAttributeHpMana(
       mapMonsters.get(dominant(papa, mama, "firstMana")).firstMana
     );
-    //this.genetica.firstMana = getRandomInt(1, 300);
 
     this.firstAttack = newAttributeAttack(
       mapMonsters.get(dominant(papa, mama, "firstAttack")).firstAttack
@@ -274,67 +296,16 @@ class Monster {
     );
 
     this.strength = newAttributeSAI(
-      //monsters[dominant(papa, mama, "strength")].strength
       mapMonsters.get(dominant(papa, mama, "strength")).strength
     );
     this.agility = newAttributeSAI(
-      //monsters[dominant(papa, mama, "agility")].agility
       mapMonsters.get(dominant(papa, mama, "agility")).agility
     );
     this.intelligence = newAttributeSAI(
-      //monsters[dominant(papa, mama, "intelligence")].intelligence
       mapMonsters.get(dominant(papa, mama, "intelligence")).intelligence
     );
 
     this.bornSkills(mapMonsters.get(mama), mapMonsters.get(papa));
-
-    // let newArray = [];
-    // let res = 0;
-    // for (let a = 0; a < 1; a++) {
-    //   for (let b = 1; b < this.newSkillBackpack.length; b++) {
-    //     if (this.newSkillBackpack[a][0] == this.newSkillBackpack[b][0])
-    //       console.log(
-    //         `this.newSkillBackpack[${a}][0]: `,
-    //         this.newSkillBackpack[a][0]
-    //       );
-    //     console.log(
-    //       `this.newSkillBackpack[${b}][0]: `,
-    //       this.newSkillBackpack[b][0]
-    //     );
-
-    //     newArray.push([
-    //       this.newSkillBackpack[b][0],
-    //       this.newSkillBackpack[b][1],
-    //       this.newSkillBackpack[b][2],
-    //     ]);
-    //     this.newSkillBackpack.splice(b, 1);
-    //     b--;
-    //   }
-    //   newArray.push([
-    //     this.newSkillBackpack[a][0],
-    //     this.newSkillBackpack[a][1],
-    //     this.newSkillBackpack[a][2],
-    //   ]);
-    //   this.newSkillBackpack.splice(a, 1);
-
-    //   let zaebal = [];
-    //   for (let i = 0; i < newArray.length; i++) {
-    //     zaebal.push(newArray[i][2]);
-    //   }
-
-    //   res = getRandomWeight(zaebal);
-    //   for (let i = 0; i < newArray.length; i++) {
-    //     if (newArray[i][2] == res) {
-    //       this.newSkillBackpack2.push([
-    //         newArray[i][0],
-    //         newArray[i][1],
-    //         newArray[i][2],
-    //       ]);
-    //     }
-    //   }
-    //   console.log(newArray);
-    //   console.log(res);
-    // }
   }
 
   printMonster() {
@@ -423,7 +394,8 @@ class Monster {
       itemPol.textContent = "Пол: " + (this.pol ? "Мужской" : "Женский");
       itemHP.textContent =
         "Здоровье: " + this.getCurrentHP() + "/" + this.getHp();
-      itemMana.textContent = "Мана: " + this.getMana();
+      itemMana.textContent =
+        "Мана: " + this.getCurrentMana() + "/" + this.getMana();
 
       this.waterAttributeDiv(itemAttack, this.getAttack(), "Атака: ");
       this.waterAttributeDiv(itemArmor, this.getArmor(), "Броня: ");
