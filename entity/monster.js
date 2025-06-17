@@ -60,6 +60,12 @@ class Monster {
       this.skillBacpack.push(skill);
     }
   }
+  setNewSkillBackback(x) {
+    let newSkill = getRandomWeightSkill(x);
+    this.setSkillBacpack(
+      createNewSkill(newAttributeSkill(newSkill.lvl), true, newSkill.type)
+    );
+  }
   removeSkillBackPack(id) {
     console.log(id);
     this.skillBacpack.splice(id, 1);
@@ -138,38 +144,8 @@ class Monster {
       this.firstCrit = Math.floor(getRandomInt(1, 10));
       this.firstDodge = Math.floor(getRandomInt(1, 5));
 
-      if (getRandomPercent(100, 99))
+      if (getRandomPercent(100, 20))
         this.setSkillBacpack(createNewSkill(getRandomInt(1, 2), false, 0));
-      if (getRandomPercent(100, 99))
-        this.setSkillBacpack(createNewSkill(getRandomInt(1, 2), false, 0));
-      if (getRandomPercent(100, 99))
-        this.setSkillBacpack(createNewSkill(getRandomInt(1, 2), false, 0));
-
-      //if (true) this.setSkillBacpack(createNewSkill(5));
-      //if (true) this.setSkillBacpack(createNewSkill(10));
-
-      //console.log("start: ", this.skillBacpack);
-
-      //   let x = false;
-      //   let y = false;
-      //   try {
-      //     x = this.skillBacpack[0].type == this.skillBacpack[1].type;
-      //     y = this.skillBacpack[0].type == this.skillBacpack[2].type;
-      //   } catch (error) {}
-
-      //   if (y) {
-      //     this.removeSkillBackPack(2);
-      //     //console.log("y: ", this.skillBacpack);
-      //   }
-
-      //   if (x) {
-      //     //console.log("this.skillBacpack[0].type: ", this.skillBacpack[0].type);
-      //     //console.log(this.skillBacpack);
-      //     this.removeSkillBackPack(1);
-      //     //console.log("x: ", this.skillBacpack);
-      //   }
-
-      //
     } else if (!create) {
       //console.log("Ураааа");
     }
@@ -194,7 +170,7 @@ class Monster {
   printSkillsBackpack(backpack) {
     let s = "";
     for (let x of backpack) {
-      s += String(x[0] + ":" + x[1].text + " ");
+      s += String(x[0].text + ":" + x[1] + " ");
     }
     console.log(s);
   }
@@ -207,22 +183,69 @@ class Monster {
     }
 
     for (let i = 0; i < x.length; i++) {
-      this.newSkillBackpack.push([gen[i], x[i]]);
+      this.newSkillBackpack.push([x[i], gen[i]]);
     }
+    console.log(this.newSkillBackpack);
   }
   bornSkills(mama, papa) {
-    this.helpFunc(mama);
-    this.helpFunc(papa);
+    try {
+      this.helpFunc(mama);
+      this.helpFunc(papa);
 
-    this.printSkillsBackpack(this.newSkillBackpack);
+      this.printSkillsBackpack(this.newSkillBackpack);
 
-    this.newSkillBackpack.sort((b, a) =>
-      a[0] !== b[0] ? a[0] - b[0] : a[1] - b[1]
-    );
-    this.printSkillsBackpack(this.newSkillBackpack);
+      this.newSkillBackpack.sort((b, a) =>
+        a[1] !== b[1] ? a[1] - b[1] : a[0] - b[0]
+      );
+      this.printSkillsBackpack(this.newSkillBackpack);
 
-    let weightsArray = [];
-    {
+      let x1 = [];
+      x1.push([this.newSkillBackpack[0][0], this.newSkillBackpack[0][1]]);
+      //this.newSkillBackpack.shift();
+
+      let x2 = [];
+      let x3 = [];
+
+      for (let i = 1; i < this.newSkillBackpack.length; i++) {
+        console.log("i: ", i);
+        if (this.newSkillBackpack[i][0].type == x1[0][0].type) {
+          //console.log(this.newSkillBackpack);
+          x1.push([this.newSkillBackpack[i][0], this.newSkillBackpack[i][1]]);
+          //this.newSkillBackpack.shift();
+        } else {
+          if (x2 === undefined || x2.length == 0) {
+            x2.push([this.newSkillBackpack[i][0], this.newSkillBackpack[i][1]]);
+            //this.newSkillBackpack.shift();
+          } else if (this.newSkillBackpack[i][0].type == x2[0][0].type) {
+            x2.push([this.newSkillBackpack[i][0], this.newSkillBackpack[i][1]]);
+            //this.newSkillBackpack.shift();
+          } else {
+            if (x3 === undefined || x3.length == 0) {
+              x3.push([
+                this.newSkillBackpack[i][0],
+                this.newSkillBackpack[i][1],
+              ]);
+              //this.newSkillBackpack.shift();
+            } else if (this.newSkillBackpack[i][0].type == x3[0][0].type) {
+              x3.push([
+                this.newSkillBackpack[i][0],
+                this.newSkillBackpack[i][1],
+              ]);
+              //this.newSkillBackpack.shift();
+            }
+          }
+        }
+      }
+
+      console.log("x1:", x1);
+      console.log("x2:", x2);
+      console.log("x3:", x3);
+
+      this.setNewSkillBackback(x1);
+      this.setNewSkillBackback(x2);
+      this.setNewSkillBackback(x3);
+    } catch (error) {
+      console.log(error);
     }
   }
 

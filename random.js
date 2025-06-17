@@ -25,6 +25,30 @@ let getRandomWeight = (weights) => {
   return result;
 };
 
+let getRandomWeightSkill = (weights) => {
+  //console.log("weights: ", weights);
+  let sumMax = 0;
+  for (let i = 0; i < weights.length; i++) {
+    sumMax += weights[i][1];
+  }
+  //console.log("sumMax: ", sumMax);
+
+  let result = 0;
+  let x = getRandomInt(0, sumMax);
+  //console.log("x:", x);
+  for (let i = 0; i < weights.length; i++) {
+    //console.log("чилос: ", weights[i], " x: ", x);
+    x -= weights[i][1];
+    if (x < 0) {
+      //console.log("result: ", weights[i]);
+      result = weights[i][0];
+      break;
+    }
+  }
+
+  return result;
+};
+
 let getRandomSkill = (mapSkills) => {
   getRandomWeight(mapSkills.keys());
   //console.log("weights: ", weights);
@@ -114,6 +138,7 @@ let newAttributeSkill = (attribute) => {
 
   //console.log("resultUp: ", resultUp);
   if (result <= 0) result = 1;
+  else if (result >= 10) result = 10;
 
   return result;
 };
