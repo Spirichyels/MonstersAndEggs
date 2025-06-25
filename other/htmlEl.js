@@ -1,3 +1,19 @@
+function onSaveLocalStorage() {
+  //alert("");
+  //localStorage.myMap = JSON.stringify(Array.from(mapMonsters));
+  localStorage.setItem("monster", JSON.stringify([...mapMonsters]));
+
+  //JSON.stringify([...mapMonsters]);
+}
+
+function onLoadLocalStorage() {
+  console.log(mapMonsters);
+  //mapMonsters = new Map(JSON.parse(localStorage.myMap));
+  console.log(new Map(JSON.parse(localStorage.myMap)));
+
+  updateMonsters();
+}
+
 function delete1MonsterClick() {
   //   console.log(
   //     "delete1MonsterClick idDeleteMonsterInput: ",
@@ -201,7 +217,10 @@ function Events() {
   sexButton.addEventListener("click", sexButtonClick);
 
   //update
-  updateButton.addEventListener("click", updateMonsters);
+  //updateButton.addEventListener("click", updateMonsters);
+
+  saveButton.addEventListener("click", onSaveLocalStorage);
+  loadButton.addEventListener("click", onLoadLocalStorage);
 
   //deleteMonster
   document

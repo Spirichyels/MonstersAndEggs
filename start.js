@@ -397,6 +397,8 @@ function startGame() {
   //console.log(noMoreWomens);
   //testMonsters();
   //updateMonsters();
+
+  //localStorage.myMap = JSON.stringify(Array.from(mapMonsters));
   select();
 }
 

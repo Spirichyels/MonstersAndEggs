@@ -324,6 +324,9 @@ let sellButton = document.getElementById("sellButton");
 let dellButton = document.getElementById("dellButton");
 let healButton = document.getElementById("healButton");
 
+let saveButton = document.getElementById("saveButton");
+let loadButton = document.getElementById("loadButton");
+
 let endMoveButtonPl = document.getElementById("endMoveButtonPl");
 let attackButtonPl = document.getElementById("attackButtonPl");
 let skillButtonPl1 = document.getElementById("skillButtonPl1");

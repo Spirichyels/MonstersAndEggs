@@ -56,6 +56,84 @@ class Monster {
   newSkillBackpack = [];
   newSkillBackpack2 = [];
 
+  toJSON() {
+    return {
+      name: this.name,
+      surname: this.surname,
+      id: this.id,
+      lvl: this.lvl,
+      pol: this.pol,
+
+      firstHp: this.firstHp,
+      firstMana: this.firstMana,
+
+      currentHP: this.currentHP,
+      currentMana: this.currentMana,
+
+      firstAttack: this.firstAttack,
+      firstArmor: this.firstArmor,
+      firstCrit: this.firstCrit,
+      firstDodge: this.firstDodge,
+      //
+      strength: this.strength,
+      agility: this.agility,
+      intelligence: this.intelligence,
+      //
+      //gen = 1;
+      highHumidity: this.highHumidity,
+
+      genetica: {
+        firstHp: this.genetica.firstHp,
+        firstMana: this.genetica.firstMana,
+
+        firstAttack: this.genetica.firstAttack,
+        firstArmor: this.genetica.firstArmor,
+        firstCrit: this.genetica.firstCrit,
+        firstDodge: this.genetica.firstDodge,
+
+        strength: this.genetica.strength,
+        agility: this.genetica.agility,
+        intelligence: this.genetica.intelligence,
+      },
+      genskills: {
+        skill0: this.genskills.skill0,
+        skill1: this.genskills.skill1,
+        skill2: this.genskills.skill2,
+      },
+    };
+  }
+
+  static fromJSON(data) {
+    return new Monster(
+      data.name,
+      data.surname,
+      data.id,
+      data.lvl,
+      data.pol,
+
+      data.firstHp,
+      data.firstMana,
+
+      data.urrentHP,
+      data.currentMana,
+
+      data.firstAttack,
+      data.firstArmor,
+      data.firstCrit,
+      data.firstDodge,
+      //
+      data.strength,
+      data.agility,
+      data.intelligence,
+      //
+      //gen = 1;
+      data.highHumidity,
+
+      data.genetica,
+      data.genskills
+    );
+  }
+
   setSkillBacpack(skill) {
     if (this.skillBacpack.length < 3) {
       this.skillBacpack.push(skill);
