@@ -7,6 +7,38 @@ function getHighHumidityAttribute(x) {
   } else return x;
 }
 
+function saveMonstersToStorage(map) {
+  const entries = Array.from(map.entries()).map(([id, monster]) => [
+    id,
+    {
+      id: monster.id,
+      name: monster.name,
+      attack: monster.attack,
+      hp: monster.hp,
+      gen: {
+        hp: monster.gen.hp,
+        attack: monster.gen.attack,
+      },
+    },
+  ]);
+  localStorage.setItem("monsters", JSON.stringify(entries));
+}
+
+function loadHelp(data) {
+  let x = new Monster();
+  x.xren(data.id, data.name, data.atack, data.hp, data.gen);
+  return x;
+}
+function loadMonstersToStorage() {
+  const stored = localStorage.getItem("monsters");
+  if (!stored) return new Map();
+  const parsed = JSON.parse(stored);
+
+  const restoredMap = new Map(parsed.map(([id, data]) => [id, loadHelp(data)]));
+
+  return restoredMap;
+}
+
 class Monster {
   name = "noname";
   surname = "surname";
@@ -101,6 +133,68 @@ class Monster {
         skill2: this.genskills.skill2,
       },
     };
+  }
+
+  xren(
+    name,
+    surname,
+    id,
+    lvl,
+    pol,
+    firstHp,
+    firstMana,
+    currentHP,
+    currentMana,
+    firstAttack,
+    firstArmor,
+    firstCrit,
+    firstDodge,
+    strength,
+    agility,
+    intelligence,
+    highHumidity,
+    genetica,
+    genskills
+  ) {
+    this.name = name;
+    this.surname = surname;
+    this.id = id;
+    this.lvl = lvl;
+    this.pol = pol;
+
+    this.firstHp = firstHp;
+    this.firstMana = firstMana;
+
+    this.currentHP = currentHP;
+    this.currentMana = currentMana;
+
+    this.firstAttack = firstAttack;
+    this.firstArmor = firstArmor;
+    this.firstCrit = firstCrit;
+    this.firstDodge = firstDodge;
+    //
+    this.strength = strength;
+    this.agility = agility;
+    this.intelligence = intelligence;
+    //
+    //gen = 1;
+    this.highHumidity = highHumidity;
+
+    this.genetica.firstHp = genetica.firstHp;
+    this.genetica.firstMana = genetica.firstMana;
+
+    this.genetica.firstAttack = genetica.firstAttack;
+    this.genetica.firstArmor = genetica.firstArmor;
+    this.genetica.firstCrit = genetica.firstCrit;
+    this.genetica.firstDodge = genetica.firstDodge;
+
+    this.genetica.strength = genetica.strength;
+    this.genetica.agility = genetica.agility;
+    this.genetica.intelligence = genetica.intelligence;
+
+    this.genskills.skill0 = genskills.skill0;
+    this.genskills.skill1 = genskills.skill1;
+    this.genskills.skill2 = genskills.skill2;
   }
 
   static fromJSON(data) {

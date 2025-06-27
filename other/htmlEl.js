@@ -1,16 +1,6 @@
-function onSaveLocalStorage() {
-  //alert("");
-  //localStorage.myMap = JSON.stringify(Array.from(mapMonsters));
-  localStorage.setItem("monster", JSON.stringify([...mapMonsters]));
-
-  //JSON.stringify([...mapMonsters]);
-}
+function onSaveLocalStorage() {}
 
 function onLoadLocalStorage() {
-  console.log(mapMonsters);
-  //mapMonsters = new Map(JSON.parse(localStorage.myMap));
-  console.log(new Map(JSON.parse(localStorage.myMap)));
-
   updateMonsters();
 }
 
