@@ -75,6 +75,21 @@ function updateMonsters() {
   //console.log(mapMonsters);
 }
 
+function clearMonsters() {
+  //try {
+  if (!poleFightsHaveMonsterEnemy) {
+    for (let monster of mapMonsters.values()) {
+      //console.log(monster.id);
+      //delete1Monster(monster.id);
+      delete1MonsterFull(monster.id);
+
+      selectPolMonsterDelete(monster.id);
+    }
+  }
+  //} catch (error) {}
+  //console.log(mapMonsters);
+}
+
 function updateEnemyMonster() {
   //let monster = enemyMonster;
   delete1Monster(enemyMonster.id);

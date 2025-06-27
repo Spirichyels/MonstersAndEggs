@@ -88,53 +88,6 @@ class Monster {
   newSkillBackpack = [];
   newSkillBackpack2 = [];
 
-  toJSON() {
-    return {
-      name: this.name,
-      surname: this.surname,
-      id: this.id,
-      lvl: this.lvl,
-      pol: this.pol,
-
-      firstHp: this.firstHp,
-      firstMana: this.firstMana,
-
-      currentHP: this.currentHP,
-      currentMana: this.currentMana,
-
-      firstAttack: this.firstAttack,
-      firstArmor: this.firstArmor,
-      firstCrit: this.firstCrit,
-      firstDodge: this.firstDodge,
-      //
-      strength: this.strength,
-      agility: this.agility,
-      intelligence: this.intelligence,
-      //
-      //gen = 1;
-      highHumidity: this.highHumidity,
-
-      genetica: {
-        firstHp: this.genetica.firstHp,
-        firstMana: this.genetica.firstMana,
-
-        firstAttack: this.genetica.firstAttack,
-        firstArmor: this.genetica.firstArmor,
-        firstCrit: this.genetica.firstCrit,
-        firstDodge: this.genetica.firstDodge,
-
-        strength: this.genetica.strength,
-        agility: this.genetica.agility,
-        intelligence: this.genetica.intelligence,
-      },
-      genskills: {
-        skill0: this.genskills.skill0,
-        skill1: this.genskills.skill1,
-        skill2: this.genskills.skill2,
-      },
-    };
-  }
-
   xren(
     name,
     surname,
@@ -154,7 +107,8 @@ class Monster {
     intelligence,
     highHumidity,
     genetica,
-    genskills
+    genskills,
+    skillBacpack
   ) {
     this.name = name;
     this.surname = surname;
@@ -195,37 +149,41 @@ class Monster {
     this.genskills.skill0 = genskills.skill0;
     this.genskills.skill1 = genskills.skill1;
     this.genskills.skill2 = genskills.skill2;
-  }
 
-  static fromJSON(data) {
-    return new Monster(
-      data.name,
-      data.surname,
-      data.id,
-      data.lvl,
-      data.pol,
+    //console.log(skillBacpack);
 
-      data.firstHp,
-      data.firstMana,
+    if (skillBacpack.skill0.lvl != -1) {
+      this.setSkillBacpack(
+        createNewSkill(
+          skillBacpack.skill0.lvl,
+          skillBacpack.skill0.type,
+          skillBacpack.skill0.type,
+          skillBacpack.skill0.duration
+        )
+      );
+    }
 
-      data.urrentHP,
-      data.currentMana,
+    if (skillBacpack.skill1.lvl != -1) {
+      this.setSkillBacpack(
+        createNewSkill(
+          skillBacpack.skill1.lvl,
+          skillBacpack.skill1.type,
+          skillBacpack.skill1.type,
+          skillBacpack.skill1.duration
+        )
+      );
+    }
 
-      data.firstAttack,
-      data.firstArmor,
-      data.firstCrit,
-      data.firstDodge,
-      //
-      data.strength,
-      data.agility,
-      data.intelligence,
-      //
-      //gen = 1;
-      data.highHumidity,
-
-      data.genetica,
-      data.genskills
-    );
+    if (skillBacpack.skill2.lvl != -1) {
+      this.setSkillBacpack(
+        createNewSkill(
+          skillBacpack.skill2.lvl,
+          skillBacpack.skill2.type,
+          skillBacpack.skill2.type,
+          skillBacpack.skill2.duration
+        )
+      );
+    }
   }
 
   setSkillBacpack(skill) {
@@ -236,7 +194,7 @@ class Monster {
   setNewSkillBackback(x) {
     let newSkill = getRandomWeightSkill(x);
     this.setSkillBacpack(
-      createNewSkill(newAttributeSkill(newSkill.lvl), true, newSkill.type)
+      createNewSkill(newAttributeSkill(newSkill.lvl), true, newSkill.type, -1)
     );
   }
   removeSkillBackPack(id) {
@@ -325,7 +283,7 @@ class Monster {
       this.firstDodge = Math.floor(getRandomInt(1, 5));
 
       if (getRandomPercent(100, 35))
-        this.setSkillBacpack(createNewSkill(getRandomInt(1, 2), false, 0));
+        this.setSkillBacpack(createNewSkill(getRandomInt(1, 2), false, 0, -1));
     } else if (!create) {
       //console.log("Ураааа");
     }

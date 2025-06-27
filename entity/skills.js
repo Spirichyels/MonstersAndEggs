@@ -139,7 +139,7 @@ class BladeMail extends Skill {
   }
 }
 
-function createNewSkill(lvl, born, type) {
+function createNewSkill(lvl, born, type, oldDuration) {
   let weightSkills = new Map([
     [TOTAL_TYPE_SKILL_WATER_STRIKE, new WaterStrike(lvl)],
     [TOTAL_TYPE_SKILL_ICE_BREATH, new IceBreath(lvl)],
@@ -154,6 +154,11 @@ function createNewSkill(lvl, born, type) {
     type = getRandomSkill(weightSkills);
   }
   newSkill = weightSkills.get(type);
+
+  if (oldDuration != -1) {
+    newSkill.duration = oldDuration;
+    //alert(newSkill.duration);
+  }
 
   return newSkill;
 }

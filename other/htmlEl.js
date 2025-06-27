@@ -1,9 +1,3 @@
-function onSaveLocalStorage() {}
-
-function onLoadLocalStorage() {
-  updateMonsters();
-}
-
 function delete1MonsterClick() {
   //   console.log(
   //     "delete1MonsterClick idDeleteMonsterInput: ",
