@@ -152,6 +152,14 @@ function select() {
   //
 }
 
+function monsterMaxLvlEvolution(monster) {
+  if (monster.lvl == TOTAL_MAX_LEVEL) {
+    monster.strength = monster.strength * 2;
+    monster.agility = monster.agility * 2;
+    monster.intelligence = monster.intelligence * 2;
+  }
+}
+
 function sexButtonClick() {
   if (
     mapMonsters.get(papaTarget).lvl < TOTAL_MAX_LEVEL &&
@@ -171,11 +179,14 @@ function sexButtonClick() {
       //newMonster.printGeneticaMonster();
 
       mapMonsters.set(countId, newMonster);
+
       newMonster.lvl = Math.floor(
         (mapMonsters.get(papaTarget).lvl + mapMonsters.get(mamaTarget).lvl) /
           2 -
           getRandomInt(-1, 0)
       );
+      monsterMaxLvlEvolution(mapMonsters.get(papaTarget));
+      monsterMaxLvlEvolution(mapMonsters.get(mamaTarget));
       newMonster.surname = mapMonsters.get(papaTarget).surname;
       newMonster.divMonster(TOTAL_MONSTERS_BACKUP);
 

@@ -293,18 +293,18 @@ class Monster {
     countId--;
     //console.log("bot countId: ", countId);
     this.lvl = lvl;
-    const xren = 1.2;
-    this.strength = getRandomInt(1, Math.floor((lvl * 15) / xren));
-    this.agility = getRandomInt(1, Math.floor((lvl * 15) / xren));
-    this.intelligence = getRandomInt(1, Math.floor((lvl * 15) / xren));
+    const xren = 1.3;
+    this.strength = getRandomInt(1 + lvl, Math.floor((lvl * 10) / xren));
+    this.agility = getRandomInt(1 + lvl, Math.floor((lvl * 10) / xren));
+    this.intelligence = getRandomInt(1 + lvl, Math.floor((lvl * 10) / xren));
 
     this.firstHp = getRandomInt(30, Math.floor((lvl * 100) / xren));
     this.firstMana = getRandomInt(1, Math.floor((lvl * 100) / xren));
 
     this.firstAttack = getRandomInt(5, lvl * 2);
-    this.firstArmor = Math.floor(getRandomInt(0, lvl * 2));
-    this.firstCrit = Math.floor(getRandomInt(1, lvl * 2));
-    this.firstDodge = Math.floor(getRandomInt(1, lvl * 2));
+    this.firstArmor = Math.floor(getRandomInt(0, lvl));
+    this.firstCrit = Math.floor(getRandomInt(1, lvl));
+    this.firstDodge = Math.floor(getRandomInt(1, lvl));
   }
   printSkillsBackpack(backpack) {
     try {

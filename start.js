@@ -70,9 +70,20 @@ function updateMonsters() {
       monster.divMonster(TOTAL_MONSTERS_BACKUP);
       selectPolMonster(monster);
     }
+    try {
+      colorBorderMama = document.getElementById(
+        mamaTarget + TOTAL_TEG_MONSTER_CARD
+      );
+      colorBorderMama.classList.add("mamaBorder");
+
+      colorBorderPapa = document.getElementById(
+        papaTarget + TOTAL_TEG_MONSTER_CARD
+      );
+
+      colorBorderPapa.classList.add("papaBorder");
+    } catch (error) {}
   }
   //} catch (error) {}
-  //console.log(mapMonsters);
 }
 
 function clearMonsters() {
