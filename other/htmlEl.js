@@ -153,10 +153,14 @@ function select() {
 }
 
 function monsterMaxLvlEvolution(monster) {
-  if (monster.lvl == TOTAL_MAX_LEVEL) {
-    monster.strength = monster.strength * 2;
-    monster.agility = monster.agility * 2;
-    monster.intelligence = monster.intelligence * 2;
+  try {
+    if (monster.lvl == TOTAL_MAX_LEVEL) {
+      monster.strength = monster.strength * 2;
+      monster.agility = monster.agility * 2;
+      monster.intelligence = monster.intelligence * 2;
+    }
+  } catch (error) {
+    console.log("monsterMaxLvlEvolution: ", error);
   }
 }
 
@@ -187,13 +191,13 @@ function sexButtonClick() {
       );
       monsterMaxLvlEvolution(mapMonsters.get(papaTarget));
       monsterMaxLvlEvolution(mapMonsters.get(mamaTarget));
-      monsterMaxLvlEvolution(mapMonsters.get(newMonster));
 
       newMonster.surname = mapMonsters.get(papaTarget).surname;
       newMonster.divMonster(TOTAL_MONSTERS_BACKUP);
 
       selectPolMonster(newMonster);
       money.textContent = Math.floor(money.textContent - TOTAL_PRICE_SEX);
+      monsterMaxLvlEvolution(newMonster);
       updateMonsters();
     } else console.log("НУЖНО БОЛЬШЕ ЗОЛОТА!");
   } else
