@@ -187,6 +187,8 @@ function sexButtonClick() {
       );
       monsterMaxLvlEvolution(mapMonsters.get(papaTarget));
       monsterMaxLvlEvolution(mapMonsters.get(mamaTarget));
+      monsterMaxLvlEvolution(mapMonsters.get(newMonster));
+
       newMonster.surname = mapMonsters.get(papaTarget).surname;
       newMonster.divMonster(TOTAL_MONSTERS_BACKUP);
 

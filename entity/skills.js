@@ -87,7 +87,7 @@ class LightningStrike extends Skill {
 }
 
 class WaterStrike extends Skill {
-  duration = Math.floor(getRandomInt(2, this.lvl) / 1.5);
+  duration = Math.floor(getRandomInt(2, this.lvl + 3));
   randomDop2 = getRandomInt(0, 10);
   fullDamadge = 0;
   type = TOTAL_TYPE_SKILL_WATER_STRIKE;
