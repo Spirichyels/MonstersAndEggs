@@ -158,7 +158,7 @@ function attackButtonCLick() {
     TOTAL_PLAYER_MOVE_END_TEXT + "просто атакуете";
   endAttackPl = true;
 
-  if (waterDamadge[0] == undefined) {
+  if (waterDamadgePl[0] == undefined) {
     enemyMonster.highHumidity = false;
     updateEnemyMonster(enemyMonster);
   }
@@ -188,20 +188,47 @@ function useAbilityPl(id) {
     TOTAL_PLAYER_MOVE_END_TEXT + "используете " + x + " способность";
   endSkillPl = x;
 
-  if (waterDamadge[0] == undefined) {
+  if (waterDamadgePl[0] == undefined) {
     enemyMonster.highHumidity = false;
     updateEnemyMonster(enemyMonster);
   }
 }
 function win(winner) {
   console.log("Победил: ", winner);
-  fireDamadge = [];
-  iceDamadge = [];
+  fireDamadgePl = [];
+  poisonousDamadgePl = [];
+  iceDamadgePl = [];
+  waterDamadgePl = [];
+
+  lightingDamadgePl = 0;
+  wampirismDamadgePl = 0;
+  blademailDamadgePl = 0;
+
   fightButton.disabled = false;
   attackButtonPl.disabled = true;
   skillButtonPl1.disabled = true;
   skillButtonPl2.disabled = true;
   skillButtonPl3.disabled = true;
+}
+function getRealAttackPlayer() {
+  let attack = getRandomCrit(
+    mapMonsters.get(oldMonsterFightP).getAttack(),
+    mapMonsters.get(oldMonsterFightP).getCrit()
+  );
+  attack = attack - enemyMonster.getArmor();
+  return attack;
+}
+
+function getRealAttackEnemy() {
+  let newAttack = enemyMonster.getAttack();
+
+  if (enemyMonster.highHumidity == true) {
+    newAttack = getHighHumidityAttribute(newAttack);
+  }
+
+  let enemyAttack = getRandomCrit(newAttack, enemyMonster.getCrit());
+  enemyAttack = enemyAttack - mapMonsters.get(oldMonsterFightP).getArmor();
+  return enemyAttack;
 }
 function endMove() {
   attackButtonPl.disabled = true;
@@ -231,11 +258,13 @@ function endMove() {
 
       // Рассчет обычной атаки
       if (endAttackPl) {
-        playerAttack = getRandomCrit(
-          mapMonsters.get(oldMonsterFightP).getAttack(),
-          mapMonsters.get(oldMonsterFightP).getCrit()
-        );
-        playerAttack = playerAttack - enemyMonster.getArmor();
+        // playerAttack = getRandomCrit(
+        //   mapMonsters.get(oldMonsterFightP).getAttack(),
+        //   mapMonsters.get(oldMonsterFightP).getCrit()
+        // );
+        // playerAttack = playerAttack - enemyMonster.getArmor();
+
+        playerAttack = getRealAttackPlayer();
         if (playerAttack <= 0) playerAttack = 1;
       } else {
         if (playerMana >= mapMonsters.get(oldMonsterFightP).intelligence) {
@@ -243,23 +272,34 @@ function endMove() {
             mapMonsters.get(oldMonsterFightP).skillBacpack[endSkillPl];
           if (skill) {
             if (skill.type == TOTAL_TYPE_SKILL_FIRE_BREATH) {
-              fireDamadge = skill.getDamadge(
+              fireDamadgePl = skill.getDamadge(
                 mapMonsters.get(oldMonsterFightP).intelligence
               );
+            } else if (skill.type == TOTAL_TYPE_SKILL_POISONOUS_BREATH) {
+              poisonousDamadgePl = skill.getDamadge(
+                mapMonsters.get(oldMonsterFightP).agility
+              );
             } else if (skill.type == TOTAL_TYPE_SKILL_ICE_BREATH) {
-              iceDamadge = skill.getDamadge(
+              iceDamadgePl = skill.getDamadge(
                 mapMonsters.get(oldMonsterFightP).intelligence
               );
             } else if (skill.type == TOTAL_TYPE_SKILL_WATER_STRIKE) {
-              waterDamadge = skill.getDamadge(
+              waterDamadgePl = skill.getDamadge(
                 mapMonsters.get(oldMonsterFightP).intelligence
               );
             } else if (skill.type == TOTAL_TYPE_SKILL_LIGHTING_STRIKE) {
-              lightingDamadge = skill.formula(
+              lightingDamadgePl = skill.formula(
                 mapMonsters.get(oldMonsterFightP).intelligence
               );
-              console.log("lightingDamadge", lightingDamadge);
+              console.log("lightingDamadge", lightingDamadgePl);
+            } else if (skill.type == TOTAL_TYPE_SKILL_WAMPIRISM) {
+              wampirismDamadgePl = skill.formula(
+                mapMonsters.get(oldMonsterFightP).getAttack()
+              );
+            } else if (skill.type == TOTAL_TYPE_SKILL_BLADEMAIL) {
+              blademailDamadgePl = skill.formula();
             }
+
             playerMana = Math.floor(
               playerMana - mapMonsters.get(oldMonsterFightP).intelligence
             );
@@ -269,31 +309,23 @@ function endMove() {
         }
       }
 
-      if (waterDamadge[0] != undefined) {
-        percentHighHumidityEn = waterDamadge[0];
+      if (waterDamadgePl[0] != undefined) {
+        percentHighHumidityEn = waterDamadgePl[0];
         //console.log("percentHighHumidityEn: ", percentHighHumidityEn);
         enemyMonster.highHumidity = true;
         updateEnemyMonster(enemyMonster);
-        waterDamadge.shift();
+        waterDamadgePl.shift();
       }
 
       if (endAttackEn) {
-        if (iceDamadge[0] != undefined) {
+        if (iceDamadgePl[0] != undefined) {
           console.log("Враг заморожен");
           enemyAttack = 0;
         } else {
-          let newAttack = enemyMonster.getAttack();
-
-          if (enemyMonster.highHumidity == true) {
-            newAttack = getHighHumidityAttribute(newAttack);
-          }
-
-          enemyAttack = getRandomCrit(newAttack, enemyMonster.getCrit());
-          enemyAttack =
-            enemyAttack - mapMonsters.get(oldMonsterFightP).getArmor();
+          enemyAttack = getRealAttackEnemy();
           if (enemyAttack <= 0) enemyAttack = 1;
 
-          //console.log(enemyAttack);
+          console.log("enemyAttack:", enemyAttack);
         }
       }
 
@@ -307,29 +339,57 @@ function endMove() {
 
       if (enemyDodge) {
         console.log("Враг увернулся");
-        if (fireDamadge[0] != undefined) fireDamadge.shift();
+        if (fireDamadgePl[0] != undefined) fireDamadgePl.shift();
       } else if (!enemyDodge) {
         if (endAttackPl) {
           enemyHp = enemyHp - playerAttack;
         }
-        if (fireDamadge[0] != undefined) {
-          enemyHp = enemyHp - fireDamadge[0];
-          console.log("еще ожёг: ", fireDamadge[0]);
-          fireDamadge.shift();
+        if (fireDamadgePl[0] != undefined) {
+          enemyHp = enemyHp - fireDamadgePl[0];
+          console.log("еще ожёг: ", fireDamadgePl[0]);
+          fireDamadgePl.shift();
         }
-        if (iceDamadge[0] != undefined) {
-          enemyHp = enemyHp - iceDamadge[0];
-          console.log("еще мороз: ", iceDamadge[0]);
-          iceDamadge.shift();
+        if (poisonousDamadgePl[0] != undefined) {
+          enemyHp = enemyHp - poisonousDamadgePl[0];
+          console.log("еще яд: ", poisonousDamadgePl[0]);
+          poisonousDamadgePl.shift();
         }
-        if (lightingDamadge != 0) {
+        if (iceDamadgePl[0] != undefined) {
+          enemyHp = enemyHp - iceDamadgePl[0];
+          console.log("еще мороз: ", iceDamadgePl[0]);
+          iceDamadgePl.shift();
+        }
+        if (lightingDamadgePl != 0) {
           let water = 1;
           if (enemyMonster.highHumidity == true) {
             water = 2;
           }
-          enemyHp = enemyHp - lightingDamadge * water;
-          console.log("Удар молнией ", lightingDamadge * water);
-          lightingDamadge = 0;
+          enemyHp = enemyHp - lightingDamadgePl * water;
+          console.log("Удар молнией ", lightingDamadgePl * water);
+          lightingDamadgePl = 0;
+        }
+        if (wampirismDamadgePl != 0) {
+          playerAttack = getRealAttackPlayer();
+          enemyHp = enemyHp - playerAttack;
+          console.log(
+            "Исцеление вампира ",
+            wampirismDamadgePl,
+            "атака игрока",
+            playerAttack
+          );
+          playerHp = playerHp + wampirismDamadgePl;
+          wampirismDamadgePl = 0;
+        }
+        if (blademailDamadgePl != 0) {
+          playerAttack = getRealAttackPlayer();
+          enemyHp = enemyHp - playerAttack;
+
+          let itog = Math.floor(
+            (enemyMonster.getAttack() / 100) * blademailDamadgePl
+          );
+          console.log("Отражение ", itog);
+          enemyHp = enemyHp - itog;
+          wampirismDamadgePl = 0;
         }
       }
       HpFightPlayer.textContent = playerHp;
@@ -338,6 +398,7 @@ function endMove() {
     }
   }
   if (enemyHp <= 0 && playerHp > 0) {
+    chacnceUpAttribute(mapMonsters.get(oldMonsterFightP), 150);
     poleFightsHaveMonsterEnemy = false;
     poleFightsHaveMonsterPlayer = false;
     mapMonsters.get(oldMonsterFightP).currentHP = playerHp;
@@ -352,9 +413,9 @@ function endMove() {
     money.textContent = Math.floor(money.textContent) + fightMoney;
     console.log("Вы заработали за бой: ", fightMoney);
 
-    chacnceNewMonster(80);
-    chacnceNewMonster(180);
-    chacnceNewMonster(360);
+    chacnceNewMonster(150);
+    chacnceNewMonster(300);
+    chacnceNewMonster(450);
 
     win("Player");
   } else if (playerHp <= 0) {

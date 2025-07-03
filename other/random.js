@@ -51,7 +51,7 @@ let getRandomWeightSkill = (weights) => {
 
 let getRandomSkill = (mapSkills) => {
   getRandomWeight(mapSkills.keys());
-  //console.log("weights: ", weights);
+  //console.log("mapSkills: ", mapSkills);
   let sumMax = 0;
 
   for (let weight of mapSkills.keys()) {
@@ -172,5 +172,23 @@ function chacnceNewMonster(max) {
   if (zet) {
     createNewMonster();
     console.log("Вы нашли монстра: ", mapMonsters.get(countId).name);
+  }
+}
+
+function chacnceUpAttribute(monster, max) {
+  let zet = getRandomPercent(max, Math.floor(oldEnemyLevel * 9));
+  if (zet) {
+    let x = [14, 15, 16];
+    let res = getRandomWeight(x);
+    if (res == 14) {
+      monster.strength += 1;
+      console.log("Монстер " + monster.name + "навсегда получил 1 силу");
+    } else if (res == 15) {
+      monster.agility += 1;
+      console.log("Монстер " + monster.name + "навсегда получил 1 ловкость");
+    } else if (res == 16) {
+      monster.intelligence += 1;
+      console.log("Монстер " + monster.name + "навсегда получил 1 интеллект");
+    }
   }
 }

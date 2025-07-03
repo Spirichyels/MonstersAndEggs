@@ -267,8 +267,11 @@ const TOTAL_TYPE_SKILL_FIRE_BREATH = 200;
 const TOTAL_TYPE_SKILL_ICE_BREATH = 140;
 const TOTAL_TYPE_SKILL_LIGHTING_STRIKE = 180;
 const TOTAL_TYPE_SKILL_WATER_STRIKE = 160; // взаиводействует с другими
-const TOTAL_TYPE_SKILL_Wampirism = 90;
-const TOTAL_TYPE_SKILL_BladeMail = 50;
+const TOTAL_TYPE_SKILL_POISONOUS_BREATH = 90;
+
+const TOTAL_TYPE_SKILL_WAMPIRISM = 70;
+const TOTAL_TYPE_SKILL_BLADEMAIL = 300;
+
 const TOTAL_TYPE_SKILL_PHISICAL = "PHISICAL";
 
 const TOTAL_SIZE_ARR = 4;
@@ -301,10 +304,15 @@ let oldEnemyLevel = levelEnemy;
 let enemyMonster = "none";
 let playerHp = 0;
 let enemyHp = 0;
-let fireDamadge = [];
-let iceDamadge = [];
-let waterDamadge = [];
-let lightingDamadge = 0;
+
+let fireDamadgePl = [];
+let poisonousDamadgePl = [];
+
+let iceDamadgePl = [];
+let waterDamadgePl = [];
+let lightingDamadgePl = 0;
+let wampirismDamadgePl = 0;
+let blademailDamadgePl = 0;
 
 let oldHighHumidityEn = false;
 let percentHighHumidityEn = 0;

@@ -84,7 +84,7 @@ ul:hover {
 	width: 160px;
 	height: 140px;
 
-	margin-right: 150px;
+	margin-right: 120px;
 
 	
 	border: 1px solid black; 
@@ -95,10 +95,7 @@ ul:hover {
 	display: inline-table;
 	width: 160px;
 	height: 140px;
-
-	
-	
-	margin-left:  150px;
+	margin-left:  120px;
 	border: 1px solid black; 
 
 }
@@ -144,6 +141,8 @@ ul:hover {
 	align-items: center;
 	height: 210px;
 	
+
+	
 }
 
 #str2 {
@@ -153,6 +152,8 @@ ul:hover {
 	justify-content: center;
 	align-items: center;
 	height: 91px;
+	
+
 	
 }
 
@@ -166,4 +167,15 @@ ul:hover {
 justify-content: center;
 	align-items: center;
 	
+}
+
+#EndMoveTable {
+	width: 150px;
+	height: 100px;
+
+
+	
+
+	 
+
 }

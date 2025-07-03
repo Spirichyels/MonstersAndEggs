@@ -282,8 +282,12 @@ class Monster {
       this.firstCrit = Math.floor(getRandomInt(1, 10));
       this.firstDodge = Math.floor(getRandomInt(1, 5));
 
-      if (getRandomPercent(100, 35))
+      if (getRandomPercent(100, 35)) {
         this.setSkillBacpack(createNewSkill(getRandomInt(1, 2), false, 0, -1));
+        //this.setSkillBacpack(createNewSkill(7, false, 0, -1));
+        //this.setSkillBacpack(createNewSkill(10, false, 0, -1));
+        //this.setSkillBacpack(createNewSkill(3, false, 0, -1));
+      }
     } else if (!create) {
       //console.log("Ураааа");
     }
@@ -312,7 +316,7 @@ class Monster {
       for (let x of backpack) {
         s += String(x[0].text + ":" + x[1] + " ");
       }
-      console.log(s);
+      //console.log(s);
     } catch (error) {}
   }
   helpFunc(monster) {
@@ -340,7 +344,7 @@ class Monster {
       this.newSkillBackpack.sort((b, a) =>
         a[1] !== b[1] ? a[1] - b[1] : a[0] - b[0]
       );
-      //this.printSkillsBackpack(this.newSkillBackpack);
+      this.printSkillsBackpack(this.newSkillBackpack);
 
       let x1 = [];
 
@@ -385,7 +389,7 @@ class Monster {
         }
       }
 
-      //console.log("x1:", x1);
+      // console.log("x1:", x1);
       //console.log("x2:", x2);
       //console.log("x3:", x3);
 
@@ -484,6 +488,27 @@ class Monster {
     }
   }
 
+  divskill(skill) {
+    if (this.skillBacpack[skill].attribute == INTELLIGENCE) {
+      return this.skillBacpack[skill].getText(this.intelligence);
+    }
+    if (this.skillBacpack[skill].attribute == AGILITY) {
+      return this.skillBacpack[skill].getText(this.agility);
+    }
+    if (this.skillBacpack[skill].attribute == STRENGTH) {
+      return this.skillBacpack[skill].getText(this.strength);
+    }
+    if (this.skillBacpack[skill].attribute == ATTACK) {
+      return this.skillBacpack[skill].getText(this.getAttack());
+    }
+    if (this.skillBacpack[skill].attribute == LVL) {
+      return this.skillBacpack[skill].getText(this.lvl);
+    }
+    if (this.skillBacpack[skill].attribute == NOTHING) {
+      return this.skillBacpack[skill].getText();
+    }
+  }
+
   divMonster(nameTeg) {
     try {
       let profileMonster = document.createElement("ul");
@@ -541,13 +566,23 @@ class Monster {
       skills.textContent = "Способности: ";
       try {
         // this.skillBacpack[0].getText();
-        skill0.textContent = this.skillBacpack[0].getText(this.intelligence);
-        skill1.textContent = this.skillBacpack[1].getText(this.intelligence);
-        skill2.textContent = this.skillBacpack[2].getText(this.intelligence);
+
+        skill0.textContent = this.divskill(0);
+        skill1.textContent = this.divskill(1);
+        skill2.textContent = this.divskill(2);
+
+        //divskill(1);
+        //divskill(2);
+
+        //skill0.textContent = this.skillBacpack[0].getText(this.intelligence);
+        // skill1.textContent = this.skillBacpack[1].getText(this.intelligence);
+        // skill2.textContent = this.skillBacpack[2].getText(this.intelligence);
 
         //skill1.textContent = this.skillBacpack[1].getText();
         //skill2.textContent = this.skillBacpack[2].getText();
-      } catch (error) {}
+      } catch (error) {
+        //console.log("monster.div: ", error);
+      }
 
       itemGen.textContent = "Генетика: " + JSON.stringify(this.genetica);
 
