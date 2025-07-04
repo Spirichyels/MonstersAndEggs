@@ -233,10 +233,10 @@ class Monster {
     this.lvl = this.lvl + getRandomInt(-1, 3);
   }
   getAttack() {
-    return Math.floor(this.firstAttack + this.strength * 1.6);
+    return Math.floor(this.firstAttack + this.strength * 1.4);
   }
   getArmor() {
-    return Math.floor(this.firstArmor + this.agility / 1.3);
+    return Math.floor(this.firstArmor + this.agility / 2);
   }
   getCrit() {
     return Math.floor(this.firstCrit + this.agility / 4);

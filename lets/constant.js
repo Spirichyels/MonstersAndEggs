@@ -260,6 +260,8 @@ const TOTAL_PLAYER_MOVE_END_TEXT = "В этот ход вы: ";
 
 const TOTAL_PRICE_SEX = 70;
 const TOTAL_PRICE_SELL = 25;
+const TOTAL_PRICE_SELL2 = 5;
+
 const TOTAL_PRICE_HEAL = 100;
 const TOTAL_START_MONEY = 500;
 

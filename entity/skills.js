@@ -188,10 +188,10 @@ class BladeMail extends Skill {
   type = TOTAL_TYPE_SKILL_BLADEMAIL;
   text = "Отражение";
   attribute = NOTHING;
-  percent = getRandomInt(1, 10);
+  percent = getRandomInt(10, 50);
 
   formula() {
-    return Math.floor(this.percent + this.lvl * 7);
+    return Math.floor(this.percent + this.lvl * 10);
   }
   getText(attack) {
     return (
@@ -204,7 +204,7 @@ class BladeMail extends Skill {
       " урон: " +
       "[" +
       this.formula() +
-      "]"
+      "%]"
     );
   }
 }

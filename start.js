@@ -377,7 +377,9 @@ function endMove() {
             "атака игрока",
             playerAttack
           );
-          playerHp = playerHp + wampirismDamadgePl;
+          if (playerHp <= mapMonsters.get(oldMonsterFightP).getHp()) {
+            playerHp = playerHp + wampirismDamadgePl;
+          }
           wampirismDamadgePl = 0;
         }
         if (blademailDamadgePl != 0) {
