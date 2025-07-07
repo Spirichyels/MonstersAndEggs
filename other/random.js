@@ -183,12 +183,18 @@ function chacnceUpAttribute(monster, max) {
     if (res == 14) {
       monster.strength += 1;
       console.log("Монстер " + monster.name + "навсегда получил 1 силу");
+      moveInfostrTextPlayerD.textContent =
+        "Монстер " + monster.name + "навсегда получил 1 силу";
     } else if (res == 15) {
       monster.agility += 1;
       console.log("Монстер " + monster.name + "навсегда получил 1 ловкость");
+      moveInfostrTextPlayerD.textContent =
+        "Монстер " + monster.name + "навсегда получил 1 ловкость";
     } else if (res == 16) {
       monster.intelligence += 1;
       console.log("Монстер " + monster.name + "навсегда получил 1 интеллект");
+      moveInfostrTextPlayerD.textContent =
+        "Монстер " + monster.name + "навсегда получил 1 интеллект";
     }
   }
 }

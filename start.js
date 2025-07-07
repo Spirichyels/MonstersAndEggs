@@ -8,6 +8,9 @@ function selectPolMonsterDelete(id) {
   } catch (error) {}
 }
 
+function helpSkillsNumber(number) {
+  return document.getElementById("moveInfostrTextPlayer" + number);
+}
 function delete1Monster(id) {
   try {
     if (document.getElementById(id + TOTAL_TEG_MONSTER_CARD) != undefined) {
@@ -209,24 +212,62 @@ function win(winner) {
   skillButtonPl1.disabled = true;
   skillButtonPl2.disabled = true;
   skillButtonPl3.disabled = true;
+  moveInfostrTextPlayerW.textContent = "Победил: " + winner;
+
+  //moveInfostrTextPlayerA.textContent = "";
+  //moveInfostrTextPlayer0.textContent = "";
+  // moveInfostrTextPlayer1.textContent = "";
+  //moveInfostrTextPlayer2.textContent = "";
 }
 function getRealAttackPlayer() {
-  let attack = getRandomCrit(
-    mapMonsters.get(oldMonsterFightP).getAttack(),
+  // Формирование обычной атаки
+  let attack = mapMonsters.get(oldMonsterFightP).getAttack();
+  //Использует новый подсчет атаки у сырого монстра
+  if (mapMonsters.get(oldMonsterFightP).highHumidity == true) {
+    attack = getHighHumidityAttribute(newAttack);
+  }
+  //
+
+  let newAttack = getRandomCrit(
+    attack,
     mapMonsters.get(oldMonsterFightP).getCrit()
   );
-  attack = attack - enemyMonster.getArmor();
-  return attack;
+  //console.log("attack:" + attack, " crit:" + newAttack);
+  if (newAttack > attack) {
+    playerOrCrit = true;
+  } else {
+    playerOrCrit = false;
+  }
+  newAttack = newAttack - enemyMonster.getArmor();
+  return newAttack;
+}
+function critText(atack, orCrit) {
+  if (orCrit) {
+    moveInfostrTextPlayerA.textContent =
+      "Вы наносите критический удар: " + atack;
+  } else {
+    moveInfostrTextPlayerA.textContent = "Вы атакуете: " + atack;
+  }
 }
 
 function getRealAttackEnemy() {
+  // Формирование обычной атаки
   let newAttack = enemyMonster.getAttack();
 
+  //Использует новый подсчет атаки у сырого монстра
   if (enemyMonster.highHumidity == true) {
     newAttack = getHighHumidityAttribute(newAttack);
   }
+  //
 
+  //крит
   let enemyAttack = getRandomCrit(newAttack, enemyMonster.getCrit());
+
+  if (enemyAttack > newAttack) {
+    enemyOrCrit = true;
+  } else {
+    enemyOrCrit = false;
+  }
   enemyAttack = enemyAttack - mapMonsters.get(oldMonsterFightP).getArmor();
   return enemyAttack;
 }
@@ -236,6 +277,13 @@ function endMove() {
   skillButtonPl2.disabled = true;
   skillButtonPl3.disabled = true;
   endMoveButtonPl.disabled = true;
+
+  moveInfostrTextPlayerA.textContent = "";
+  moveInfostrTextPlayer0.textContent = "";
+  moveInfostrTextPlayer1.textContent = "";
+  moveInfostrTextPlayer2.textContent = "";
+  moveInfostrTextPlayerW.textContent = "";
+  moveInfostrTextPlayerD.textContent = "";
 
   // переменные для атаки
   let playerAttack = 0;
@@ -258,15 +306,20 @@ function endMove() {
 
       // Рассчет обычной атаки
       if (endAttackPl) {
-        // playerAttack = getRandomCrit(
-        //   mapMonsters.get(oldMonsterFightP).getAttack(),
-        //   mapMonsters.get(oldMonsterFightP).getCrit()
-        // );
-        // playerAttack = playerAttack - enemyMonster.getArmor();
-
         playerAttack = getRealAttackPlayer();
         if (playerAttack <= 0) playerAttack = 1;
+        //информации об атаке и крита у игрока
+        // if (playerOrCrit) {
+        //   moveInfostrTextPlayerA.textContent =
+        //     "Вы наносите критический удар: " + playerAttack;
+        // } else {
+        //   moveInfostrTextPlayerA.textContent = "Вы атакуете: " + playerAttack;
+        // }
+
+        critText(playerAttack, playerOrCrit);
+        //
       } else {
+        // использование способности у игрока
         if (playerMana >= mapMonsters.get(oldMonsterFightP).intelligence) {
           let skill =
             mapMonsters.get(oldMonsterFightP).skillBacpack[endSkillPl];
@@ -306,6 +359,7 @@ function endMove() {
           }
         } else {
           console.log("Игроку не хватило маны");
+          moveInfostrTextPlayerA.textContent = "Вам не хватает маны: ";
         }
       }
 
@@ -324,8 +378,14 @@ function endMove() {
         } else {
           enemyAttack = getRealAttackEnemy();
           if (enemyAttack <= 0) enemyAttack = 1;
+          if (enemyOrCrit) {
+            moveInfo1strTextEnemy.textContent =
+              "Враг наносит критический удар: " + enemyAttack;
+          } else {
+            moveInfo1strTextEnemy.textContent = "Враг атакует: " + enemyAttack;
+          }
 
-          console.log("enemyAttack:", enemyAttack);
+          //console.log("enemyAttack:", enemyAttack);
         }
       }
 
@@ -339,6 +399,8 @@ function endMove() {
 
       if (enemyDodge) {
         console.log("Враг увернулся");
+        moveInfostrTextPlayerA.textContent = "Вы промахнулись ";
+
         if (fireDamadgePl[0] != undefined) fireDamadgePl.shift();
       } else if (!enemyDodge) {
         if (endAttackPl) {
@@ -346,23 +408,37 @@ function endMove() {
         }
         if (fireDamadgePl[0] != undefined) {
           enemyHp = enemyHp - fireDamadgePl[0];
+          helpSkillsNumber(endSkillPl).textContent =
+            "Поджигаете противника: " + fireDamadgePl[0];
           console.log("еще ожёг: ", fireDamadgePl[0]);
+
           fireDamadgePl.shift();
         }
         if (poisonousDamadgePl[0] != undefined) {
           enemyHp = enemyHp - poisonousDamadgePl[0];
           console.log("еще яд: ", poisonousDamadgePl[0]);
+          helpSkillsNumber(endSkillPl).textContent =
+            "Отравляете противника: " + poisonousDamadgePl[0];
           poisonousDamadgePl.shift();
         }
         if (iceDamadgePl[0] != undefined) {
           enemyHp = enemyHp - iceDamadgePl[0];
+          helpSkillsNumber(endSkillPl).textContent =
+            "Замораживаете противника: " + iceDamadgePl[0];
           console.log("еще мороз: ", iceDamadgePl[0]);
+
           iceDamadgePl.shift();
         }
         if (lightingDamadgePl != 0) {
           let water = 1;
           if (enemyMonster.highHumidity == true) {
             water = 2;
+            helpSkillsNumber(endSkillPl).textContent =
+              "поражаете сырого противника молнией: " +
+              lightingDamadgePl * water;
+          } else {
+            helpSkillsNumber(endSkillPl).textContent =
+              "выстреливаете молнией: " + lightingDamadgePl;
           }
           enemyHp = enemyHp - lightingDamadgePl * water;
           console.log("Удар молнией ", lightingDamadgePl * water);
@@ -377,6 +453,10 @@ function endMove() {
             "атака игрока",
             playerAttack
           );
+          //moveInfostrTextPlayerA.textContent = "Вы атакуете: " + playerAttack;
+          critText(playerAttack, playerOrCrit);
+          helpSkillsNumber(endSkillPl).textContent =
+            "Исцеление вампира: " + wampirismDamadgePl;
           if (playerHp <= mapMonsters.get(oldMonsterFightP).getHp()) {
             playerHp = playerHp + wampirismDamadgePl;
           }
@@ -394,9 +474,16 @@ function endMove() {
           wampirismDamadgePl = 0;
         }
       }
+
+      // Здесь подсчитывается итог здоровья и маны после боя
       HpFightPlayer.textContent = playerHp;
       ManaFightPlayer.textContent = playerMana;
       HpFightEnemy.textContent = enemyHp;
+      ManaFightEnemy.textContent = enemyMana;
+
+      //крит обычной атаки
+      playerOrCrit = false;
+      enemyOrCrit = false;
     }
   }
   if (enemyHp <= 0 && playerHp > 0) {
@@ -437,6 +524,13 @@ function endMove() {
 
 function fight() {
   if (!poleFightsHaveMonsterEnemy && poleFightsHaveMonsterPlayer) {
+    // moveInfostrTextPlayerA.textContent = "";
+    // moveInfostrTextPlayer0.textContent = "";
+    // moveInfostrTextPlayer1.textContent = "";
+    // moveInfostrTextPlayer2.textContent = "";
+
+    moveInfo1strTextEnemy.textContent = "";
+
     oldEnemyLevel = levelEnemy;
     //если poleFightsHaveMonsterPlayer true, создает Enemy ставит poleFightsHaveMonsterEnemy true
 
@@ -456,9 +550,12 @@ function fight() {
     playerMana = mapMonsters.get(oldMonsterFightP).getCurrentMana();
 
     enemyHp = enemyMonster.getHp();
+    enemyMana = enemyMonster.getMana();
+
     HpFightPlayer.textContent = playerHp;
     ManaFightPlayer.textContent = playerMana;
     HpFightEnemy.textContent = enemyHp;
+    ManaFightEnemy.textContent = enemyMana;
     fightButton.disabled = true;
     attackButtonPl.disabled = false;
     skillButtonPl1.disabled = false;
@@ -484,8 +581,8 @@ function startGame() {
     updateMonsters();
   }
   //console.log(noMoreWomens);
-  //testMonsters();
-  //updateMonsters();
+  testMonsters();
+  updateMonsters();
 
   //localStorage.myMap = JSON.stringify(Array.from(mapMonsters));
   select();

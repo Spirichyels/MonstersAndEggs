@@ -565,21 +565,9 @@ class Monster {
       itemIntelligence.textContent = "Интеллект: " + this.intelligence;
       skills.textContent = "Способности: ";
       try {
-        // this.skillBacpack[0].getText();
-
         skill0.textContent = this.divskill(0);
         skill1.textContent = this.divskill(1);
         skill2.textContent = this.divskill(2);
-
-        //divskill(1);
-        //divskill(2);
-
-        //skill0.textContent = this.skillBacpack[0].getText(this.intelligence);
-        // skill1.textContent = this.skillBacpack[1].getText(this.intelligence);
-        // skill2.textContent = this.skillBacpack[2].getText(this.intelligence);
-
-        //skill1.textContent = this.skillBacpack[1].getText();
-        //skill2.textContent = this.skillBacpack[2].getText();
       } catch (error) {
         //console.log("monster.div: ", error);
       }

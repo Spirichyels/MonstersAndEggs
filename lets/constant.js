@@ -307,6 +307,9 @@ let enemyMonster = "none";
 let playerHp = 0;
 let enemyHp = 0;
 
+let playerOrCrit = false;
+let enemyOrCrit = false;
+
 let fireDamadgePl = [];
 let poisonousDamadgePl = [];
 
@@ -342,6 +345,15 @@ let attackButtonPl = document.getElementById("attackButtonPl");
 let skillButtonPl1 = document.getElementById("skillButtonPl1");
 let skillButtonPl2 = document.getElementById("skillButtonPl2");
 let skillButtonPl3 = document.getElementById("skillButtonPl3");
+
+let moveInfoPlayer = document.getElementById("moveInfoPlayer");
+
+let moveInfostrTextPlayerA = document.getElementById("moveInfostrTextPlayerA");
+let moveInfostrTextPlayer0 = document.getElementById("moveInfostrTextPlayer0");
+let moveInfostrTextPlayer1 = document.getElementById("moveInfostrTextPlayer1");
+let moveInfostrTextPlayer2 = document.getElementById("moveInfostrTextPlayer2");
+let moveInfostrTextPlayerW = document.getElementById("moveInfostrTextPlayerW");
+let moveInfostrTextPlayerD = document.getElementById("moveInfostrTextPlayerD");
 
 let endMovePlayerText = document.getElementById("endMovePlayerText");
 endMovePlayerText.textContent = TOTAL_PLAYER_MOVE_END_TEXT;

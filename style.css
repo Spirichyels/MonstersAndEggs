@@ -78,104 +78,16 @@ ul:hover {
 
 }
 
-.monsterPlayerAttack {
-	display: inline-block;
 
-	width: 160px;
-	height: 140px;
 
-	margin-right: 120px;
 
-	
-	border: 1px solid black; 
 
-}
-
-.monsterEnemyAttack {
-	display: inline-table;
-	width: 160px;
-	height: 140px;
-	margin-left:  120px;
-	border: 1px solid black; 
-
-}
-
-.monsterPlayerPoleFights {
-	display: inline-block;
-
-	margin-right: 150px;
-	
-	
-	
-	
-	
-}
-
-.monsterEnemyPoleFights {
-	display: inline-block;
-	
-	margin-left: 150px;
-
-	
-	
-}
-#tableFights {
-	text-align: center;
-}
-#PoleFights {
-	
-	margin-left: auto;
-	margin-right: auto;
-
-	height: 560px;
-	width: 800px;
-	border: 1px solid black; 
-	
-}
-
-#str1 {
-	margin-top: 40px;
-	align-items: right;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 210px;
-	
-
-	
-}
-
-#str2 {
-	margin-top: 90px;
-	align-items: right;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 91px;
-	
-
-	
-}
-
-.aStrSkill {
-	margin: 2px;
-}
 
 #money {
 	
 	display: flex;
-justify-content: center;
+	justify-content: center;
 	align-items: center;
 	
 }
 
-#EndMoveTable {
-	width: 150px;
-	height: 100px;
-
-
-	
-
-	 
-
-}

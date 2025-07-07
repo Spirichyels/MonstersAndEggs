@@ -1,0 +1,120 @@
+
+
+#PoleFights {
+	
+	margin-left: auto;
+	margin-right: auto;
+
+	height: 560px;
+	width: 1000px;
+	border: 1px solid black; 
+	
+}
+
+#tableFights {
+	text-align: center;
+}
+
+
+#str1 {
+	margin-top: 40px;
+	align-items: right;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 210px;
+	
+	border: 1px solid red; 
+	
+	
+}
+
+.monsterPlayerPoleFights {
+	display: inline-block;
+
+	margin-right: 5px;
+	
+	
+	
+	
+	
+}
+
+.monsterEnemyPoleFights {
+	display: inline-block;
+	
+	margin-left: 5px;
+
+	
+	
+}
+#moveInfoPlayer {
+	margin-right: 10px;
+	width: 200px;
+	
+	display: inline-block;
+
+	border: 1px solid yellow; 
+
+
+}	
+
+#moveInfoEnemy {
+	margin-left:  10px;
+	width: 200px;
+	
+	border: 1px solid yellow; 
+	
+}
+
+#str2 {
+	margin-top: 90px;
+	align-items: right;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 91px;
+	
+
+	
+}
+
+.monsterPlayerAttack {
+	display: inline-block;
+
+	width: 160px;
+	height: 140px;
+
+	margin-right: 120px;
+	
+
+
+	
+	border: 1px solid black; 
+
+}
+
+.monsterEnemyAttack {
+	display: inline-table;
+	width: 160px;
+	height: 140px;
+	margin-left:  120px;
+	border: 1px solid black; 
+	
+
+}
+
+
+
+
+
+
+.aStrSkill {
+	margin: 2px;
+}
+
+#EndMoveTable {
+	width: 150px;
+	height: 100px;
+
+}
