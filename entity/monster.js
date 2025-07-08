@@ -264,7 +264,7 @@ class Monster {
     countId++;
     //console.log("constructor countId: ", countId);
     this.name = name;
-    this.surname = surname[getRandomInt(0, names.length)];
+    this.surname = surname[getRandomInt(0, surname.length)];
     this.id = countId;
     this.pol = getRandomInt(1, 10) > 5 ? true : false;
     this.createGen();

@@ -1,7 +1,5 @@
 
-#All {
-	
-}
+
 
 #Parents {
 	align-items: right;
@@ -49,6 +47,11 @@
 	justify-content: center;
 	margin-bottom: 10px;
 }
+.center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 
 
 ul {
@@ -77,11 +80,6 @@ ul:hover {
 	border: 3px solid green; 
 
 }
-
-
-
-
-
 
 #money {
 	

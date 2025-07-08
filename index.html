@@ -24,19 +24,9 @@
 			<div class="monsterPlayerPoleFights"></div>
 			<div id="moveInfoPlayer">
 				<div id="moveInfostrTextPlayerA">-</div>
-				<div id="moveInfostrTextPlayer0">-</div>
-				<div id="moveInfostrTextPlayer1">-</div>
-				<div id="moveInfostrTextPlayer2">-</div>
-				<div id="moveInfostrTextPlayerW"></div>
-				<div id="moveInfostrTextPlayerD"></div>
-
-
 			</div>
 			<div id="moveInfoEnemy">
-				<div id="moveInfo1strTextEnemy"></div>
-
-
-				<div id="moveInfo2strTextEnemy"></div>
+				<div id="moveInfostrTextEnemyA"></div>
 			</div>
 
 
@@ -46,6 +36,16 @@
 
 
 
+		</div>
+
+		<div class="center">
+			<div id="moveInfoFight">
+				<div id="moveInfostrTextW"></div>
+				<div id="moveInfostrTextM"></div>
+				<div id="moveInfostrTextNM"></div>
+				<div id="moveInfostrTextD"></div>
+
+			</div>
 		</div>
 		<div id=str2>
 			<div class="monsterPlayerAttack">
@@ -67,6 +67,7 @@
 				<div id><a id="endMovePlayerText"></a></div>
 			</div>
 
+
 			<div class="monsterEnemyAttack">
 				<div>Здоровье: <a id="HpFightEnemy">--</a></div>
 				<div>Мана: <a id="ManaFightEnemy">--</a></div>
@@ -81,8 +82,14 @@
 
 			</div>
 
+
 		</div>
 
+
+
+
+
+	</div>
 
 
 	</div>
@@ -165,6 +172,9 @@
 
 	</script>
 
+	<script src="lets/name.js"></script>
+	<script src="lets/famyly.js"></script>
+
 	<script src="lets/constant.js"></script>
 	<script src="other/random.js"></script>
 	<script src="entity/skills.js"></script>
@@ -193,7 +203,7 @@
 		let text = year + "" + month + "" + 1;
 
 		if (false) version.textContent = text;
-		else version.textContent = "2025072";
+		else version.textContent = "2025073";
 
 
 

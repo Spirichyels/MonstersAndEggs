@@ -172,6 +172,11 @@ function chacnceNewMonster(max) {
   if (zet) {
     createNewMonster();
     console.log("Вы нашли монстра: ", mapMonsters.get(countId).name);
+    moveInfostrTextNM.textContent =
+      moveInfostrTextNM.textContent +
+      " Вы нашли монстра: " +
+      mapMonsters.get(countId).name +
+      mapMonsters.get(countId).surname;
   }
 }
 
@@ -182,19 +187,19 @@ function chacnceUpAttribute(monster, max) {
     let res = getRandomWeight(x);
     if (res == 14) {
       monster.strength += 1;
-      console.log("Монстер " + monster.name + "навсегда получил 1 силу");
-      moveInfostrTextPlayerD.textContent =
-        "Монстер " + monster.name + "навсегда получил 1 силу";
+      console.log("Монстер " + monster.name + " навсегда получил 1 силу");
+      moveInfostrTextD.textContent =
+        "Монстер " + monster.name + " навсегда получил 1 силу";
     } else if (res == 15) {
       monster.agility += 1;
-      console.log("Монстер " + monster.name + "навсегда получил 1 ловкость");
-      moveInfostrTextPlayerD.textContent =
-        "Монстер " + monster.name + "навсегда получил 1 ловкость";
+      console.log("Монстер " + monster.name + " навсегда получил 1 ловкость");
+      moveInfostrTextD.textContent =
+        "Монстер " + monster.name + " навсегда получил 1 ловкость";
     } else if (res == 16) {
       monster.intelligence += 1;
-      console.log("Монстер " + monster.name + "навсегда получил 1 интеллект");
-      moveInfostrTextPlayerD.textContent =
-        "Монстер " + monster.name + "навсегда получил 1 интеллект";
+      console.log("Монстер " + monster.name + " навсегда получил 1 интеллект");
+      moveInfostrTextD.textContent =
+        "Монстер " + monster.name + " навсегда получил 1 интеллект";
     }
   }
 }

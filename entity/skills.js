@@ -1,12 +1,5 @@
 let TOTAL_ID_SKILLS = 0;
 
-const STRENGTH = "strength";
-const AGILITY = "agility";
-const INTELLIGENCE = "intelligence";
-const ATTACK = "attack";
-const LVL = "lvl";
-const NOTHING = "lvl";
-
 class Skill {
   lvl = 0;
   id = 0;

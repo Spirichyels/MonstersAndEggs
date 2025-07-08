@@ -1,252 +1,3 @@
-const names = [
-  "Амёба",
-  "Тузик",
-  "Сатир",
-  "Мундир",
-  "Мутант",
-  "Черепаха",
-  "Крыса",
-  "Орк",
-  "Носорог",
-  "Носоног",
-  "РукаХер",
-  "Бацыла",
-  "Чмо",
-  "Крысолук",
-  "Елан",
-  "Лох",
-  "Ангел",
-  "Вонючка",
-  "Нечеловек",
-  "Огрызок",
-  "Огузок",
-  "Огурец",
-];
-
-const surname = [
-  "Аветисян",
-  "Лусине",
-  "Акопян",
-  "Меружан",
-  "Ангелов",
-  "Бабайцева",
-  "Бабойдо",
-  "Байдиков",
-  "Баран",
-  "Барсук",
-  "Басистый",
-  "Беззаборная",
-  "Благодатный",
-  "Блоха",
-  "Боцман",
-  "Бочечка",
-  "Брыкалова",
-  "Брыль",
-  "Бугай",
-  "Бутылкин",
-  "Вареник",
-  "Вдовушкина",
-  "Великий",
-  "Великая",
-  "Великородных",
-  "Вернигора",
-  "Вобликова",
-  "Врагов",
-  "Выставкина",
-  "Вышкварка",
-  "Гаврикова",
-  "Галимова",
-  "Гвоздь",
-  "Гниденко",
-  "Гнилюк",
-  "Гнусин",
-  "Гнусина",
-  "Гнусова",
-  "Голобля",
-  "Голопуз",
-  "Горбоконь",
-  "Граф",
-  "Грек",
-  "Двухличная",
-  "Девочкина",
-  "Дежурный",
-  "Денежкина",
-  "Дериземля",
-  "Дерикот",
-  "Дерконос",
-  "Доброскокина",
-  "Добрыдень",
-  "Догодайло",
-  "Доля",
-  "Дорогокупля",
-  "Дрюкина",
-  "Дуплякина",
-  "Дурак",
-  "Дурнева",
-  "Душная",
-  "Дымант",
-  "Дядя",
-  "Ел",
-  "Хави",
-  "Елисейкин",
-  "Жадобин",
-  "Жежеря",
-  "Жерлыкин",
-  "Жидконожкина",
-  "Жидов",
-  "Жуликов",
-  "Жучков",
-  "Жучкова",
-  "Забейворота",
-  "Задемидько",
-  "Заика",
-  "Зайка",
-  "Замогильный",
-  "Запорожец",
-  "Здорова",
-  "Зелепукин",
-  "Земляк",
-  "Земляной",
-  "Злых",
-  "Знов",
-  "Зюзюков",
-  "Зятьев",
-  "Иващенко",
-  "Ирискин",
-  "Иродов",
-  "Кадушкина",
-  "Казак",
-  "Кайфман",
-  "Капля",
-  "Кастрюлева",
-  "Кастрюлев",
-  "Кащеев",
-  "Кеда",
-  "Кикот",
-  "Кисель",
-  "Кислая",
-  "Клёва",
-  "Клюка",
-  "Ковцур",
-  "Габриельс",
-  "Козел",
-  "Козка",
-  "Козюлина",
-  "Колбасина",
-  "Колбасюк",
-  "Колоберда",
-  "Коноплёв",
-  "Корж",
-  "Кориш",
-  "Костыря",
-  "Кочетышкин",
-  "Кравец-Гомза",
-  "Криштофик",
-  "Кронштадт",
-  "Крошка",
-  "Кукишев",
-  "Кургузкина",
-  "Курочка",
-  "Кустикова",
-  "Лайкин",
-  "Лаптиёв",
-  "Ластовыря",
-  "Леваненок",
-  "Легеня",
-  "Лентяева",
-  "Липужин",
-  "Лобок",
-  "Лопата",
-  "Лысоконь",
-  "Майданюк",
-  "Малоедова",
-  "Мамудян",
-  "Мандрыкина",
-  "Масло",
-  "Мерная",
-  "Мишунькина",
-  "Могильник",
-  "Мотовиловец",
-  "Мудрик",
-  "Мурзикова",
-  "Мымрин",
-  "Мышка",
-  "Мышко",
-  "Мышьякова",
-  "Мякиш",
-  "Мясоедов",
-  "Мячик",
-  "Наливайко",
-  "Нараускене",
-  "Нахмансон",
-  "Негру",
-  "Недоносков",
-  "Неминущий",
-  "Немых",
-  "Ненужный",
-  "Нескладнова",
-  "Несмачная",
-  "Несоленый",
-  "Нетудыхатко",
-  "Неудачин",
-  "Нечепаев",
-  "Нохрина",
-  "Огрызко",
-  "Огуля",
-  "Однокозов",
-  "Окорочков",
-  "Орел",
-  "Остросаблина",
-  "Отрыгина",
-  "Падалка",
-  "Пападзе",
-  "Пархолуй",
-  "Пахучий",
-  "Пендюрина",
-  "Перебейнос",
-  "Перескокова",
-  "Переход",
-  "Пинемясов",
-  "Писеукова",
-  "Плаксивая",
-  "Плоский",
-  "Плуготыренко",
-  "Повеквечных",
-  "Погибельная",
-  "Подвальный",
-  "Подопригорин",
-  "Подрез",
-  "Подставкин",
-  "Подъяблонская",
-  "Подъяблонская",
-  "Поздоровкина",
-  "Покотило",
-  "Полевода",
-  "Полянк",
-  "Пономарь",
-  "Поперека",
-  "Попиков",
-  "Попикова",
-  "Попозогло",
-  "Потерпеева",
-  "Потеряйко",
-  "Похмелкин",
-  "Похабин",
-  "Почкун",
-  "Попиков",
-  "Пояниди",
-  "Поянова",
-  "Пресунько",
-  "Приз",
-  "Притыкин",
-  "Прокопало",
-  "Пузикова",
-  "Пурик",
-  "Пывин",
-  "Пысева",
-  "Пышнограев",
-];
-
 const TOTAL_UP = 17;
 const TOTAL_NORM = 16;
 const TOTAL_DOWN = 14;
@@ -264,6 +15,13 @@ const TOTAL_PRICE_SELL2 = 5;
 
 const TOTAL_PRICE_HEAL = 100;
 const TOTAL_START_MONEY = 500;
+
+const STRENGTH = "strength";
+const AGILITY = "agility";
+const INTELLIGENCE = "intelligence";
+const ATTACK = "attack";
+const LVL = "lvl";
+const NOTHING = "lvl";
 
 const TOTAL_TYPE_SKILL_FIRE_BREATH = 200;
 const TOTAL_TYPE_SKILL_ICE_BREATH = 140;
@@ -310,15 +68,27 @@ let enemyHp = 0;
 let playerOrCrit = false;
 let enemyOrCrit = false;
 
-let fireDamadgePl = [];
-let poisonousDamadgePl = [];
+let skillDamadgePlayer = {
+  fireDamadge: [],
+  poisonousDamadge: [],
+  iceDamadge: [],
+  waterDamadge: [],
+  lightingDamadge: 0,
+  wampirismDamadge: 0,
+  blademailDamadge: 0,
+};
 
-let iceDamadgePl = [];
-let waterDamadgePl = [];
-let lightingDamadgePl = 0;
-let wampirismDamadgePl = 0;
-let blademailDamadgePl = 0;
+let skillDamadgeEnemy = {
+  fireDamadge: [],
+  poisonousDamadge: [],
+  iceDamadge: [],
+  waterDamadge: [],
+  lightingDamadge: 0,
+  wampirismDamadge: 0,
+  blademailDamadge: 0,
+};
 
+let waterFirstPl = true;
 let oldHighHumidityEn = false;
 let percentHighHumidityEn = 0;
 //let highHumidity
@@ -330,6 +100,7 @@ let endAttackPl = true;
 let endAttackEn = true;
 
 let endSkillPl = 1;
+let endSkillEn = 1;
 
 let sexButton = document.getElementById("sexButton");
 
@@ -349,11 +120,13 @@ let skillButtonPl3 = document.getElementById("skillButtonPl3");
 let moveInfoPlayer = document.getElementById("moveInfoPlayer");
 
 let moveInfostrTextPlayerA = document.getElementById("moveInfostrTextPlayerA");
-let moveInfostrTextPlayer0 = document.getElementById("moveInfostrTextPlayer0");
-let moveInfostrTextPlayer1 = document.getElementById("moveInfostrTextPlayer1");
-let moveInfostrTextPlayer2 = document.getElementById("moveInfostrTextPlayer2");
-let moveInfostrTextPlayerW = document.getElementById("moveInfostrTextPlayerW");
-let moveInfostrTextPlayerD = document.getElementById("moveInfostrTextPlayerD");
+let moveInfostrTextEnemyA = document.getElementById("moveInfostrTextEnemyA");
+
+let moveInfostrTextW = document.getElementById("moveInfostrTextW");
+let moveInfostrTextM = document.getElementById("moveInfostrTextM");
+let moveInfostrTextNM = document.getElementById("moveInfostrTextNM");
+
+let moveInfostrTextD = document.getElementById("moveInfostrTextD");
 
 let endMovePlayerText = document.getElementById("endMovePlayerText");
 endMovePlayerText.textContent = TOTAL_PLAYER_MOVE_END_TEXT;
