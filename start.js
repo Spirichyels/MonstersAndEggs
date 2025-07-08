@@ -424,7 +424,7 @@ function endMove() {
         }
       }
       //Уворот противника
-      else if (enemyDodge) {
+      if (enemyDodge) {
         console.log("Враг увернулся");
         moveInfostrTextPlayerA.textContent = "Вы промахнулись ";
         deleteAllMessagesSkills();
