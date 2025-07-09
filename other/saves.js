@@ -119,7 +119,7 @@ function onLoadLocalStorage() {
   mapMonsters = restoredMap;
   countId = localStorage.getItem("countId");
   money.textContent = localStorage.getItem("money");
-  updateMonsters();
+  updateMonsters(false);
   //console.log(restoredMap);
 }
 

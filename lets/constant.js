@@ -117,6 +117,10 @@ let skillButtonPl1 = document.getElementById("skillButtonPl1");
 let skillButtonPl2 = document.getElementById("skillButtonPl2");
 let skillButtonPl3 = document.getElementById("skillButtonPl3");
 
+skillNamePl0 = document.getElementById("skillNamePl0");
+skillNamePl1 = document.getElementById("skillNamePl1");
+skillNamePl2 = document.getElementById("skillNamePl2");
+
 let moveInfoPlayer = document.getElementById("moveInfoPlayer");
 
 let moveInfostrTextPlayerA = document.getElementById("moveInfostrTextPlayerA");

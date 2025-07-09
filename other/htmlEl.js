@@ -56,7 +56,7 @@ function heal1MonsterClick() {
         .get(idHealMonsterInput)
         .getHp();
 
-      updateMonsters();
+      updateMonsters(true);
     }
   } catch (error) {
     console.log("Введите существующий id вашего монстра в формате от 0-99.");
@@ -201,7 +201,7 @@ function sexButtonClick() {
       selectPolMonster(newMonster);
       money.textContent = Math.floor(money.textContent - TOTAL_PRICE_SEX);
       monsterMaxLvlEvolution(newMonster);
-      updateMonsters();
+      updateMonsters(true);
     } else console.log("НУЖНО БОЛЬШЕ ЗОЛОТА!");
   } else
     console.log(
@@ -212,7 +212,7 @@ function sexButtonClick() {
 }
 
 function skillEvents(skill) {
-  skill.addEventListener("click", () => {
+  skill.addEventListener("change", () => {
     useAbilityPl(skill.id);
   });
 }

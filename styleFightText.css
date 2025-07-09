@@ -128,6 +128,16 @@
 
 .aStrSkill {
 	margin: 2px;
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: center;
+	
+}
+.aStrSkill a{
+	
+}
+.aStrSkill input{
+	
 }
 
 #EndMoveTable {
@@ -135,3 +145,5 @@
 	height: 100px;
 
 }
+
+

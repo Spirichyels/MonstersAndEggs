@@ -52,12 +52,15 @@
 				<div>Здоровье: <a id="HpFightPlayer">--</a>
 				</div>
 				<div>Мана: <a id="ManaFightPlayer">--</a></div>
-				<div class="aStrSkill"><button disabled id="attackButtonPl">Ударить</button></div>
-				<div class="aStrSkill"><button disabled id="skillButtonPl1">1 сп</button> <a id="skillName0">name</a>
+				<div class="aStrSkill"><a>Атака</a><input type="checkbox" disabled id="attackButtonPl"></input></div>
+				<div class="aStrSkill">
+					<a id="skillNamePl0">name</a><input type="checkbox" disabled id="skillButtonPl1"></input>
 				</div>
-				<div class="aStrSkill"><button disabled id="skillButtonPl2">2 сп</button> <a id="skillName1">name</a>
+				<div class="aStrSkill">
+					<a id="skillNamePl1">name</a><input type="checkbox" disabled id="skillButtonPl2"></input>
 				</div>
-				<div class="aStrSkill"><button disabled id="skillButtonPl3">3 сп</button> <a id="skillName2">name</a>
+				<div class="aStrSkill">
+					<a id="skillNamePl2">name</a><input type="checkbox" disabled id="skillButtonPl3"></input>
 				</div>
 
 
@@ -180,6 +183,8 @@
 	<script src="entity/skills.js"></script>
 	<script src="entity/monster.js"></script>
 	<script src="other/htmlEl.js"></script>
+	<script src="other/fight.js"></script>
+
 	<script src="other/saves.js"></script>
 
 
@@ -203,7 +208,7 @@
 		let text = year + "" + month + "" + 1;
 
 		if (false) version.textContent = text;
-		else version.textContent = "2025073";
+		else version.textContent = "2025074";
 
 
 
