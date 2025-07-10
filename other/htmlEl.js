@@ -213,7 +213,7 @@ function sexButtonClick() {
 
 function skillEvents(skill) {
   skill.addEventListener("change", () => {
-    useAbilityPl(skill.id);
+    useAbilityPl(skill.id, player);
   });
 }
 function Events() {

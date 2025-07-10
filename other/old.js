@@ -1,5 +1,157 @@
 // OLD
 
+//////////////////////////////////////////////
+if (skillDamadgePlayer.fireDamadge[0] != undefined) {
+  enemy.HP = enemy.HP - skillDamadgePlayer.fireDamadge[0];
+  textPlayer =
+    "[" +
+    skillDamadgePlayer.fireDamadge.length +
+    "]" +
+    " Поджигаете противника: " +
+    skillDamadgePlayer.fireDamadge[0];
+  createMessageSkill("Player", TOTAL_TYPE_SKILL_FIRE_BREATH, textPlayer);
+
+  console.log("еще ожёг: ", skillDamadgePlayer.fireDamadge[0]);
+
+  skillDamadgePlayer.fireDamadge.shift();
+} else {
+  deleteMessageSkill("Player", TOTAL_TYPE_SKILL_FIRE_BREATH);
+}
+if (skillDamadgePlayer.poisonousDamadge[0] != undefined) {
+  enemy.HP = enemy.HP - skillDamadgePlayer.poisonousDamadge[0];
+  console.log("еще яд: ", skillDamadgePlayer.poisonousDamadge[0]);
+  textPlayer =
+    "[" +
+    skillDamadgePlayer.poisonousDamadge.length +
+    "]" +
+    "Отравляете противника: " +
+    skillDamadgePlayer.poisonousDamadge[0];
+  createMessageSkill("Player", TOTAL_TYPE_SKILL_POISONOUS_BREATH, textPlayer);
+
+  skillDamadgePlayer.poisonousDamadge.shift();
+} else {
+  deleteMessageSkill("Player", TOTAL_TYPE_SKILL_POISONOUS_BREATH);
+}
+if (skillDamadgePlayer.iceDamadge[0] != undefined) {
+  enemy.HP = enemy.HP - skillDamadgePlayer.iceDamadge[0];
+  textPlayer =
+    "[" +
+    skillDamadgePlayer.iceDamadge.length +
+    "]" +
+    "Замораживаете противника: " +
+    skillDamadgePlayer.iceDamadge[0];
+  createMessageSkill("Player", TOTAL_TYPE_SKILL_ICE_BREATH, textPlayer);
+
+  console.log("еще мороз: ", skillDamadgePlayer.iceDamadge[0]);
+
+  skillDamadgePlayer.iceDamadge.shift();
+} else {
+  deleteMessageSkill("Player", TOTAL_TYPE_SKILL_ICE_BREATH);
+}
+if (skillDamadgePlayer.lightingDamadge != 0) {
+  let water = 1;
+  if (enemyMonster.highHumidity == true) {
+    water = 2;
+    textPlayer =
+      "поражаете сырого противника молнией: " +
+      skillDamadgePlayer.lightingDamadge * water;
+  } else {
+    textPlayer = "выстреливаете молнией: " + skillDamadgePlayer.lightingDamadge;
+  }
+  createMessageSkill("Player", TOTAL_TYPE_SKILL_LIGHTING_STRIKE, textPlayer);
+  enemy.HP = enemy.HP - skillDamadgePlayer.lightingDamadge * water;
+  console.log("Удар молнией ", skillDamadgePlayer.lightingDamadge * water);
+
+  skillDamadgePlayer.lightingDamadge = 0;
+} else {
+  deleteMessageSkill("Player", TOTAL_TYPE_SKILL_LIGHTING_STRIKE);
+}
+if (skillDamadgePlayer.wampirismDamadge != 0) {
+  player.attack = getRealAttackPlayer();
+  enemy.HP = enemy.HP - player.attack;
+  console.log(
+    "Исцеление вампира ",
+    skillDamadgePlayer.wampirismDamadge,
+    "атака игрока",
+    player.attack
+  );
+  //moveInfostrTextPlayerA.textContent = "Вы атакуете: " + playerAttack;
+
+  critText(player.attack, player.orCrit, "Player");
+  textPlayer = "Исцеление вампира: " + skillDamadgePlayer.wampirismDamadge;
+  createMessageSkill("Player", TOTAL_TYPE_SKILL_WAMPIRISM, textPlayer);
+
+  if (player.HP <= mapMonsters.get(oldMonsterFightP).getHp()) {
+    player.HP = player.HP + skillDamadgePlayer.wampirismDamadge;
+  }
+  skillDamadgePlayer.wampirismDamadge = 0;
+} else {
+  deleteMessageSkill("Player", TOTAL_TYPE_SKILL_WAMPIRISM);
+}
+if (skillDamadgePlayer.blademailDamadge != 0) {
+  player.attack = getRealAttackPlayer();
+  enemy.HP = enemy.HP - player.attack;
+
+  let itog = Math.floor(
+    (enemyMonster.getAttack() / 100) * skillDamadgePlayer.blademailDamadge
+  );
+  critText(player.attack, player.orCrit, "Player");
+  textPlayer = "Отразили: " + itog;
+  createMessageSkill("Player", TOTAL_TYPE_SKILL_BLADEMAIL, textPlayer);
+
+  console.log("Отражение ", itog);
+  enemy.HP = enemy.HP - itog;
+  skillDamadgePlayer.blademailDamadge = 0;
+} else {
+  deleteMessageSkill("Player", TOTAL_TYPE_SKILL_BLADEMAIL);
+}
+////////////////
+
+////////////////////////
+if (playerMana >= mapMonsters.get(oldMonsterFightP).intelligence) {
+  let skill = mapMonsters.get(oldMonsterFightP).skillBacpack[endSkillPl];
+  if (skill) {
+    if (skill.type == TOTAL_TYPE_SKILL_FIRE_BREATH) {
+      skillDamadgePlayer.fireDamadge = skill.getDamadge(
+        mapMonsters.get(oldMonsterFightP).intelligence
+      );
+    } else if (skill.type == TOTAL_TYPE_SKILL_POISONOUS_BREATH) {
+      skillDamadgePlayer.poisonousDamadge = skill.getDamadge(
+        mapMonsters.get(oldMonsterFightP).agility
+      );
+    } else if (skill.type == TOTAL_TYPE_SKILL_ICE_BREATH) {
+      skillDamadgePlayer.iceDamadge = skill.getDamadge(
+        mapMonsters.get(oldMonsterFightP).intelligence
+      );
+    } else if (skill.type == TOTAL_TYPE_SKILL_WATER_STRIKE) {
+      skillDamadgePlayer.waterDamadge = skill.getDamadge(
+        mapMonsters.get(oldMonsterFightP).intelligence
+      );
+      waterFirstPl = true;
+    } else if (skill.type == TOTAL_TYPE_SKILL_LIGHTING_STRIKE) {
+      skillDamadgePlayer.lightingDamadge = skill.formula(
+        mapMonsters.get(oldMonsterFightP).intelligence
+      );
+      console.log("lightingDamadge", skillDamadgePlayer.lightingDamadge);
+    } else if (skill.type == TOTAL_TYPE_SKILL_WAMPIRISM) {
+      skillDamadgePlayer.wampirismDamadge = skill.formula(
+        mapMonsters.get(oldMonsterFightP).getAttack()
+      );
+    } else if (skill.type == TOTAL_TYPE_SKILL_BLADEMAIL) {
+      skillDamadgePlayer.blademailDamadge = skill.formula();
+    }
+
+    playerMana = Math.floor(
+      playerMana - mapMonsters.get(oldMonsterFightP).intelligence
+    );
+  }
+} else {
+  console.log("Игроку не хватило маны");
+  moveInfostrTextPlayerA.textContent = "Вам не хватает маны: ";
+}
+
+//////////
+
 let skillId = [
   { skillButtonPl1: 1 },
   { skillButtonPl2: 2 },

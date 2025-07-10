@@ -177,6 +177,9 @@ function chacnceNewMonster(max) {
       " Вы нашли монстра: " +
       mapMonsters.get(countId).name +
       mapMonsters.get(countId).surname;
+    mapMonsters
+      .get(countId)
+      .setSkillBacpack(createNewSkill(getRandomInt(1, 3), false, 0, -1));
   }
 }
 

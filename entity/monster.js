@@ -282,12 +282,12 @@ class Monster {
       this.firstCrit = Math.floor(getRandomInt(1, 10));
       this.firstDodge = Math.floor(getRandomInt(1, 5));
 
-      if (getRandomPercent(100, 35)) {
-        this.setSkillBacpack(createNewSkill(getRandomInt(1, 2), false, 0, -1));
-        //this.setSkillBacpack(createNewSkill(7, false, 0, -1));
-        //this.setSkillBacpack(createNewSkill(10, false, 0, -1));
-        //this.setSkillBacpack(createNewSkill(3, false, 0, -1));
-      }
+      //   if (getRandomPercent(100, 35)) {
+      //     this.setSkillBacpack(createNewSkill(getRandomInt(1, 2), false, 0, -1));
+      //     //this.setSkillBacpack(createNewSkill(7, false, 0, -1));
+      //     //this.setSkillBacpack(createNewSkill(10, false, 0, -1));
+      //     //this.setSkillBacpack(createNewSkill(3, false, 0, -1));
+      //   }
     } else if (!create) {
       //console.log("Ураааа");
     }
@@ -298,9 +298,11 @@ class Monster {
     //console.log("bot countId: ", countId);
     this.lvl = lvl;
     const xren = 1.3;
-    this.strength = getRandomInt(1 + lvl, Math.floor((lvl * 10) / xren));
-    this.agility = getRandomInt(1 + lvl, Math.floor((lvl * 10) / xren));
-    this.intelligence = getRandomInt(1 + lvl, Math.floor((lvl * 10) / xren));
+    let min = lvl - 10;
+    if (min < 1) min = lvl;
+    this.strength = getRandomInt(min, Math.floor((lvl * 10) / xren));
+    this.agility = getRandomInt(min, Math.floor((lvl * 10) / xren));
+    this.intelligence = getRandomInt(min, Math.floor((lvl * 10) / xren));
 
     this.firstHp = getRandomInt(30, Math.floor((lvl * 100) / xren));
     this.firstMana = getRandomInt(1, Math.floor((lvl * 100) / xren));
@@ -309,6 +311,30 @@ class Monster {
     this.firstArmor = Math.floor(getRandomInt(0, lvl));
     this.firstCrit = Math.floor(getRandomInt(1, lvl));
     this.firstDodge = Math.floor(getRandomInt(1, lvl));
+
+    if (lvl > 1) {
+      let min1 = lvl - 2;
+      if (min1 < 1) min1 = 1;
+      this.setSkillBacpack(
+        createNewSkill(getRandomInt(min1, lvl), false, 0, -1)
+      );
+    }
+
+    if (lvl > 3) {
+      let min2 = lvl - 4;
+      if (min2 < 1) min2 = 1;
+      this.setSkillBacpack(
+        createNewSkill(getRandomInt(min2, lvl), false, 0, -1)
+      );
+    }
+
+    if (lvl > 5) {
+      let min3 = lvl - 5;
+      if (min3 < 1) min3 = 1;
+      this.setSkillBacpack(
+        createNewSkill(getRandomInt(min3, lvl), false, 0, -1)
+      );
+    }
   }
   printSkillsBackpack(backpack) {
     try {

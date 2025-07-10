@@ -62,11 +62,32 @@ let levelEnemy = 1;
 let oldEnemyLevel = levelEnemy;
 
 let enemyMonster = "none";
-let playerHp = 0;
-let enemyHp = 0;
 
-let playerOrCrit = false;
-let enemyOrCrit = false;
+let player = {
+  text: "Игрок",
+  text2: "Player",
+
+  attack: 0,
+  orCrit: false,
+
+  HP: 0,
+  Mana: 0,
+  endAttack: true,
+  endSkill: 1,
+};
+
+let enemy = {
+  text: "Враг",
+  text2: "Enemy",
+
+  attack: 0,
+  orCrit: false,
+
+  HP: 0,
+  Mana: 0,
+  endAttack: true,
+  endSkill: 1,
+};
 
 let skillDamadgePlayer = {
   fireDamadge: [],
@@ -89,18 +110,22 @@ let skillDamadgeEnemy = {
 };
 
 let waterFirstPl = true;
+let waterFirstEn = true;
+
 let oldHighHumidityEn = false;
+let oldHighHumidityPl = false;
+
 let percentHighHumidityEn = 0;
-//let highHumidity
+let percentHighHumidityPl = 0;
 
 let poleFightsHaveMonsterEnemy = false; //Если True нельзя добавлять монстров (врагов) на стол
 let poleFightsHaveMonsterPlayer = false; //Если True нельзя добавлять монстров (Игрока) на стол
 
-let endAttackPl = true;
-let endAttackEn = true;
+//let endAttackPl = true;
+//let endAttackEn = true;
 
-let endSkillPl = 1;
-let endSkillEn = 1;
+//let endSkillPl = 1;
+//let endSkillEn = 1;
 
 let sexButton = document.getElementById("sexButton");
 

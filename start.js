@@ -181,13 +181,15 @@ function startGame() {
       noMoreWomens++;
     }
   }
+  mapMonsters.get(0).setSkillBacpack(createNewSkill(1, false, 0, -1));
+  updateMonsters(false);
   if (noMoreWomens == TOTAL_SIZE_ARR) {
     mapMonsters.get(0).pol = !mapMonsters.get(0).pol;
     console.log("Долой однополые браки");
     updateMonsters(false);
   }
   //console.log(noMoreWomens);
-  //testMonsters();
+  testMonsters();
   updateMonsters(false);
 
   //localStorage.myMap = JSON.stringify(Array.from(mapMonsters));

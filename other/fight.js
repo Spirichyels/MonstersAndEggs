@@ -1,6 +1,6 @@
 function createMessageSkill(Player, name, text) {
   let help = "moveInfostrText" + Player;
-  console.log(help);
+  //console.log(help);
   if (document.getElementById(help + name)) {
     document.getElementById(help + name).textContent = text;
   } else {
@@ -41,38 +41,29 @@ function attackButtonCLick() {
   endMoveButtonPl.disabled = false;
   endMovePlayerText.textContent =
     TOTAL_PLAYER_MOVE_END_TEXT + "просто атакуете";
-  endAttackPl = true;
+  player.endAttack = true;
 
   if (skillDamadgePlayer.waterDamadge[0] == undefined) {
     enemyMonster.highHumidity = false;
     updateEnemyMonster(enemyMonster);
   }
 }
-function useAbilityPl(id) {
+function useAbilityPl(id, user) {
   let x = 0;
-  endAttackPl = false;
-  if (id == skillButtonPl1.id) {
-    // skillButtonPl1.disabled = true;
-    // skillButtonPl2.disabled = false;
-    // skillButtonPl3.disabled = false;
+  //console.log("fghf");
 
+  user.endAttack = false;
+  //console.log(user);
+  if (id == skillButtonPl1.id) {
     skillButtonPl2.checked = false;
     skillButtonPl3.checked = false;
 
     x = 0;
   } else if (id == skillButtonPl2.id) {
-    // skillButtonPl1.disabled = false;
-    // skillButtonPl2.disabled = true;
-    // skillButtonPl3.disabled = false;
-
     skillButtonPl1.checked = false;
     skillButtonPl3.checked = false;
     x = 1;
   } else if (id == skillButtonPl3.id) {
-    // skillButtonPl1.disabled = false;
-    // skillButtonPl2.disabled = false;
-    // skillButtonPl3.disabled = true;
-
     skillButtonPl1.checked = false;
     skillButtonPl2.checked = false;
     x = 2;
@@ -81,11 +72,44 @@ function useAbilityPl(id) {
   endMoveButtonPl.disabled = false;
   endMovePlayerText.textContent =
     TOTAL_PLAYER_MOVE_END_TEXT + "используете " + `${x + 1}` + " способность";
-  endSkillPl = x;
+  user.endSkill = x;
 
   if (skillDamadgePlayer.waterDamadge[0] == undefined) {
     enemyMonster.highHumidity = false;
     updateEnemyMonster(enemyMonster);
+  }
+}
+
+function createEndMoveEnemy() {
+  let turnEnemy = enemyMonster.skillBacpack.length + 1;
+
+  let randomTurn = getRandomInt(1, turnEnemy);
+  if (enemyMonster.intelligence > enemyMonster.getCurrentMana()) {
+    randomTurn = 1;
+    console.log("Мало маны у врага, randomTurn: " + randomTurn);
+  }
+
+  switch (randomTurn) {
+    case 1: {
+      enemy.endAttack = true;
+      enemy.endSkill = 0;
+      break;
+    }
+    case 2: {
+      enemy.endAttack = false;
+      enemy.endSkill = 0;
+      break;
+    }
+    case 3: {
+      enemy.endAttack = false;
+      enemy.endSkill = 2;
+      break;
+    }
+    case 4: {
+      enemy.endAttack = false;
+      enemy.endSkill = 3;
+      break;
+    }
   }
 }
 
@@ -108,6 +132,11 @@ function win(winner) {
   nullSkills("Player");
 
   fightButton.disabled = false;
+  attackButtonPl.checked = false;
+  skillButtonPl1.checked = false;
+  skillButtonPl2.checked = false;
+  skillButtonPl3.checked = false;
+
   attackButtonPl.disabled = true;
   skillButtonPl1.disabled = true;
   skillButtonPl2.disabled = true;
@@ -131,9 +160,9 @@ function getRealAttackPlayer() {
   );
   //console.log("attack:" + attack, " crit:" + newAttack);
   if (newAttack > attack) {
-    playerOrCrit = true;
+    player.orCrit = true;
   } else {
-    playerOrCrit = false;
+    player.orCrit = false;
   }
   newAttack = newAttack - enemyMonster.getArmor();
   return newAttack;
@@ -165,12 +194,164 @@ function getRealAttackEnemy() {
   let enemyAttack = getRandomCrit(newAttack, enemyMonster.getCrit());
 
   if (enemyAttack > newAttack) {
-    enemyOrCrit = true;
+    enemy.orCrit = true;
   } else {
-    enemyOrCrit = false;
+    enemy.orCrit = false;
   }
   enemyAttack = enemyAttack - mapMonsters.get(oldMonsterFightP).getArmor();
   return enemyAttack;
+}
+
+function createDamadgeSkills(user, monster, skillDamadge) {
+  //alert("");
+  //console.log(user.Mana);
+  if (user.Mana >= monster.intelligence) {
+    let skill = monster.skillBacpack[user.endSkill];
+    //console.log(skill);
+    if (skill) {
+      if (skill.type == TOTAL_TYPE_SKILL_FIRE_BREATH) {
+        skillDamadge.fireDamadge = skill.getDamadge(monster.intelligence);
+      } else if (skill.type == TOTAL_TYPE_SKILL_POISONOUS_BREATH) {
+        skillDamadge.poisonousDamadge = skill.getDamadge(monster.agility);
+      } else if (skill.type == TOTAL_TYPE_SKILL_ICE_BREATH) {
+        skillDamadge.iceDamadge = skill.getDamadge(monster.intelligence);
+      } else if (skill.type == TOTAL_TYPE_SKILL_WATER_STRIKE) {
+        skillDamadge.waterDamadge = skill.getDamadge(monster.intelligence);
+        waterFirstPl = true;
+      } else if (skill.type == TOTAL_TYPE_SKILL_LIGHTING_STRIKE) {
+        skillDamadge.lightingDamadge = skill.formula(monster.intelligence);
+        console.log("lightingDamadge", skillDamadge.lightingDamadge);
+      } else if (skill.type == TOTAL_TYPE_SKILL_WAMPIRISM) {
+        skillDamadge.wampirismDamadge = skill.formula(monster.getAttack());
+      } else if (skill.type == TOTAL_TYPE_SKILL_BLADEMAIL) {
+        skillDamadge.blademailDamadge = skill.formula();
+      }
+
+      user.Mana = Math.floor(user.Mana - monster.intelligence);
+    }
+  } else {
+    console.log(`${user.text}у не хватило маны`);
+
+    if (user.text == "Игрок") {
+      moveInfostrTextPlayerA.textContent = `${user.text}у  не хватает маны: `;
+    } else if (user.text == "Враг") {
+      moveInfostrTextEnemyA.textContent = `${user.text}у  не хватает маны: `;
+    }
+  }
+}
+
+function damadgeSkills(user, noUser, monster, noMonster, skillDamadge) {
+  if (skillDamadge.fireDamadge[0] != undefined) {
+    noUser.HP = noUser.HP - skillDamadge.fireDamadge[0];
+    text =
+      "[" +
+      skillDamadge.fireDamadge.length +
+      "]" +
+      " Поджигаете противника: " +
+      skillDamadge.fireDamadge[0];
+    createMessageSkill(user.text2, TOTAL_TYPE_SKILL_FIRE_BREATH, text);
+    console.log(user.text2, " еще ожёг: ", skillDamadge.fireDamadge[0]);
+
+    skillDamadge.fireDamadge.shift();
+  } else {
+    deleteMessageSkill(user.text2, TOTAL_TYPE_SKILL_FIRE_BREATH);
+  }
+  if (skillDamadge.poisonousDamadge[0] != undefined) {
+    noUser.HP = noUser.HP - skillDamadge.poisonousDamadge[0];
+    console.log(user.text2, " еще яд: ", skillDamadge.poisonousDamadge[0]);
+    text =
+      "[" +
+      skillDamadge.poisonousDamadge.length +
+      "]" +
+      "Отравляете противника: " +
+      skillDamadge.poisonousDamadge[0];
+    createMessageSkill(user.text2, TOTAL_TYPE_SKILL_POISONOUS_BREATH, text);
+
+    skillDamadge.poisonousDamadge.shift();
+  } else {
+    deleteMessageSkill(user.text2, TOTAL_TYPE_SKILL_POISONOUS_BREATH);
+  }
+  if (skillDamadge.iceDamadge[0] != undefined) {
+    noUser.HP = noUser.HP - skillDamadge.iceDamadge[0];
+    text =
+      "[" +
+      skillDamadge.iceDamadge.length +
+      "]" +
+      "Замораживаете противника: " +
+      skillDamadge.iceDamadge[0];
+    createMessageSkill(user.text2, TOTAL_TYPE_SKILL_ICE_BREATH, text);
+
+    console.log(user.text2, " еще мороз: ", skillDamadge.iceDamadge[0]);
+
+    skillDamadge.iceDamadge.shift();
+  } else {
+    deleteMessageSkill(user.text2, TOTAL_TYPE_SKILL_ICE_BREATH);
+  }
+  if (skillDamadge.lightingDamadge != 0) {
+    let water = 1;
+    if (noMonster.highHumidity == true) {
+      water = 2;
+      text =
+        "поражаете сырого противника молнией: " +
+        skillDamadge.lightingDamadge * water;
+    } else {
+      text = "выстреливаете молнией: " + skillDamadge.lightingDamadge;
+    }
+    createMessageSkill(user.text2, TOTAL_TYPE_SKILL_LIGHTING_STRIKE, text);
+    noUser.HP = noUser.HP - skillDamadge.lightingDamadge * water;
+    console.log(
+      user.text2,
+      " Удар молнией ",
+      skillDamadge.lightingDamadge * water
+    );
+    skillDamadge.lightingDamadge = 0;
+  } else {
+    deleteMessageSkill(user.text2, TOTAL_TYPE_SKILL_LIGHTING_STRIKE);
+  }
+  if (skillDamadge.wampirismDamadge != 0) {
+    if ((user.text2 = "Player")) {
+      user.attack = getRealAttackPlayer();
+    } else if ((user.text2 = "Enemy")) {
+      user.attack = getRealAttackEnemy();
+    }
+
+    noUser.HP = noUser.HP - user.attack;
+    console.log(
+      "Исцеление вампира ",
+      skillDamadge.wampirismDamadge,
+      "атака " + user.text2,
+      user.attack
+    );
+    //moveInfostrTextPlayerA.textContent = "Вы атакуете: " + playerAttack;
+
+    critText(user.attack, user.orCrit, user.text2);
+    text = "Исцеление вампира: " + skillDamadge.wampirismDamadge;
+    createMessageSkill(user.text2, TOTAL_TYPE_SKILL_WAMPIRISM, text);
+
+    if (user.HP <= monster.getHp()) {
+      user.HP = user.HP + skillDamadge.wampirismDamadge;
+    }
+    skillDamadge.wampirismDamadge = 0;
+  } else {
+    deleteMessageSkill(user.text2, TOTAL_TYPE_SKILL_WAMPIRISM);
+  }
+  if (skillDamadge.blademailDamadge != 0) {
+    user.attack = getRealAttackPlayer();
+    noUser.HP = noUser.HP - user.attack;
+
+    let itog = Math.floor(
+      (enemyMonster.getAttack() / 100) * skillDamadge.blademailDamadge
+    );
+    critText(user.attack, user.orCrit, user.text2);
+    text = "Отразили: " + itog;
+    createMessageSkill(user.text2, TOTAL_TYPE_SKILL_BLADEMAIL, text);
+
+    console.log(user.text2, " Отражение ", itog);
+    noUser.HP = noUser.HP - itog;
+    skillDamadge.blademailDamadge = 0;
+  } else {
+    deleteMessageSkill(user.text2, TOTAL_TYPE_SKILL_BLADEMAIL);
+  }
 }
 
 function endMove() {
@@ -189,12 +370,13 @@ function endMove() {
   moveInfostrTextM.textContent = "";
   moveInfostrTextD.textContent = "";
 
+  createEndMoveEnemy(); // Ход врага
+
   let textPlayer = "";
   let textEnemy = "";
 
   // переменные для атаки
-  let playerAttack = 0;
-  let enemyAttack = 0;
+
   let playerDodge = false;
   let enemyDodge = false;
 
@@ -202,282 +384,176 @@ function endMove() {
   let stunEnemy = false;
 
   if (poleFightsHaveMonsterEnemy) {
-    if (playerHp >= 0 && enemyHp >= 0) {
-      // шанс увернуться от урона игроком
+    if (player.HP >= 0 && enemy.HP >= 0)
+      //
+      //
+      //
+      // расчет шанса увернуться от урона
       playerDodge = getRandomPercent(
         100,
         mapMonsters.get(oldMonsterFightP).getDodge()
       );
-      enemyDodge = getRandomPercent(100, enemyMonster.getDodge());
-      //
+    enemyDodge = getRandomPercent(100, enemyMonster.getDodge());
+    //
 
-      // Рассчет обычной атаки игрока
-      if (endAttackPl) {
-        playerAttack = getRealAttackPlayer();
-        if (playerAttack <= 0) playerAttack = 1;
-
-        critText(playerAttack, playerOrCrit, "Player");
-        //
-      } else if (!enemyDodge) {
-        // использование способности у игрока
-        if (playerMana >= mapMonsters.get(oldMonsterFightP).intelligence) {
-          let skill =
-            mapMonsters.get(oldMonsterFightP).skillBacpack[endSkillPl];
-          if (skill) {
-            if (skill.type == TOTAL_TYPE_SKILL_FIRE_BREATH) {
-              skillDamadgePlayer.fireDamadge = skill.getDamadge(
-                mapMonsters.get(oldMonsterFightP).intelligence
-              );
-            } else if (skill.type == TOTAL_TYPE_SKILL_POISONOUS_BREATH) {
-              skillDamadgePlayer.poisonousDamadge = skill.getDamadge(
-                mapMonsters.get(oldMonsterFightP).agility
-              );
-            } else if (skill.type == TOTAL_TYPE_SKILL_ICE_BREATH) {
-              skillDamadgePlayer.iceDamadge = skill.getDamadge(
-                mapMonsters.get(oldMonsterFightP).intelligence
-              );
-            } else if (skill.type == TOTAL_TYPE_SKILL_WATER_STRIKE) {
-              skillDamadgePlayer.waterDamadge = skill.getDamadge(
-                mapMonsters.get(oldMonsterFightP).intelligence
-              );
-              waterFirstPl = true;
-            } else if (skill.type == TOTAL_TYPE_SKILL_LIGHTING_STRIKE) {
-              skillDamadgePlayer.lightingDamadge = skill.formula(
-                mapMonsters.get(oldMonsterFightP).intelligence
-              );
-              console.log(
-                "lightingDamadge",
-                skillDamadgePlayer.lightingDamadge
-              );
-            } else if (skill.type == TOTAL_TYPE_SKILL_WAMPIRISM) {
-              skillDamadgePlayer.wampirismDamadge = skill.formula(
-                mapMonsters.get(oldMonsterFightP).getAttack()
-              );
-            } else if (skill.type == TOTAL_TYPE_SKILL_BLADEMAIL) {
-              skillDamadgePlayer.blademailDamadge = skill.formula();
-            }
-
-            playerMana = Math.floor(
-              playerMana - mapMonsters.get(oldMonsterFightP).intelligence
-            );
-          }
-        } else {
-          console.log("Игроку не хватило маны");
-          moveInfostrTextPlayerA.textContent = "Вам не хватает маны: ";
-        }
+    // использование способности воды игроком
+    if (skillDamadgePlayer.waterDamadge[0] != undefined) {
+      let text;
+      percentHighHumidityEn = skillDamadgePlayer.waterDamadge[0];
+      if (waterFirstPl == true) {
+        text =
+          "[" +
+          skillDamadgePlayer.waterDamadge.length +
+          "]" +
+          "Облили врага: " +
+          percentHighHumidityEn +
+          "%";
+        createMessageSkill("Player", TOTAL_TYPE_SKILL_WATER_STRIKE, text);
+        waterFirstPl = false;
+      } else if (waterFirstPl == false) {
+        text =
+          "[" +
+          skillDamadgePlayer.waterDamadge.length +
+          "]" +
+          "Вы сырой: " +
+          percentHighHumidityEn +
+          "%";
+        createMessageSkill("Enemy", TOTAL_TYPE_SKILL_WATER_STRIKE, text);
       }
-      //Уворот противника
-      if (enemyDodge) {
-        console.log("Враг увернулся");
-        moveInfostrTextPlayerA.textContent = "Вы промахнулись ";
-        deleteAllMessagesSkills();
-      }
-
-      //
-      if (skillDamadgePlayer.waterDamadge[0] != undefined) {
-        percentHighHumidityEn = skillDamadgePlayer.waterDamadge[0];
-        if (waterFirstPl == true) {
-          playerAttack =
-            "[" +
-            skillDamadgePlayer.waterDamadge.length +
-            "]" +
-            "Облили врага: " +
-            percentHighHumidityEn +
-            "%";
-          createMessageSkill(
-            "Player",
-            TOTAL_TYPE_SKILL_WATER_STRIKE,
-            playerAttack
-          );
-          waterFirstPl = false;
-        } else if (waterFirstPl == false) {
-          textEnemy =
-            "[" +
-            skillDamadgePlayer.waterDamadge.length +
-            "]" +
-            "Вы сырой: " +
-            percentHighHumidityEn +
-            "%";
-          createMessageSkill("Enemy", TOTAL_TYPE_SKILL_WATER_STRIKE, textEnemy);
-        }
-
-        //console.log("percentHighHumidityEn: ", percentHighHumidityEn);
-        enemyMonster.highHumidity = true;
-        updateEnemyMonster(enemyMonster);
-        skillDamadgePlayer.waterDamadge.shift();
-      } else {
-        deleteMessageSkill("Player", TOTAL_TYPE_SKILL_WATER_STRIKE);
-      }
-
-      // Рассчет обычной атаки врага
-      if (endAttackEn) {
-        if (skillDamadgePlayer.iceDamadge[0] != undefined) {
-          console.log("Враг заморожен");
-          moveInfostrTextEnemyA.textContent = "Враг заморожен ";
-          enemyAttack = 0;
-        } else {
-          enemyAttack = getRealAttackEnemy();
-          if (enemyAttack <= 0) enemyAttack = 1;
-          critText(enemyAttack, enemyOrCrit, "Enemy");
-          //console.log(enemyAttack);
-        }
-      } else {
-      }
-
-      if (playerDodge) {
-        console.log("Игрок увернулся");
-      } else if (!playerDodge) {
-        if (endAttackEn) {
-          playerHp = playerHp - enemyAttack;
-        }
-      }
-
-      //здесь рассчитывается урон способностей обычно
-      if (true) {
-        if (endAttackPl) {
-          enemyHp = enemyHp - playerAttack;
-        }
-        if (skillDamadgePlayer.fireDamadge[0] != undefined) {
-          enemyHp = enemyHp - skillDamadgePlayer.fireDamadge[0];
-          textPlayer =
-            "[" +
-            skillDamadgePlayer.fireDamadge.length +
-            "]" +
-            " Поджигаете противника: " +
-            skillDamadgePlayer.fireDamadge[0];
-          createMessageSkill(
-            "Player",
-            TOTAL_TYPE_SKILL_FIRE_BREATH,
-            textPlayer
-          );
-
-          console.log("еще ожёг: ", skillDamadgePlayer.fireDamadge[0]);
-
-          skillDamadgePlayer.fireDamadge.shift();
-        } else {
-          deleteMessageSkill("Player", TOTAL_TYPE_SKILL_FIRE_BREATH);
-        }
-        if (skillDamadgePlayer.poisonousDamadge[0] != undefined) {
-          enemyHp = enemyHp - skillDamadgePlayer.poisonousDamadge[0];
-          console.log("еще яд: ", skillDamadgePlayer.poisonousDamadge[0]);
-          textPlayer =
-            "[" +
-            skillDamadgePlayer.poisonousDamadge.length +
-            "]" +
-            "Отравляете противника: " +
-            skillDamadgePlayer.poisonousDamadge[0];
-          createMessageSkill(
-            "Player",
-            TOTAL_TYPE_SKILL_POISONOUS_BREATH,
-            textPlayer
-          );
-
-          skillDamadgePlayer.poisonousDamadge.shift();
-        } else {
-          deleteMessageSkill("Player", TOTAL_TYPE_SKILL_POISONOUS_BREATH);
-        }
-        if (skillDamadgePlayer.iceDamadge[0] != undefined) {
-          enemyHp = enemyHp - skillDamadgePlayer.iceDamadge[0];
-          textPlayer =
-            "[" +
-            skillDamadgePlayer.iceDamadge.length +
-            "]" +
-            "Замораживаете противника: " +
-            skillDamadgePlayer.iceDamadge[0];
-          createMessageSkill("Player", TOTAL_TYPE_SKILL_ICE_BREATH, textPlayer);
-
-          console.log("еще мороз: ", skillDamadgePlayer.iceDamadge[0]);
-
-          skillDamadgePlayer.iceDamadge.shift();
-        } else {
-          deleteMessageSkill("Player", TOTAL_TYPE_SKILL_ICE_BREATH);
-        }
-        if (skillDamadgePlayer.lightingDamadge != 0) {
-          let water = 1;
-          if (enemyMonster.highHumidity == true) {
-            water = 2;
-            textPlayer =
-              "поражаете сырого противника молнией: " +
-              skillDamadgePlayer.lightingDamadge * water;
-          } else {
-            textPlayer =
-              "выстреливаете молнией: " + skillDamadgePlayer.lightingDamadge;
-          }
-          createMessageSkill(
-            "Player",
-            TOTAL_TYPE_SKILL_LIGHTING_STRIKE,
-            textPlayer
-          );
-          enemyHp = enemyHp - skillDamadgePlayer.lightingDamadge * water;
-          console.log(
-            "Удар молнией ",
-            skillDamadgePlayer.lightingDamadge * water
-          );
-
-          skillDamadgePlayer.lightingDamadge = 0;
-        } else {
-          deleteMessageSkill("Player", TOTAL_TYPE_SKILL_LIGHTING_STRIKE);
-        }
-        if (skillDamadgePlayer.wampirismDamadge != 0) {
-          playerAttack = getRealAttackPlayer();
-          enemyHp = enemyHp - playerAttack;
-          console.log(
-            "Исцеление вампира ",
-            skillDamadgePlayer.wampirismDamadge,
-            "атака игрока",
-            playerAttack
-          );
-          //moveInfostrTextPlayerA.textContent = "Вы атакуете: " + playerAttack;
-
-          critText(playerAttack, playerOrCrit, "Player");
-          textPlayer =
-            "Исцеление вампира: " + skillDamadgePlayer.wampirismDamadge;
-          createMessageSkill("Player", TOTAL_TYPE_SKILL_WAMPIRISM, textPlayer);
-
-          if (playerHp <= mapMonsters.get(oldMonsterFightP).getHp()) {
-            playerHp = playerHp + skillDamadgePlayer.wampirismDamadge;
-          }
-          skillDamadgePlayer.wampirismDamadge = 0;
-        } else {
-          deleteMessageSkill("Player", TOTAL_TYPE_SKILL_WAMPIRISM);
-        }
-        if (skillDamadgePlayer.blademailDamadge != 0) {
-          playerAttack = getRealAttackPlayer();
-          enemyHp = enemyHp - playerAttack;
-
-          let itog = Math.floor(
-            (enemyMonster.getAttack() / 100) *
-              skillDamadgePlayer.blademailDamadge
-          );
-          critText(playerAttack, playerOrCrit, "Player");
-          textPlayer = "Отразили: " + itog;
-          createMessageSkill("Player", TOTAL_TYPE_SKILL_BLADEMAIL, textPlayer);
-
-          console.log("Отражение ", itog);
-          enemyHp = enemyHp - itog;
-          skillDamadgePlayer.blademailDamadge = 0;
-        } else {
-          deleteMessageSkill("Player", TOTAL_TYPE_SKILL_BLADEMAIL);
-        }
-      }
-
-      // Здесь подсчитывается итог здоровья и маны после боя
-      HpFightPlayer.textContent = playerHp;
-      ManaFightPlayer.textContent = playerMana;
-      HpFightEnemy.textContent = enemyHp;
-      ManaFightEnemy.textContent = enemyMana;
-
-      //крит обычной атаки
-      playerOrCrit = false;
-      enemyOrCrit = false;
+      //console.log("percentHighHumidityEn: ", percentHighHumidityEn);
+      enemyMonster.highHumidity = true;
+      updateEnemyMonster(enemyMonster);
+      skillDamadgePlayer.waterDamadge.shift();
+    } else {
+      deleteMessageSkill("Player", TOTAL_TYPE_SKILL_WATER_STRIKE);
     }
+    // использование способности воды врагом
+    if (skillDamadgeEnemy.waterDamadge[0] != undefined) {
+      let text;
+      percentHighHumidityPl = skillDamadgeEnemy.waterDamadge[0];
+      if (waterFirstEn == true) {
+        text =
+          "[" +
+          skillDamadgeEnemy.waterDamadge.length +
+          "]" +
+          "Облили игрока: " +
+          percentHighHumidityPl +
+          "%";
+        createMessageSkill("Enemy", TOTAL_TYPE_SKILL_WATER_STRIKE, text);
+        waterFirstEn = false;
+      } else if (waterFirstEn == false) {
+        text =
+          "[" +
+          skillDamadgeEnemy.waterDamadge.length +
+          "]" +
+          "Вы сырой: " +
+          percentHighHumidityPl +
+          "%";
+        createMessageSkill("Player", TOTAL_TYPE_SKILL_WATER_STRIKE, text);
+      }
+      mapMonsters.get(oldMonsterFightP).highHumidity = true;
+      updateMonsters(false);
+      skillDamadgeEnemy.waterDamadge.shift();
+    } else {
+      deleteMessageSkill("Enemy", TOTAL_TYPE_SKILL_WATER_STRIKE);
+    }
+
+    // Рассчет обычной атаки игрока
+    if (player.endAttack == true) {
+      if (skillDamadgeEnemy.iceDamadge[0] != undefined) {
+        console.log("Вы заморожены");
+        moveInfostrTextPlayerA.textContent = "Вы заморожен ";
+        player.attack = 0;
+      } else {
+        player.attack = getRealAttackPlayer();
+        if (player.attack <= 0) player.attack = 1;
+
+        critText(player.attack, player.orCrit, "Player");
+      }
+      //
+    }
+    //Уворот противника
+    else if (enemyDodge) {
+      console.log("Враг увернулся");
+      moveInfostrTextPlayerA.textContent = "Игрок промахнулся ";
+
+      player.attack = 0;
+      deleteAllMessagesSkills();
+    } else if (!enemyDodge) {
+      // использование способности у игрока
+      createDamadgeSkills(
+        player,
+        mapMonsters.get(oldMonsterFightP),
+        skillDamadgePlayer
+      );
+    }
+
+    // Рассчет обычной атаки врага
+    if (enemy.endAttack) {
+      if (skillDamadgePlayer.iceDamadge[0] != undefined) {
+        console.log("Враг заморожен");
+        moveInfostrTextEnemyA.textContent = "Враг заморожен ";
+        enemy.attack = 0;
+      } else {
+        enemy.attack = getRealAttackEnemy();
+        if (enemy.attack <= 0) enemy.attack = 1;
+        critText(enemy.attack, enemy.orCrit, "Enemy");
+        //console.log(enemyAttack);
+      }
+    } else if (playerDodge) {
+      console.log("Игрок увернулся");
+      moveInfostrTextEnemyA.textContent = "Враг промахнулся ";
+      enemy.attack = 0;
+      deleteAllMessagesSkills();
+    } else if (!playerDodge) {
+      // использование способности у врага
+      createDamadgeSkills(enemy, enemyMonster, skillDamadgeEnemy);
+    }
+
+    //здесь рассчитывается урон способностей от врага обычно
+    if (true) {
+      if (enemy.endAttack) {
+        player.HP = player.HP - enemy.attack;
+      }
+      damadgeSkills(
+        enemy,
+        player,
+        enemyMonster,
+        mapMonsters.get(oldMonsterFightP),
+        skillDamadgeEnemy
+      );
+    }
+
+    //здесь рассчитывается урон способностей от игрока обычно
+    if (true) {
+      if (player.endAttack) {
+        enemy.HP = enemy.HP - player.attack;
+      }
+      damadgeSkills(
+        player,
+        enemy,
+        mapMonsters.get(oldMonsterFightP),
+        enemyMonster,
+        skillDamadgePlayer
+      );
+    }
+
+    // Здесь подсчитывается итог здоровья и маны после боя
+    HpFightPlayer.textContent = player.HP;
+    ManaFightPlayer.textContent = player.Mana;
+    HpFightEnemy.textContent = enemy.HP;
+    ManaFightEnemy.textContent = enemy.Mana;
+
+    //крит обычной атаки
+    player.orCrit = false;
+    enemy.orCrit = false;
   }
-  if (enemyHp <= 0 && playerHp > 0) {
+  if (enemy.HP <= 0 && player.HP > 0) {
     chacnceUpAttribute(mapMonsters.get(oldMonsterFightP), 150);
     poleFightsHaveMonsterEnemy = false;
     poleFightsHaveMonsterPlayer = false;
-    mapMonsters.get(oldMonsterFightP).currentHP = playerHp;
-    mapMonsters.get(oldMonsterFightP).currentMana = playerMana;
+    mapMonsters.get(oldMonsterFightP).currentHP = player.HP;
+    mapMonsters.get(oldMonsterFightP).currentMana = player.Mana;
 
     let fightMoney = Math.floor(oldEnemyLevel * 30 + getRandomInt(0, 9));
 
@@ -494,7 +570,7 @@ function endMove() {
     chacnceNewMonster(450);
 
     win("Player");
-  } else if (playerHp <= 0) {
+  } else if (player.HP <= 0) {
     poleFightsHaveMonsterEnemy = false;
     poleFightsHaveMonsterPlayer = false;
     delete1MonsterFull(oldMonsterFightP);
@@ -526,24 +602,25 @@ function fight() {
 
     //если poleFightsHaveMonsterEnemy false,
 
-    let enemy = new Monster("bot", -1, false);
+    let enemyM = new Monster("bot", -1, false);
     //console.log("fight countId:", countId);
-    enemy.bot(levelEnemy);
-    enemy.divMonster(TOTAL_MONSTERS_FIGHT_ENEMY);
+    enemyM.bot(levelEnemy);
+    enemyM.divMonster(TOTAL_MONSTERS_FIGHT_ENEMY);
     poleFightsHaveMonsterEnemy = true;
 
-    enemyMonster = enemy;
+    enemyMonster = enemyM;
 
-    playerHp = mapMonsters.get(oldMonsterFightP).getCurrentHP();
-    playerMana = mapMonsters.get(oldMonsterFightP).getCurrentMana();
+    player.HP = mapMonsters.get(oldMonsterFightP).getCurrentHP();
+    player.Mana = mapMonsters.get(oldMonsterFightP).getCurrentMana();
 
-    enemyHp = enemyMonster.getHp();
-    enemyMana = enemyMonster.getMana();
+    enemy.HP = enemyMonster.getHp();
+    //console.log(enemy.HP);
+    enemy.Mana = enemyMonster.getMana();
 
-    HpFightPlayer.textContent = playerHp;
-    ManaFightPlayer.textContent = playerMana;
-    HpFightEnemy.textContent = enemyHp;
-    ManaFightEnemy.textContent = enemyMana;
+    HpFightPlayer.textContent = player.HP;
+    ManaFightPlayer.textContent = player.Mana;
+    HpFightEnemy.textContent = enemy.HP;
+    ManaFightEnemy.textContent = enemy.Mana;
 
     try {
       skillNamePl0.textContent =

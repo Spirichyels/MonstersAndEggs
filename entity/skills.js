@@ -10,6 +10,7 @@ class Skill {
 
   constructor(lvl) {
     this.lvl = lvl;
+    if (this.lvl >= 10) this.lvl = 10;
     this.id = TOTAL_ID_SKILLS;
     TOTAL_ID_SKILLS += 1;
     //this.duration = getRandomInt(1, 10) + lvl;
