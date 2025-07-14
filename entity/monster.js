@@ -57,6 +57,7 @@ class Monster {
   firstCrit = 1;
   firstDodge = 1;
   //
+  endurance = 1;
   strength = 1;
   agility = 1;
   intelligence = 1;
@@ -105,6 +106,8 @@ class Monster {
     strength,
     agility,
     intelligence,
+    endurance,
+
     highHumidity,
     genetica,
     genskills,
@@ -130,6 +133,7 @@ class Monster {
     this.strength = strength;
     this.agility = agility;
     this.intelligence = intelligence;
+    this.endurance = endurance;
     //
     //gen = 1;
     this.highHumidity = highHumidity;
@@ -145,6 +149,7 @@ class Monster {
     this.genetica.strength = genetica.strength;
     this.genetica.agility = genetica.agility;
     this.genetica.intelligence = genetica.intelligence;
+    this.genetica.endurance = genetica.endurance;
 
     this.genskills.skill0 = genskills.skill0;
     this.genskills.skill1 = genskills.skill1;
@@ -203,12 +208,7 @@ class Monster {
   }
 
   getHp() {
-    let hp = Math.floor(
-      this.firstHp +
-        this.strength * 4 +
-        this.agility * 3 +
-        this.intelligence * 2
-    );
+    let hp = Math.floor(this.firstHp + this.endurance * 10);
     return hp;
   }
 
@@ -273,6 +273,7 @@ class Monster {
       this.strength = getRandomInt(1, 20);
       this.agility = getRandomInt(1, 20);
       this.intelligence = getRandomInt(1, 20);
+      this.endurance = getRandomInt(1, 20);
 
       this.firstHp = getRandomInt(30, 60);
       this.firstMana = getRandomInt(1, 20);
@@ -303,6 +304,7 @@ class Monster {
     this.strength = getRandomInt(min, Math.floor((lvl * 10) / xren));
     this.agility = getRandomInt(min, Math.floor((lvl * 10) / xren));
     this.intelligence = getRandomInt(min, Math.floor((lvl * 10) / xren));
+    this.endurance = getRandomInt(min, Math.floor((lvl * 10) / xren));
 
     this.firstHp = getRandomInt(30, Math.floor((lvl * 100) / xren));
     this.firstMana = getRandomInt(1, Math.floor((lvl * 100) / xren));
@@ -464,6 +466,9 @@ class Monster {
     this.intelligence = newAttributeSAI(
       mapMonsters.get(dominant(papa, mama, "intelligence")).intelligence
     );
+    this.endurance = newAttributeSAI(
+      mapMonsters.get(dominant(papa, mama, "endurance")).endurance
+    );
 
     this.bornSkills(mapMonsters.get(mama), mapMonsters.get(papa));
   }
@@ -499,7 +504,7 @@ class Monster {
     console.log("Генетика: ", this.genetica);
   }
 
-  waterAttributeDiv(item, attribute, text) {
+  waterAttributeDiv(item, attribute, text, textEnd) {
     let atack = String(attribute);
     item.textContent = text;
 
@@ -507,10 +512,13 @@ class Monster {
       let xyz = document.createElement("del");
       xyz.textContent = atack;
       item.textContent =
-        item.textContent + getHighHumidityAttribute(attribute) + String(" ");
+        item.textContent +
+        getHighHumidityAttribute(attribute) +
+        textEnd +
+        String(" ");
       item.appendChild(xyz);
     } else if (this.highHumidity == false) {
-      item.textContent += atack;
+      item.textContent += atack + textEnd;
     }
   }
 
@@ -537,7 +545,8 @@ class Monster {
 
   divMonster(nameTeg) {
     try {
-      let profileMonster = document.createElement("ul");
+      let profileMonster = document.createElement("div");
+      profileMonster.classList.add("monsterCard");
       profileMonster.id = this.id + TOTAL_TEG_MONSTER_CARD;
       profileMonster.value = Math.floor(this.id);
 
@@ -546,46 +555,75 @@ class Monster {
         getCurrentMonsterFight(Math.floor(this.value));
       };
 
-      let itemName = document.createElement("li");
+      let itemName = document.createElement("div");
+      let itemId = document.createElement("div");
+      itemName.classList.add("monsterCardName");
 
-      let itemPol = document.createElement("li");
-      let itemHP = document.createElement("li");
-      let itemId = document.createElement("li");
-      let itemMana = document.createElement("li");
+      let itemPol = document.createElement("div");
 
-      let itemAttack = document.createElement("li");
-      let itemArmor = document.createElement("li");
-      let itemCrit = document.createElement("li");
-      let itemDodge = document.createElement("li");
+      let itemAtPanel = document.createElement("div");
+      itemAtPanel.classList.add("atPanel");
 
-      let itemStrenth = document.createElement("li");
-      let itemAgility = document.createElement("li");
-      let itemIntelligence = document.createElement("li");
+      let itempHPMP = document.createElement("div");
+      let itemHP = document.createElement("div");
+      //itemHP.classList.add("monsterHP");
+      let itemMana = document.createElement("div");
+      itempHPMP.appendChild(itemHP);
+      itempHPMP.appendChild(itemMana);
+      itemAtPanel.appendChild(itempHPMP);
 
-      let skills = document.createElement("li");
-      let skill0 = document.createElement("li");
-      let skill1 = document.createElement("li");
-      let skill2 = document.createElement("li");
+      let itempAttArm = document.createElement("div");
+      let itemAttack = document.createElement("div");
+      let itemArmor = document.createElement("div");
+      itempAttArm.appendChild(itemAttack);
+      itempAttArm.appendChild(itemArmor);
+      itemAtPanel.appendChild(itempAttArm);
 
-      let itemGen = document.createElement("li");
+      let itempCritDodje = document.createElement("div");
+      let itemCrit = document.createElement("div");
+      let itemDodge = document.createElement("div");
+      itempCritDodje.appendChild(itemCrit);
+      itempCritDodje.appendChild(itemDodge);
+      itemAtPanel.appendChild(itempCritDodje);
 
-      itemName.textContent = "Имя: " + this.name + " " + this.surname;
-      itemId.textContent = "Уровень: " + this.lvl + "  id: " + this.id;
+      let itemEndurance = document.createElement("div");
+      let itemStrenth = document.createElement("div");
+      let itemAgility = document.createElement("div");
+      let itemIntelligence = document.createElement("div");
 
-      itemPol.textContent = "Пол: " + (this.pol ? "Мужской" : "Женский");
-      itemHP.textContent =
-        "Здоровье: " + this.getCurrentHP() + "/" + this.getHp();
-      itemMana.textContent =
-        "Мана: " + this.getCurrentMana() + "/" + this.getMana();
+      let skills = document.createElement("div");
+      let skill0 = document.createElement("div");
+      let skill1 = document.createElement("div");
+      let skill2 = document.createElement("div");
+      let itemGen = document.createElement("div");
 
-      this.waterAttributeDiv(itemAttack, this.getAttack(), "Атака: ");
-      this.waterAttributeDiv(itemArmor, this.getArmor(), "Броня: ");
-      this.waterAttributeDiv(itemDodge, this.getDodge(), "Уворот: ");
+      itemName.textContent =
+        "Имя: " + this.name + " " + this.surname + " id: " + this.id;
+      itemId.textContent = "Уровень: " + this.lvl;
+
+      itemPol.textContent = "Пол: " + (this.pol ? "Муж." : "Жен.");
+
+      itemHP.textContent = "HP: ";
+      let aHP = document.createElement("a");
+      aHP.textContent = this.getCurrentHP() + "/" + this.getHp();
+      aHP.classList.add("monsterHP");
+      itemHP.appendChild(aHP);
+
+      itemMana.textContent = " MP: ";
+      let aMP = document.createElement("a");
+      aMP = this.getCurrentMana() + "/" + this.getMana();
+      aMP.classList.add("monsterMP");
+      itemMana.appendChild(aMP);
+
+      this.waterAttributeDiv(itemAttack, this.getAttack(), "Атака: ", "");
+      this.waterAttributeDiv(itemArmor, this.getArmor(), " Броня: ", "");
+      this.waterAttributeDiv(itemDodge, this.getDodge(), "Уворот: ", "%");
 
       //itemArmor.textContent = "Броня: " + this.getArmor();
-      itemCrit.textContent = "Крит: " + this.getCrit();
+      itemCrit.textContent = "Крит: " + this.getCrit() + "%";
       //itemDodge.textContent = "Уворот: " + this.getDodge();
 
+      itemEndurance.textContent = "Выносливость: " + this.endurance;
       itemStrenth.textContent = "Сила: " + this.strength;
       itemAgility.textContent = "Ловкость: " + this.agility;
       itemIntelligence.textContent = "Интеллект: " + this.intelligence;
@@ -605,17 +643,20 @@ class Monster {
       profileMonster.appendChild(itemId);
 
       profileMonster.appendChild(itemPol);
-      profileMonster.appendChild(itemHP);
-      profileMonster.appendChild(itemMana);
+      profileMonster.appendChild(itemAtPanel);
+      //profileMonster.appendChild(itemMana);
 
-      profileMonster.appendChild(itemAttack);
-      profileMonster.appendChild(itemArmor);
-      profileMonster.appendChild(itemDodge);
-      profileMonster.appendChild(itemCrit);
+      //profileMonster.appendChild(itemAttack);
+      //profileMonster.appendChild(itemArmor);
+      //profileMonster.appendChild(itemDodge);
+      //profileMonster.appendChild(itemCrit);
+
+      //profileMonster.appendChild(document.createElement("li"));
 
       profileMonster.appendChild(itemStrenth);
       profileMonster.appendChild(itemAgility);
       profileMonster.appendChild(itemIntelligence);
+      profileMonster.appendChild(itemEndurance);
 
       profileMonster.appendChild(skills);
       profileMonster.appendChild(skill0);

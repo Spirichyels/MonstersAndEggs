@@ -158,6 +158,8 @@ function testMonsters() {
     monster.strength = 50;
     monster.agility = 50;
     monster.intelligence = 50;
+    monster.endurance = 50;
+
     monster.setSkillBacpack(createNewSkill(getRandomInt(1, 10), false, 0, -1));
     monster.setSkillBacpack(createNewSkill(getRandomInt(1, 10), false, 0, -1));
     monster.setSkillBacpack(createNewSkill(getRandomInt(1, 10), false, 0, -1));
@@ -189,8 +191,8 @@ function startGame() {
     updateMonsters(false);
   }
   //console.log(noMoreWomens);
-  testMonsters();
-  updateMonsters(false);
+  //testMonsters();
+  //updateMonsters(false);
 
   //localStorage.myMap = JSON.stringify(Array.from(mapMonsters));
   select();

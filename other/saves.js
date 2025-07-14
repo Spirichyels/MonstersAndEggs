@@ -23,6 +23,8 @@ function onSaveLocalStorage() {
       strength: monster.strength,
       agility: monster.agility,
       intelligence: monster.intelligence,
+      endurance: monster.endurance,
+
       //
       //gen = 1;
       highHumidity: monster.highHumidity,
@@ -39,6 +41,7 @@ function onSaveLocalStorage() {
         strength: monster.genetica.strength,
         agility: monster.genetica.agility,
         intelligence: monster.genetica.intelligence,
+        endurance: monster.genetica.endurance,
       },
       genskills: {
         skill0: monster.genskills.skill0,
@@ -98,6 +101,8 @@ function loadHelp(data) {
     data.strength,
     data.agility,
     data.intelligence,
+    data.endurance,
+
     data.highHumidity,
     data.genetica,
     data.genskills,

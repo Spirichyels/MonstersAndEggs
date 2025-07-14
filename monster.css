@@ -1,0 +1,33 @@
+.monsterCard {
+	text-align: left;
+	font-size: 14px;
+	display: inline-block;
+	
+
+	margin: 2px;
+
+	list-style: none;
+	overflow: hidden;
+	
+	width: 220px;
+	height: 320px;
+	background-color: none;
+	border: 1px solid black; 
+}
+
+.monsterCard:hover  {
+
+	border: 3px solid red; 
+}
+
+.atPanel {
+	display: grid;
+	grid-template-columns: 1fr 1fr ;
+}
+
+.monsterHP {
+	color: red;
+}
+.monsterMP {
+	color: blue;
+}
