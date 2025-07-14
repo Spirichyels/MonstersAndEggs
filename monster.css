@@ -10,7 +10,7 @@
 	overflow: hidden;
 	
 	width: 220px;
-	height: 320px;
+	height: 330px;
 	background-color: none;
 	border: 1px solid black; 
 }
@@ -19,11 +19,15 @@
 
 	border: 3px solid red; 
 }
-
-.atPanel {
+.monsterCardPolLvl {
 	display: grid;
 	grid-template-columns: 1fr 1fr ;
 }
+.atPanel {
+	display: grid;
+	grid-template-columns: 1fr 1fr  ;
+}
+
 
 .monsterHP {
 	color: red;
@@ -31,3 +35,19 @@
 .monsterMP {
 	color: blue;
 }
+
+.itemAttack {
+	color: rgb(203, 134, 6);
+}
+.itemArmor {
+	color: rgb(112, 181, 8);
+}
+.itemDodge {
+	color: rgb(112, 181, 8);
+
+}
+.itemCrit {
+	color: rgb(112, 181, 8);
+
+}
+

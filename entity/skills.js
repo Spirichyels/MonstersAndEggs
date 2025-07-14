@@ -16,6 +16,11 @@ class Skill {
     //this.duration = getRandomInt(1, 10) + lvl;
   }
 
+  basa() {
+    let basatext = this.text + ":\n" + this.lvl + "|" + this.duration;
+    return basatext;
+  }
+
   formula(intelligence, i) {
     return Math.floor(0);
   }
@@ -39,19 +44,19 @@ class Skill {
   }
 
   getText(intelligence) {
-    return (
-      this.text +
-      ":\n" +
-      "ур: " +
-      this.lvl +
-      " длит: " +
-      this.duration +
-      " урон: " +
+    let zsebalx = this.basa();
+
+    return zsebalx;
+  }
+
+  getText2(intelligence) {
+    let zsebalx =
       this.getFullDamadge(intelligence) +
       "[" +
       this.getDamadge(intelligence) +
-      "]"
-    );
+      "]";
+
+    return zsebalx;
   }
 }
 
@@ -62,8 +67,6 @@ class FireBreath extends Skill {
   text = "Огненное дыхание";
 
   formula(intelligence, i) {
-    //console.log("формула огня");
-
     return Math.floor(((intelligence / 1.4) * (this.lvl + 1)) / (i + 1) / 1.8);
   }
 }
@@ -76,26 +79,18 @@ class PoisonousBreath extends Skill {
   attribute = AGILITY;
 
   formula(agility, i) {
-    //console.log("формула огня");
-
     return Math.floor(((agility / 1.4) * (this.lvl + 1)) / (i + 1) / 1.8);
   }
 
-  getText(agility) {
-    return (
-      this.text +
-      ":\n" +
-      "ур: " +
-      this.lvl +
-      " длит: " +
-      this.duration +
-      " урон: " +
-      this.getFullDamadge(agility) +
-      "[" +
-      this.getDamadge(agility) +
-      "]"
-    );
-  }
+  //   getText(agility) {
+  //     return (
+  //       this.basa() +
+  //       this.getFullDamadge(agility) +
+  //       "[" +
+  //       this.getDamadge(agility) +
+  //       "]"
+  //     );
+  //   }
 }
 class IceBreath extends Skill {
   duration = Math.floor(getRandomInt(3, this.lvl) / 3);
@@ -134,19 +129,8 @@ class WaterStrike extends Skill {
     else return res;
   }
 
-  getText(intelligence) {
-    return (
-      this.text +
-      ":\n" +
-      "ур: " +
-      this.lvl +
-      " длит: " +
-      this.duration +
-      " урон: " +
-      "[" +
-      this.formula(intelligence) +
-      "%]"
-    );
+  getText2(intelligence) {
+    return "[" + this.formula(intelligence) + "%]";
   }
 }
 
@@ -160,19 +144,8 @@ class Wampirism extends Skill {
   formula(attack, i) {
     return Math.floor(1 + (attack / 2) * (this.lvl / 10));
   }
-  getText(attack) {
-    return (
-      this.text +
-      ":\n" +
-      "ур: " +
-      this.lvl +
-      " длит: " +
-      this.duration +
-      " урон: " +
-      "[" +
-      this.formula(attack) +
-      "]"
-    );
+  getText2(attack) {
+    return "[" + this.formula(attack) + "]";
   }
 }
 
@@ -187,19 +160,8 @@ class BladeMail extends Skill {
   formula() {
     return Math.floor(this.percent + this.lvl * 10);
   }
-  getText(attack) {
-    return (
-      this.text +
-      ":\n" +
-      "ур: " +
-      this.lvl +
-      " длит: " +
-      this.duration +
-      " урон: " +
-      "[" +
-      this.formula() +
-      "%]"
-    );
+  getText2(attack) {
+    return "[" + this.formula() + "%]";
   }
 }
 
