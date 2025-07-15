@@ -429,85 +429,29 @@ function endMove() {
       }
       //_____________________________________________________________________
 
-      // использование способности воды игроком
-      if (skillDamadgePlayer.waterDamadge[0] != undefined) {
-        //let text;
-        //percentHighHumidityEn = skillDamadgePlayer.waterDamadge[0];
-        if (player.firstWater == true) {
-          //   text =
-          //     "[" +
-          //     skillDamadgePlayer.waterDamadge.length +
-          //     "]" +
-          //     "Облили врага: " +
-          //     percentHighHumidityEn +
-          //     "%";
-          //   createMessageSkill("Player", TOTAL_TYPE_SKILL_WATER_STRIKE, text);
-          //   player.firstWater = false;
-        } else if (player.firstWater == false) {
-          //   text =
-          //     "[" +
-          //     skillDamadgePlayer.waterDamadge.length +
-          //     "]" +
-          //     "Вы сырой: " +
-          //     percentHighHumidityEn +
-          //     "%";
-          //   createMessageSkill("Enemy", TOTAL_TYPE_SKILL_WATER_STRIKE, text);
-        }
-        //console.log("percentHighHumidityEn: ", percentHighHumidityEn);
-        //enemyMonster.highHumidity = true;
-        //updateEnemyMonster(enemyMonster);
-        //skillDamadgePlayer.waterDamadge.shift();
-      } else {
-        //deleteMessageSkill("Player", TOTAL_TYPE_SKILL_WATER_STRIKE);
-      }
-
-      // использование способности воды врагом
-      if (skillDamadgeEnemy.waterDamadge[0] != undefined) {
-        //let text;
-        //percentHighHumidityPl = skillDamadgeEnemy.waterDamadge[0];
-        if (enemy.firstWater == true) {
-          //   text =
-          //     "[" +
-          //     skillDamadgeEnemy.waterDamadge.length +
-          //     "]" +
-          //     "Облили игрока: " +
-          //     percentHighHumidityPl +
-          //     "%";
-          //   createMessageSkill("Enemy", TOTAL_TYPE_SKILL_WATER_STRIKE, text);
-          //   enemy.firstWater = false;
-        } else if (enemy.firstWater == false) {
-          //   text =
-          //     "[" +
-          //     skillDamadgeEnemy.waterDamadge.length +
-          //     "]" +
-          //     "Вы сырой: " +
-          //     percentHighHumidityPl +
-          //     "%";
-          //   createMessageSkill("Player", TOTAL_TYPE_SKILL_WATER_STRIKE, text);
-        }
-        //mapMonsters.get(oldMonsterFightP).highHumidity = true;
-        //updateMonsters(false);
-        //skillDamadgeEnemy.waterDamadge.shift();
-      } else {
-        //deleteMessageSkill("Enemy", TOTAL_TYPE_SKILL_WATER_STRIKE);
-      }
-
       // Рассчет уворота_________________________________________________
       if (player.frozen == true) {
         // расчет шанса увернуться от урона
         playerDodge = false;
         //moveInfostrTextPlayerA.textContent = "Игрок заморожен";
       } else {
-        playerDodge = getRandomPercent(
-          100,
-          mapMonsters.get(oldMonsterFightP).getDodge()
+        let newPlayerDodge = getHighHumidityAttribute(
+          mapMonsters.get(oldMonsterFightP).getDodge(),
+          false
         );
+        playerDodge = getRandomPercent(100, newPlayerDodge);
+        console.log("newPlayerDodge: " + newPlayerDodge);
       }
       if (enemy.frozen == true) {
         enemyDodge = false;
         //moveInfostrTextEnemyA.textContent = "Враг заморожен";
       } else {
-        enemyDodge = getRandomPercent(100, enemyMonster.getDodge());
+        let newEnemyDodge = getHighHumidityAttribute(
+          enemyMonster.getDodge(),
+          true
+        );
+        enemyDodge = getRandomPercent(100, newEnemyDodge);
+        console.log("newEnemyDodge: " + newEnemyDodge);
       }
       //_____________________________________________________________________
 
