@@ -1,10 +1,21 @@
-function getHighHumidityAttribute(x) {
-  if (percentHighHumidityEn != 0) {
-    //console.log(percentHighHumidityEn);
-    let res = Math.floor(x - (x * percentHighHumidityEn) / 100);
-    //console.log("x: ", +x, "res:" + res);
-    return res;
-  } else return x;
+function getHighHumidityAttribute(x, isBot) {
+  if (isBot == true) {
+    if (player.percentHighHumidity != 0) {
+      //console.log(percentHighHumidityEn);
+      let res = Math.floor(x - (x * player.percentHighHumidity) / 100);
+      //console.log("x: ", +x, "res:" + res);
+      return res;
+    } else return x;
+  }
+
+  if (isBot == false) {
+    if (enemy.percentHighHumidity != 0) {
+      //console.log(percentHighHumidityEn);
+      let res = Math.floor(x - (x * enemy.percentHighHumidity) / 100);
+      //console.log("x: ", +x, "res:" + res);
+      return res;
+    } else return x;
+  }
 }
 
 function saveMonstersToStorage(map) {
@@ -504,7 +515,7 @@ class Monster {
     console.log("Генетика: ", this.genetica);
   }
 
-  waterAttributeDiv(item, attribute, text, textEnd, css) {
+  waterAttributeDiv(item, attribute, text, textEnd, css, isBot) {
     let xyz = document.createElement("del");
     let a = document.createElement("a");
 
@@ -514,9 +525,12 @@ class Monster {
     if (this.highHumidity == true) {
       //let xyz = document.createElement("del");
       xyz.textContent = atack;
+
+      //a.textContent = atack + textEnd;
+      xyz.classList.add(css);
       item.textContent =
         item.textContent +
-        getHighHumidityAttribute(attribute) +
+        getHighHumidityAttribute(attribute, isBot) +
         textEnd +
         String(" ");
       item.appendChild(xyz);
@@ -570,185 +584,221 @@ class Monster {
   }
 
   divMonster(nameTeg) {
-    try {
-      let profileMonster = document.createElement("div");
-      profileMonster.classList.add("monsterCard");
-      profileMonster.id = this.id + TOTAL_TEG_MONSTER_CARD;
-      profileMonster.value = Math.floor(this.id);
+    //try {
+    let profileMonster = document.createElement("div");
+    profileMonster.classList.add("monsterCard");
+    profileMonster.classList.add("card");
+    //profileMonster.classList.add("legendary");
 
-      profileMonster.onclick = function () {
-        //console.log("this.value: ", this.value);
-        getCurrentMonsterFight(Math.floor(this.value));
-      };
+    profileMonster.id = this.id + TOTAL_TEG_MONSTER_CARD;
+    profileMonster.value = Math.floor(this.id);
 
-      let itemName = document.createElement("div");
+    profileMonster.onclick = function () {
+      //console.log("this.value: ", this.value);
+      getCurrentMonsterFight(Math.floor(this.value));
+    };
 
-      itemName.classList.add("monsterCardName");
+    let itemName = document.createElement("div");
+    itemName.classList.add("monsterCardName");
+    itemName.classList.add("center");
 
-      let itemPolLvl = document.createElement("div");
-      itemPolLvl.classList.add("monsterCardPolLvl");
-      let itemLvl = document.createElement("div");
-      let itemPol = document.createElement("div");
-      itemPolLvl.appendChild(itemLvl);
-      itemPolLvl.appendChild(itemPol);
+    let itemRare = document.createElement("div");
+    itemRare.classList.add("center");
 
-      let itemAtPanel = document.createElement("div");
-      itemAtPanel.classList.add("atPanel");
+    let itemPolLvl = document.createElement("div");
+    itemPolLvl.classList.add("monsterCardPolLvl");
+    let itemLvl = document.createElement("div");
+    let itemPol = document.createElement("div");
+    itemPolLvl.appendChild(itemLvl);
+    itemPolLvl.appendChild(itemPol);
+    itemPolLvl.classList.add("center");
 
-      let itempHPMP = document.createElement("div");
-      let itemHP = document.createElement("div");
-      //itemHP.classList.add("monsterHP");
-      let itemMana = document.createElement("div");
-      itempHPMP.appendChild(itemHP);
-      itempHPMP.appendChild(itemMana);
-      itemAtPanel.appendChild(itempHPMP);
+    let itemAtPanel = document.createElement("div");
+    itemAtPanel.classList.add("atPanel");
 
-      let itempAttArm = document.createElement("div");
-      let itemAttack = document.createElement("div");
-      let itemArmor = document.createElement("div");
-      itempAttArm.appendChild(itemAttack);
-      itempAttArm.appendChild(itemArmor);
-      itemAtPanel.appendChild(itempAttArm);
+    let itempHPMP = document.createElement("div");
+    let itemHP = document.createElement("div");
+    //itemHP.classList.add("monsterHP");
+    let itemMana = document.createElement("div");
+    itempHPMP.appendChild(itemHP);
+    itempHPMP.appendChild(itemMana);
+    itemAtPanel.appendChild(itempHPMP);
 
-      let itempCritDodje = document.createElement("div");
-      let itemCrit = document.createElement("div");
-      let itemDodge = document.createElement("div");
-      itempAttArm.appendChild(itemCrit);
-      itempAttArm.appendChild(itemDodge);
-      //itemAtPanel.appendChild(itempCritDodje);
+    let itempAttArm = document.createElement("div");
+    let itemAttack = document.createElement("div");
+    let itemArmor = document.createElement("div");
+    itempAttArm.appendChild(itemAttack);
+    itempAttArm.appendChild(itemArmor);
+    itemAtPanel.appendChild(itempAttArm);
 
-      let itemEndurance = document.createElement("div");
-      let itemStrenth = document.createElement("div");
-      let itemAgility = document.createElement("div");
-      let itemIntelligence = document.createElement("div");
+    let itempCritDodje = document.createElement("div");
+    let itemCrit = document.createElement("div");
+    let itemDodge = document.createElement("div");
+    itempAttArm.appendChild(itemCrit);
+    itempAttArm.appendChild(itemDodge);
+    //itemAtPanel.appendChild(itempCritDodje);
 
-      let skills = document.createElement("div");
-      let skill0 = document.createElement("div");
-      let skill1 = document.createElement("div");
-      let skill2 = document.createElement("div");
-      let skill00 = document.createElement("div");
-      let skill11 = document.createElement("div");
-      let skill22 = document.createElement("div");
-      let itemGen = document.createElement("div");
+    let itemEndurance = document.createElement("div");
+    let itemStrenth = document.createElement("div");
+    let itemAgility = document.createElement("div");
+    let itemIntelligence = document.createElement("div");
 
-      itemName.textContent =
-        "Имя: " + this.name + " " + this.surname + " id: " + this.id;
+    let skills = document.createElement("div");
+    let skill0 = document.createElement("div");
+    let skill1 = document.createElement("div");
+    let skill2 = document.createElement("div");
+    let skill00 = document.createElement("div");
+    let skill11 = document.createElement("div");
+    let skill22 = document.createElement("div");
+    let itemGen = document.createElement("div");
 
-      itemLvl.textContent = "Уровень: " + this.lvl;
+    itemName.textContent =
+      //"Имя: " +
+      this.name + " " + this.surname + " id: " + this.id;
+    //itemName.classList.add("center");
 
-      itemPol.textContent = "Пол: " + (this.pol ? "Муж." : "Жен.");
-
-      itemHP.textContent = "❤️HP: ";
-      let aHP = document.createElement("a");
-      aHP.textContent = this.getCurrentHP() + "/" + this.getHp();
-      aHP.classList.add("monsterHP");
-      itemHP.appendChild(aHP);
-
-      itemMana.textContent = " 💧MP: ";
-      let aMP = document.createElement("a");
-      aMP.textContent = this.getCurrentMana() + "/" + this.getMana();
-      aMP.classList.add("monsterMP");
-      itemMana.appendChild(aMP);
-
-      this.waterAttributeDiv(
-        itemAttack,
-        this.getAttack(),
-        "🗡Атака: ",
-        "",
-        "itemAttack"
-      );
-      this.waterAttributeDiv(
-        itemArmor,
-        this.getArmor(),
-        " 🛡Броня: ",
-        "",
-        "itemArmor"
-      );
-      this.waterAttributeDiv(
-        itemDodge,
-        this.getDodge(),
-        "🌀Уворот: ",
-        "%",
-        "itemDodge"
-      );
-
-      //itemArmor.textContent = "Броня: " + this.getArmor();
-      itemCrit.textContent = "💥Крит: ";
-      let xcrit = document.createElement("a");
-      xcrit.textContent = this.getCrit() + "%";
-      xcrit.classList.add("itemCrit");
-      itemCrit.appendChild(xcrit);
-      //itemDodge.textContent = "Уворот: " + this.getDodge();
-
-      itemEndurance.textContent = "Выносливость: " + this.endurance;
-      itemStrenth.textContent = "Сила: " + this.strength;
-      itemAgility.textContent = "Ловкость: " + this.agility;
-      itemIntelligence.textContent = "Интеллект: " + this.intelligence;
-
-      skills.textContent = "Способности:(Ур.|Длит.)";
-      try {
-        skill0.textContent = this.divskill1(0);
-        skill00.textContent = this.divskill2(0);
-        //console.log(typeof this.divskill(0));
-        skill1.textContent = this.divskill1(1);
-        skill11.textContent = this.divskill2(1);
-        //console.log(typeof this.divskill(1));
-        skill2.textContent = this.divskill1(2);
-        skill22.textContent = this.divskill2(2);
-
-        //console.log(typeof this.divskill(2));
-      } catch (error) {
-        //console.log("monster.div: ", error);
-      }
-
-      itemGen.textContent = "Генетика: " + JSON.stringify(this.genetica);
-
-      //profileMonster = document.getElementById("profileMonster1");
-      profileMonster.appendChild(itemName);
-      profileMonster.appendChild(itemPolLvl);
-
-      //profileMonster.appendChild(itemPol);
-      profileMonster.appendChild(itemAtPanel);
-      //profileMonster.appendChild(itemMana);
-
-      //profileMonster.appendChild(itemAttack);
-      //profileMonster.appendChild(itemArmor);
-      //profileMonster.appendChild(itemDodge);
-      //profileMonster.appendChild(itemCrit);
-
-      //profileMonster.appendChild(document.createElement("li"));
-
-      profileMonster.appendChild(itemStrenth);
-      profileMonster.appendChild(itemAgility);
-      profileMonster.appendChild(itemIntelligence);
-      profileMonster.appendChild(itemEndurance);
-
-      let itemNull = document.createElement("div");
-      itemNull.textContent = "__________________________";
-      profileMonster.appendChild(itemNull);
-
-      profileMonster.appendChild(skills);
-      profileMonster.appendChild(skill0);
-      profileMonster.appendChild(skill00);
-      profileMonster.appendChild(skill1);
-      profileMonster.appendChild(skill11);
-      profileMonster.appendChild(skill2);
-      profileMonster.appendChild(skill22);
-
-      //profileMonster.appendChild(itemGen);
-
-      //document.body.append(profileMonster);
-      //document.querySelector("monstersDivId").appendChild(profileMonster);
-      let x = document.querySelector(`${nameTeg}`);
-      x.appendChild(profileMonster);
-
-      //console.log(x);
-    } catch (error) {
-      console.log(
-        "Этот метод иммет параметр, скорее всего ты его забыл. \nПодробнее: ",
-        error
-      );
+    if (this.lvl == TOTAL_MAX_LEVEL) {
+      itemRare.textContent = "🔹Редкость: Редкая";
+      profileMonster.classList.add("rare");
+    } else {
+      itemRare.textContent = "◻️Редкость: Обычная";
     }
+
+    itemLvl.textContent = "Уровень: " + this.lvl;
+
+    itemPol.textContent = "" + (this.pol ? "♂️Муж." : "♀️Жен.");
+
+    itemHP.textContent = "❤️HP: ";
+    let aHP = document.createElement("a");
+    aHP.textContent = this.getCurrentHP() + "/" + this.getHp();
+    aHP.classList.add("monsterHP");
+    itemHP.appendChild(aHP);
+
+    itemMana.textContent = " 💧MP: ";
+    let aMP = document.createElement("a");
+    aMP.textContent = this.getCurrentMana() + "/" + this.getMana();
+    aMP.classList.add("monsterMP");
+    itemMana.appendChild(aMP);
+
+    let isBot = true;
+
+    if (this.name == "bot") {
+      isBot = true;
+    } else {
+      isBot = false;
+    }
+
+    this.waterAttributeDiv(
+      itemAttack,
+      this.getAttack(),
+      "⚔️Атака: ",
+      "",
+      "strength",
+      isBot
+    );
+    this.waterAttributeDiv(
+      itemArmor,
+      this.getArmor(),
+      " 🛡️Броня: ",
+      "",
+      "agility",
+      isBot
+    );
+    this.waterAttributeDiv(
+      itemDodge,
+      this.getDodge(),
+      "🌀Уворот: ",
+      "%",
+      "agility",
+      isBot
+    );
+
+    //itemArmor.textContent = "Броня: " + this.getArmor();
+    itemCrit.textContent = "💥Крит: ";
+    let xcrit = document.createElement("a");
+    xcrit.textContent = this.getCrit() + "%";
+    xcrit.classList.add("agility");
+    itemCrit.appendChild(xcrit);
+    //itemDodge.textContent = "Уворот: " + this.getDodge();
+
+    itemEndurance.textContent = "🧱Выносл.: ";
+    let monsterEndurancethis = document.createElement("a");
+    monsterEndurancethis.textContent = this.endurance;
+    monsterEndurancethis.classList.add("endurance");
+    itemEndurance.appendChild(monsterEndurancethis);
+
+    itemStrenth.textContent = "💪Сила: ";
+    let monsterStrength = document.createElement("a");
+    monsterStrength.textContent = this.strength;
+    monsterStrength.classList.add("strength");
+    itemStrenth.appendChild(monsterStrength);
+
+    itemAgility.textContent = "🤸‍♂️Ловк.: ";
+    let monsterAgility = document.createElement("a");
+    monsterAgility.textContent = this.agility;
+    monsterAgility.classList.add("agility");
+    itemAgility.appendChild(monsterAgility);
+
+    itemIntelligence.textContent = "🧠Интелл.: ";
+    let monsterIntelligence = document.createElement("a");
+    monsterIntelligence.textContent = this.intelligence;
+    monsterIntelligence.classList.add("intelligence");
+    itemIntelligence.appendChild(monsterIntelligence);
+
+    skills.textContent = "Способности:(Ур.|Длит.)";
+    try {
+      skill0.textContent = this.divskill1(0);
+      skill00.textContent = this.divskill2(0);
+      //console.log(typeof this.divskill(0));
+      skill1.textContent = this.divskill1(1);
+      skill11.textContent = this.divskill2(1);
+      //console.log(typeof this.divskill(1));
+      skill2.textContent = this.divskill1(2);
+      skill22.textContent = this.divskill2(2);
+
+      //console.log(typeof this.divskill(2));
+    } catch (error) {
+      //console.log("monster.div: ", error);
+    }
+
+    itemGen.textContent = "Генетика: " + JSON.stringify(this.genetica);
+    profileMonster.appendChild(itemRare);
+    profileMonster.appendChild(itemName);
+    profileMonster.appendChild(itemPolLvl);
+
+    profileMonster.appendChild(itemAtPanel);
+
+    profileMonster.appendChild(itemStrenth);
+    profileMonster.appendChild(itemAgility);
+    profileMonster.appendChild(itemIntelligence);
+    profileMonster.appendChild(itemEndurance);
+
+    let itemNull = document.createElement("div");
+    itemNull.textContent = "__________________________";
+    profileMonster.appendChild(itemNull);
+
+    profileMonster.appendChild(skills);
+    profileMonster.appendChild(skill0);
+    profileMonster.appendChild(skill00);
+    profileMonster.appendChild(skill1);
+    profileMonster.appendChild(skill11);
+    profileMonster.appendChild(skill2);
+    profileMonster.appendChild(skill22);
+
+    //profileMonster.appendChild(itemGen);
+
+    //document.body.append(profileMonster);
+    //document.querySelector("monstersDivId").appendChild(profileMonster);
+    let x = document.querySelector(`${nameTeg}`);
+    x.appendChild(profileMonster);
+
+    //console.log(x);
+    // } catch (error) {
+    //   console.log(
+    //     "Этот метод иммет параметр, скорее всего ты его забыл. \nПодробнее: ",
+    //     error
+    //   );
+    // }
 
     //x.append(profileMonster);
     //document.body.append(profileMonster);

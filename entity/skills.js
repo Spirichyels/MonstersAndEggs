@@ -64,7 +64,7 @@ class FireBreath extends Skill {
   duration = getRandomInt(1, this.lvl + 3);
   fullDamadge = 0;
   type = TOTAL_TYPE_SKILL_FIRE_BREATH;
-  text = "Огненное дыхание";
+  text = "🔥Огненное дыхание";
 
   formula(intelligence, i) {
     return Math.floor(((intelligence / 1.4) * (this.lvl + 1)) / (i + 1) / 1.8);
@@ -75,7 +75,7 @@ class PoisonousBreath extends Skill {
   duration = getRandomInt(1, this.lvl + 3);
   fullDamadge = 0;
   type = TOTAL_TYPE_SKILL_POISONOUS_BREATH;
-  text = "Ядовитое дыхание";
+  text = "🐍Ядовитое дыхание";
   attribute = AGILITY;
 
   formula(agility, i) {
@@ -96,7 +96,7 @@ class IceBreath extends Skill {
   duration = Math.floor(getRandomInt(3, this.lvl) / 3);
   fullDamadge = 0;
   type = TOTAL_TYPE_SKILL_ICE_BREATH;
-  text = "Морозное дыхание";
+  text = "🧊Морозное дыхание";
 
   formula(intelligence, i) {
     //console.log("формула мороза");
@@ -107,7 +107,7 @@ class LightningStrike extends Skill {
   duration = 1;
   fullDamadge = 0;
   type = TOTAL_TYPE_SKILL_LIGHTING_STRIKE;
-  text = "Удар молнии";
+  text = "⚡Удар молнии";
 
   formula(intelligence, i) {
     return Math.floor((intelligence / 1.4) * (this.lvl + 1));
@@ -119,7 +119,7 @@ class WaterStrike extends Skill {
   randomDop2 = getRandomInt(0, 10);
   fullDamadge = 0;
   type = TOTAL_TYPE_SKILL_WATER_STRIKE;
-  text = "Водный удар";
+  text = "🌊Водный удар";
 
   formula(intelligence) {
     let res = Math.floor(
@@ -138,7 +138,7 @@ class Wampirism extends Skill {
   duration = 1;
   fullDamadge = 0;
   type = TOTAL_TYPE_SKILL_WAMPIRISM;
-  text = "Вампиризм";
+  text = "🧛Вампиризм";
   attribute = ATTACK;
 
   formula(attack, i) {
@@ -153,7 +153,7 @@ class BladeMail extends Skill {
   duration = 1;
   fullDamadge = 0;
   type = TOTAL_TYPE_SKILL_BLADEMAIL;
-  text = "Отражение";
+  text = "🦔Отражение";
   attribute = NOTHING;
   percent = getRandomInt(10, 50);
 
@@ -168,12 +168,12 @@ class BladeMail extends Skill {
 function createNewSkill(lvl, born, type, oldDuration) {
   let weightSkills = new Map([
     [TOTAL_TYPE_SKILL_WATER_STRIKE, new WaterStrike(lvl)],
-    [TOTAL_TYPE_SKILL_ICE_BREATH, new IceBreath(lvl)],
-    [TOTAL_TYPE_SKILL_LIGHTING_STRIKE, new LightningStrike(lvl)],
-    [TOTAL_TYPE_SKILL_FIRE_BREATH, new FireBreath(lvl)],
-    [TOTAL_TYPE_SKILL_POISONOUS_BREATH, new PoisonousBreath(lvl)],
-    [TOTAL_TYPE_SKILL_WAMPIRISM, new Wampirism(lvl)],
-    [TOTAL_TYPE_SKILL_BLADEMAIL, new BladeMail(lvl)],
+    //[TOTAL_TYPE_SKILL_ICE_BREATH, new IceBreath(lvl)],
+    //[TOTAL_TYPE_SKILL_LIGHTING_STRIKE, new LightningStrike(lvl)],
+    //[TOTAL_TYPE_SKILL_FIRE_BREATH, new FireBreath(lvl)],
+    //[TOTAL_TYPE_SKILL_POISONOUS_BREATH, new PoisonousBreath(lvl)],
+    //[TOTAL_TYPE_SKILL_WAMPIRISM, new Wampirism(lvl)],
+    //[TOTAL_TYPE_SKILL_BLADEMAIL, new BladeMail(lvl)],
 
     //
   ]);

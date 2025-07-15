@@ -96,7 +96,7 @@ function select() {
       );
       //console.log(colorBorderMama);
       try {
-        colorBorderMama.classList.remove("mamaBorder");
+        colorBorderMama.classList.remove("sexMama");
       } catch (error) {}
 
       mamaTarget = Math.floor(selectedOptionMama.value);
@@ -106,7 +106,7 @@ function select() {
         mamaTarget + TOTAL_TEG_MONSTER_CARD
       );
       //console.log("colorBorderMama: ", colorBorderMama);
-      colorBorderMama.classList.add("mamaBorder");
+      colorBorderMama.classList.add("sexMama");
     } else {
       mamaTarget = -1;
     }
@@ -132,7 +132,7 @@ function select() {
       );
       //console.log(colorBorderPapa);
       try {
-        colorBorderPapa.classList.remove("papaBorder");
+        colorBorderPapa.classList.remove("sexPapa");
       } catch (error) {}
 
       papaTarget = Math.floor(selectedOptionPapa.value);
@@ -142,7 +142,7 @@ function select() {
         papaTarget + TOTAL_TEG_MONSTER_CARD
       );
       //console.log("colorBorderMama: ", colorBorderPapa);
-      colorBorderPapa.classList.add("papaBorder");
+      colorBorderPapa.classList.add("sexPapa");
     } else {
       papaTarget = -1;
     }

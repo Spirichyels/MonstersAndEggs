@@ -74,6 +74,10 @@ let player = {
   Mana: 0,
   endAttack: true,
   endSkill: 1,
+  frozen: false,
+  water: false,
+  firstWater: true,
+  percentHighHumidity: 0,
 };
 
 let enemy = {
@@ -87,6 +91,10 @@ let enemy = {
   Mana: 0,
   endAttack: true,
   endSkill: 1,
+  frozen: false,
+  water: false,
+  firstWater: true,
+  percentHighHumidity: 0,
 };
 
 let skillDamadgePlayer = {
@@ -114,9 +122,6 @@ let waterFirstEn = true;
 
 let oldHighHumidityEn = false;
 let oldHighHumidityPl = false;
-
-let percentHighHumidityEn = 0;
-let percentHighHumidityPl = 0;
 
 let poleFightsHaveMonsterEnemy = false; //Если True нельзя добавлять монстров (врагов) на стол
 let poleFightsHaveMonsterPlayer = false; //Если True нельзя добавлять монстров (Игрока) на стол

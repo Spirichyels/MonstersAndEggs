@@ -87,13 +87,13 @@ function updateMonsters(regen) {
       colorBorderMama = document.getElementById(
         mamaTarget + TOTAL_TEG_MONSTER_CARD
       );
-      colorBorderMama.classList.add("mamaBorder");
+      colorBorderMama.classList.add("sexMama");
 
       colorBorderPapa = document.getElementById(
         papaTarget + TOTAL_TEG_MONSTER_CARD
       );
 
-      colorBorderPapa.classList.add("papaBorder");
+      colorBorderPapa.classList.add("sexPapa");
     } catch (error) {}
   }
   //} catch (error) {}
@@ -118,6 +118,12 @@ function updateEnemyMonster() {
   //let monster = enemyMonster;
   delete1Monster(enemyMonster.id);
   enemyMonster.divMonster(TOTAL_MONSTERS_FIGHT_ENEMY);
+}
+
+function updateFightMonster() {
+  //let monster = enemyMonster;
+  delete1Monster(mapMonsters.get(oldMonsterFightP).id);
+  mapMonsters.get(oldMonsterFightP).divMonster(TOTAL_MONSTERS_FIGHT_PLAYER);
 }
 
 function getCurrentMonsterFight(currentMonsterFight) {

@@ -99,7 +99,7 @@
 .monsterPlayerAttack {
 	display: inline-block;
 
-	width: 160px;
+	width: 200px;
 	height: 140px;
 
 	margin-right: 120px;
@@ -113,7 +113,7 @@
 
 .monsterEnemyAttack {
 	display: inline-table;
-	width: 160px;
+	width: 200px;
 	height: 140px;
 	margin-left:  120px;
 	border: 1px solid black; 
