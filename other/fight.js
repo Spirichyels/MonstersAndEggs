@@ -167,7 +167,7 @@ function getRealAttackPlayer() {
     player.orCrit = false;
   }
   playerAttack =
-    newAttack - getHighHumidityAttribute(enemyMonster.getArmor(), true);
+    playerAttack - getHighHumidityAttribute(enemyMonster.getArmor(), true);
   return playerAttack;
 }
 function critText(atack, orCrit, playerOrEnemy) {
