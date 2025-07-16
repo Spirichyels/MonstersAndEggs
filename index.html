@@ -158,12 +158,45 @@
 	<div id=sex>
 		<button id="sexButton">Скрестить <a id="sex_price">??</a> монет</button>
 	</div>
-	<div id=update>
+	<div class="grid" id=update>
 
-		<button id="saveButton">Сохранить</button>
-		<button id="loadButton">Загрузить</button>
+
+		<div><button id="saveButton">Сохранить</button><button id="loadButton">Загрузить</button></div>
+
+
+		<div class="flex">
+			<div>Сортировка<input type="checkbox" id="isSorting"></input></div>
+			<div class="formSelect">Аттрибут
+				<form name="selectForm"><select class="select" name="sortingAttribute">
+						<!-- <option value="-1"></option> -->
+						<option value="0">Реверс</option>
+						<option value="1">Сила</option>
+						<option value="2">Ловкость</option>
+						<option value="3">Интеллект</option>
+						<option value="4">Вынослиовсть</option>
+						<!-- <option value="5">Уровень</option>
+						<option value="6">Пол</option>
+						<option value="7">Редкость</option>
+						<option value="8">Здоровье</option>
+						<option value="7">Мана</option>
+						<option value="9">Атака</option>
+						<option value="10">Броня</option>
+						<option value="11">Уворот</option>
+						<option value="12">Крит</option>
+						<option value="13">Способность 1</option>
+						<option value="14">Способность 2</option>
+						<option value="15">Способность 3</option> -->
+
+
+
+					</select></form>
+			</div>
+		</div>
+
+
 
 	</div>
+
 	<div ">monsters</div>
 
 	<div class=" monstersDivClass"></div>
@@ -179,15 +212,21 @@
 
 	<script src="lets/name.js"></script>
 	<script src="lets/famyly.js"></script>
-
 	<script src="lets/constant.js"></script>
-	<script src="other/random.js"></script>
+
 	<script src="entity/skills.js"></script>
 	<script src="entity/monster.js"></script>
-	<script src="other/htmlEl.js"></script>
-	<script src="other/fight.js"></script>
 
-	<script src="other/saves.js"></script>
+	<script src="other/fight.js"></script>
+	<script src="other/random.js"></script>
+
+	<script src="ui/htmlEl.js"></script>
+	<script src="ui/saves.js"></script>
+	<script src="ui/sotring.js"></script>
+
+	<script src="debug/debug.js"></script>
+
+
 
 
 	<script src="start.js"></script>
@@ -210,7 +249,7 @@
 		let text = year + "" + month + "" + 1;
 
 		if (false) version.textContent = text;
-		else version.textContent = "2025077.2";
+		else version.textContent = "2025078.1";
 
 
 

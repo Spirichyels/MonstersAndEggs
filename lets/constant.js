@@ -36,8 +36,11 @@ const TOTAL_TYPE_SKILL_PHISICAL = "PHISICAL";
 
 const TOTAL_SIZE_ARR = 4;
 
+const TOTAL_DEBUG = true;
+
 //переменные
 let TOTAL_CHEAT = false; //let чтобы можно было менять
+let TOTAL_ID_SORTING = -1;
 
 let sex_price = document.getElementById("sex_price");
 let sell_price = document.getElementById("sell_price");
@@ -163,6 +166,10 @@ let moveInfostrTextNM = document.getElementById("moveInfostrTextNM");
 let moveInfostrTextD = document.getElementById("moveInfostrTextD");
 
 let endMovePlayerText = document.getElementById("endMovePlayerText");
+
+let isSorting = document.getElementById("isSorting");
+sortSelect = document.selectForm.sortingAttribute;
+
 endMovePlayerText.textContent = TOTAL_PLAYER_MOVE_END_TEXT;
 
 let idDeleteMonsterInput = -100;

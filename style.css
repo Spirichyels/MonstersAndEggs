@@ -52,6 +52,24 @@
 	justify-content: center;
 	align-items: center;
 }
+.grid{
+	display: grid;
+	grid-template-columns: 1fr 2fr; 
+}
+.flex{
+	
+	display: flex;
+	
+	
+}
+.formSelect {
+	width: 200px;
+	border: 1px solid black; 
+	margin-right: 10px;
+}
+.select {
+	width: 120px;
+}
 
 
 ul {

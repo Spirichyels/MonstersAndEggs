@@ -80,6 +80,10 @@ function selectPolMonster(monster) {
   }
 }
 
+function changeSelectSort() {
+  TOTAL_ID_SORTING = Math.floor(sortSelect.value);
+}
+
 function select() {
   //mama
   const SelectMama = document.mamaForm.mamaSelect;
@@ -161,6 +165,7 @@ function monsterMaxLvlEvolution(monster) {
       monster.strength = monster.strength * 2;
       monster.agility = monster.agility * 2;
       monster.intelligence = monster.intelligence * 2;
+      monster.endurance = monster.intelligence * 2;
     }
   } catch (error) {
     console.log("monsterMaxLvlEvolution: ", error);
@@ -262,6 +267,23 @@ function Events() {
   //   skillButtonPl1.addEventListener("click", () => {
   //     useAbility(skillButtonPl1.id);
   //   });
+
+  // sorting
+
+  isSorting.addEventListener("change", () => {
+    if (isSorting.checked) {
+      changeSelectSort();
+    }
+    updateMonsters(false);
+  });
+
+  sortSelect.addEventListener("change", () => {
+    if (isSorting.checked) {
+      changeSelectSort();
+      updateMonsters(false);
+    }
+  });
+  //
 }
 
 function idRange() {

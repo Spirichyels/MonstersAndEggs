@@ -94,7 +94,7 @@ function createEndMoveEnemy() {
   switch (randomTurn) {
     case 1: {
       enemy.endAttack = true;
-      enemy.endSkill = 0;
+      enemy.endSkill = -2;
       break;
     }
     case 2: {
@@ -104,15 +104,22 @@ function createEndMoveEnemy() {
     }
     case 3: {
       enemy.endAttack = false;
-      enemy.endSkill = 2;
+      enemy.endSkill = 1;
       break;
     }
     case 4: {
       enemy.endAttack = false;
-      enemy.endSkill = 3;
+      enemy.endSkill = 2;
       break;
     }
   }
+  printDebug(
+    "Выбор хода врага: enemy.endAttack:" +
+      enemy.endAttack +
+      " enemy.endSkill:" +
+      enemy.endSkill,
+    "EndMoveEnemy"
+  );
 }
 
 function nullSkills(Player) {
@@ -132,6 +139,7 @@ function nullSkills(Player) {
 function win(winner) {
   console.log("Победил: ", winner);
   nullSkills("Player");
+  nullSkills("Enemy");
 
   fightButton.disabled = false;
   attackButtonPl.checked = false;
@@ -168,6 +176,7 @@ function getRealAttackPlayer() {
   }
   playerAttack =
     playerAttack - getHighHumidityAttribute(enemyMonster.getArmor(), true);
+  if (playerAttack < 1) playerAttack = 1;
   return playerAttack;
 }
 function critText(atack, orCrit, playerOrEnemy) {
@@ -207,6 +216,7 @@ function getRealAttackEnemy() {
       mapMonsters.get(oldMonsterFightP).getArmor(),
       false
     );
+  if (enemyAttack < 1) enemyAttack = 1;
   return enemyAttack;
 }
 
@@ -321,9 +331,9 @@ function damadgeSkills(user, noUser, monster, noMonster, skillDamadge) {
     deleteMessageSkill(user.text2, TOTAL_TYPE_SKILL_LIGHTING_STRIKE);
   }
   if (skillDamadge.wampirismDamadge != 0) {
-    if ((user.text2 = "Player")) {
+    if (user.text2 == "Player") {
       user.attack = getRealAttackPlayer();
-    } else if ((user.text2 = "Enemy")) {
+    } else if (user.text2 == "Enemy") {
       user.attack = getRealAttackEnemy();
     }
 
@@ -384,9 +394,24 @@ function damadgeSkills(user, noUser, monster, noMonster, skillDamadge) {
     user.percentHighHumidity = 0;
     noMonster.highHumidity = false;
   }
+
+  printDebug(
+    "damadgeSkillsInfo: user:" +
+      user.text2 +
+      " noUser:" +
+      noUser.text2 +
+      " monster: " +
+      monster.name +
+      " noMonster:" +
+      noMonster.name +
+      " skillDamadge:" +
+      skillDamadge,
+    "damadgeSkillsInfo"
+  );
 }
 
 function endMove() {
+  printDebug("Конец хода", "endMove");
   if (poleFightsHaveMonsterEnemy) {
     attackButtonPl.disabled = true;
     skillButtonPl1.disabled = true;
@@ -440,7 +465,7 @@ function endMove() {
           false
         );
         playerDodge = getRandomPercent(100, newPlayerDodge);
-        console.log("newPlayerDodge: " + newPlayerDodge);
+        //console.log("newPlayerDodge: " + newPlayerDodge);
       }
       if (enemy.frozen == true) {
         enemyDodge = false;
@@ -451,7 +476,7 @@ function endMove() {
           true
         );
         enemyDodge = getRandomPercent(100, newEnemyDodge);
-        console.log("newEnemyDodge: " + newEnemyDodge);
+        //console.log("newEnemyDodge: " + newEnemyDodge);
       }
       //_____________________________________________________________________
 
@@ -541,6 +566,11 @@ function endMove() {
       enemy.orCrit = false;
     }
     if (enemy.HP <= 0 && player.HP > 0) {
+      player.percentHighHumidity = 0;
+      mapMonsters.get(oldMonsterFightP).highHumidity = false;
+      enemy.percentHighHumidity = 0;
+      enemyMonster.highHumidity = false;
+
       chacnceUpAttribute(mapMonsters.get(oldMonsterFightP), 150);
       poleFightsHaveMonsterEnemy = false;
       poleFightsHaveMonsterPlayer = false;

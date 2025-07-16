@@ -34,71 +34,6 @@ function delete1MonsterFull(id) {
   } else return false;
 }
 
-function updateMonsters(regen) {
-  //try {
-  if (!poleFightsHaveMonsterEnemy) {
-    if (TOTAL_CHEAT) {
-      createNewMonster();
-      mapMonsters.get(countId).strength = 1000;
-      mapMonsters.get(countId).agility = 1000;
-      mapMonsters.get(countId).intelligence = 1000;
-      TOTAL_CHEAT = false;
-    }
-
-    for (let monster of mapMonsters.values()) {
-      //console.log(monster.id);
-      if (monster.lvl <= -1) {
-        console.log(
-          monster.name,
-          " ",
-          monster.surname,
-          " id: ",
-          monster.id,
-          "покинул наш мир"
-        );
-        delete1MonsterFull(monster.id);
-      } else delete1Monster(monster.id);
-
-      selectPolMonsterDelete(monster.id);
-    }
-
-    for (let monster of mapMonsters.values()) {
-      //console.log(monster.id);
-
-      if (regen == true) {
-        if (monster.getCurrentMana() < monster.getMana()) {
-          monster.currentMana += 10;
-        }
-        if (monster.getCurrentHP() < monster.getHp()) {
-          monster.currentHP += 5;
-        }
-        if (monster.getCurrentMana() > monster.getMana()) {
-          monster.currentMana = monster.getMana();
-        }
-        if (monster.getCurrentHP() > monster.getHp()) {
-          monster.currentHP = monster.getHp();
-        }
-      }
-
-      monster.divMonster(TOTAL_MONSTERS_BACKUP);
-      selectPolMonster(monster);
-    }
-    try {
-      colorBorderMama = document.getElementById(
-        mamaTarget + TOTAL_TEG_MONSTER_CARD
-      );
-      colorBorderMama.classList.add("sexMama");
-
-      colorBorderPapa = document.getElementById(
-        papaTarget + TOTAL_TEG_MONSTER_CARD
-      );
-
-      colorBorderPapa.classList.add("sexPapa");
-    } catch (error) {}
-  }
-  //} catch (error) {}
-}
-
 function clearMonsters() {
   //try {
   if (!poleFightsHaveMonsterEnemy) {
@@ -193,12 +128,12 @@ function startGame() {
   updateMonsters(false);
   if (noMoreWomens == TOTAL_SIZE_ARR) {
     mapMonsters.get(0).pol = !mapMonsters.get(0).pol;
-    console.log("Долой однополые браки");
+    //console.log("Долой однополые браки");
     updateMonsters(false);
   }
   //console.log(noMoreWomens);
-  //testMonsters();
-  //updateMonsters(false);
+  testMonsters();
+  updateMonsters(false);
 
   //localStorage.myMap = JSON.stringify(Array.from(mapMonsters));
   select();

@@ -186,9 +186,16 @@ function chacnceNewMonster(max) {
 function chacnceUpAttribute(monster, max) {
   let zet = getRandomPercent(max, Math.floor(oldEnemyLevel * 9));
   if (zet) {
-    let x = [14, 15, 16];
+    let x = [12, 14, 15, 16];
     let res = getRandomWeight(x);
-    if (res == 14) {
+    if (res == 12) {
+      monster.endurance += 1;
+      console.log(
+        "Монстер " + monster.name + " навсегда получил 1 выносливость"
+      );
+      moveInfostrTextD.textContent =
+        "Монстер " + monster.name + " навсегда получил 1 выносливость";
+    } else if (res == 14) {
       monster.strength += 1;
       console.log("Монстер " + monster.name + " навсегда получил 1 силу");
       moveInfostrTextD.textContent =
