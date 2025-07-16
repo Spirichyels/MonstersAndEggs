@@ -112,14 +112,16 @@ function helpSort(monster, number) {
 }
 
 function sort() {
-  if (isSorting.checked) {
-    arrayMonstters = [];
-    for (let monster of mapMonsters.values()) {
-      arrayMonstters.push([helpSort(monster, TOTAL_ID_SORTING), monster]);
+  if (!poleFightsHaveMonsterEnemy) {
+    if (isSorting.checked) {
+      arrayMonstters = [];
+      for (let monster of mapMonsters.values()) {
+        arrayMonstters.push([helpSort(monster, TOTAL_ID_SORTING), monster]);
+      }
     }
+    sorting();
+    divArrayMonsters();
   }
-  sorting();
-  divArrayMonsters();
 }
 
 function sorting() {
