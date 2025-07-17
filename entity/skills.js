@@ -168,12 +168,12 @@ class BladeMail extends Skill {
 function createNewSkill(lvl, born, type, oldDuration) {
   let weightSkills = new Map([
     [TOTAL_TYPE_SKILL_WATER_STRIKE, new WaterStrike(lvl)],
-    //[TOTAL_TYPE_SKILL_ICE_BREATH, new IceBreath(lvl)],
-    //[TOTAL_TYPE_SKILL_LIGHTING_STRIKE, new LightningStrike(lvl)],
-    //[TOTAL_TYPE_SKILL_FIRE_BREATH, new FireBreath(lvl)],
-    //[TOTAL_TYPE_SKILL_POISONOUS_BREATH, new PoisonousBreath(lvl)],
+    [TOTAL_TYPE_SKILL_ICE_BREATH, new IceBreath(lvl)],
+    [TOTAL_TYPE_SKILL_LIGHTING_STRIKE, new LightningStrike(lvl)],
+    [TOTAL_TYPE_SKILL_FIRE_BREATH, new FireBreath(lvl)],
+    [TOTAL_TYPE_SKILL_POISONOUS_BREATH, new PoisonousBreath(lvl)],
     [TOTAL_TYPE_SKILL_WAMPIRISM, new Wampirism(lvl)],
-    //[TOTAL_TYPE_SKILL_BLADEMAIL, new BladeMail(lvl)],
+    [TOTAL_TYPE_SKILL_BLADEMAIL, new BladeMail(lvl)],
 
     //
   ]);
