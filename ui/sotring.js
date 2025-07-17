@@ -1,6 +1,6 @@
 function updateMonsters(regen) {
   //try {
-  if (!poleFightsHaveMonsterEnemy) {
+  if (!poleFightsHaveMonsterEnemy && !poleFightsHaveMonsterPlayer) {
     if (TOTAL_CHEAT) {
       createNewMonster();
       mapMonsters.get(countId).strength = 1000;

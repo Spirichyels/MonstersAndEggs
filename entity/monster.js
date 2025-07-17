@@ -18,43 +18,14 @@ function getHighHumidityAttribute(x, isBot) {
   }
 }
 
-function saveMonstersToStorage(map) {
-  const entries = Array.from(map.entries()).map(([id, monster]) => [
-    id,
-    {
-      id: monster.id,
-      name: monster.name,
-      attack: monster.attack,
-      hp: monster.hp,
-      gen: {
-        hp: monster.gen.hp,
-        attack: monster.gen.attack,
-      },
-    },
-  ]);
-  localStorage.setItem("monsters", JSON.stringify(entries));
-}
-
-function loadHelp(data) {
-  let x = new Monster();
-  x.xren(data.id, data.name, data.atack, data.hp, data.gen);
-  return x;
-}
-function loadMonstersToStorage() {
-  const stored = localStorage.getItem("monsters");
-  if (!stored) return new Map();
-  const parsed = JSON.parse(stored);
-
-  const restoredMap = new Map(parsed.map(([id, data]) => [id, loadHelp(data)]));
-
-  return restoredMap;
-}
-
 class Monster {
   name = "noname";
   surname = "surname";
   id = 0;
   lvl = 1;
+  rarity = TOTAL_RARITY_COMMON;
+  status = TOTAL_STATUS_FELXIBLE;
+
   pol = true;
 
   firstHp = 1;
@@ -100,12 +71,14 @@ class Monster {
   newSkillBackpack = [];
   newSkillBackpack2 = [];
 
-  xren(
+  loadConstructor(
     name,
     surname,
     id,
     lvl,
     pol,
+    rarity,
+    status,
     firstHp,
     firstMana,
     currentHP,
@@ -128,6 +101,8 @@ class Monster {
     this.surname = surname;
     this.id = id;
     this.lvl = lvl;
+    this.rarity = rarity;
+    this.status = status;
     this.pol = pol;
 
     this.firstHp = firstHp;
@@ -174,7 +149,8 @@ class Monster {
           skillBacpack.skill0.lvl,
           skillBacpack.skill0.type,
           skillBacpack.skill0.type,
-          skillBacpack.skill0.duration
+          skillBacpack.skill0.duration,
+          skillBacpack.skill0.percent
         )
       );
     }
@@ -185,7 +161,8 @@ class Monster {
           skillBacpack.skill1.lvl,
           skillBacpack.skill1.type,
           skillBacpack.skill1.type,
-          skillBacpack.skill1.duration
+          skillBacpack.skill1.duration,
+          skillBacpack.skill1.percent
         )
       );
     }
@@ -196,7 +173,8 @@ class Monster {
           skillBacpack.skill2.lvl,
           skillBacpack.skill2.type,
           skillBacpack.skill2.type,
-          skillBacpack.skill2.duration
+          skillBacpack.skill2.duration,
+          skillBacpack.skill2.percent
         )
       );
     }
@@ -210,7 +188,13 @@ class Monster {
   setNewSkillBackback(x) {
     let newSkill = getRandomWeightSkill(x);
     this.setSkillBacpack(
-      createNewSkill(newAttributeSkill(newSkill.lvl), true, newSkill.type, -1)
+      createNewSkill(
+        newAttributeSkill(newSkill.lvl),
+        true,
+        newSkill.type,
+        -1,
+        -1
+      )
     );
   }
   removeSkillBackPack(id) {
@@ -247,13 +231,13 @@ class Monster {
     return Math.floor(this.firstAttack + this.strength * 1.4);
   }
   getArmor() {
-    return Math.floor(this.firstArmor + this.agility / 2);
+    return Math.floor(this.firstArmor + this.agility / 1.6);
   }
   getCrit() {
-    return Math.floor(this.firstCrit + this.agility / 4);
+    return Math.floor(this.firstCrit + this.agility / 3.5);
   }
   getDodge() {
-    let x = Math.floor(this.firstDodge + this.agility / 2);
+    let x = Math.floor(this.firstDodge + this.agility / 2.2);
     if (x >= 90) return 90;
     else return x;
   }
@@ -286,20 +270,13 @@ class Monster {
       this.intelligence = getRandomInt(1, 20);
       this.endurance = getRandomInt(1, 20);
 
-      this.firstHp = getRandomInt(30, 60);
+      this.firstHp = getRandomInt(1, 60);
       this.firstMana = getRandomInt(1, 20);
 
-      this.firstAttack = getRandomInt(3, 10);
-      this.firstArmor = Math.floor(getRandomInt(0, 10));
-      this.firstCrit = Math.floor(getRandomInt(1, 10));
-      this.firstDodge = Math.floor(getRandomInt(1, 5));
-
-      //   if (getRandomPercent(100, 35)) {
-      //     this.setSkillBacpack(createNewSkill(getRandomInt(1, 2), false, 0, -1));
-      //     //this.setSkillBacpack(createNewSkill(7, false, 0, -1));
-      //     //this.setSkillBacpack(createNewSkill(10, false, 0, -1));
-      //     //this.setSkillBacpack(createNewSkill(3, false, 0, -1));
-      //   }
+      this.firstAttack = getRandomInt(1, 20);
+      this.firstArmor = Math.floor(getRandomInt(0, 20));
+      this.firstCrit = Math.floor(getRandomInt(1, 15));
+      this.firstDodge = Math.floor(getRandomInt(1, 15));
     } else if (!create) {
       //console.log("Ураааа");
     }
@@ -329,7 +306,7 @@ class Monster {
       let min1 = lvl - 2;
       if (min1 < 1) min1 = 1;
       this.setSkillBacpack(
-        createNewSkill(getRandomInt(min1, lvl), false, 0, -1)
+        createNewSkill(getRandomInt(min1, lvl), false, 0, -1, -1)
       );
     }
 
@@ -337,7 +314,7 @@ class Monster {
       let min2 = lvl - 4;
       if (min2 < 1) min2 = 1;
       this.setSkillBacpack(
-        createNewSkill(getRandomInt(min2, lvl), false, 0, -1)
+        createNewSkill(getRandomInt(min2, lvl), false, 0, -1, -1)
       );
     }
 
@@ -345,7 +322,7 @@ class Monster {
       let min3 = lvl - 5;
       if (min3 < 1) min3 = 1;
       this.setSkillBacpack(
-        createNewSkill(getRandomInt(min3, lvl), false, 0, -1)
+        createNewSkill(getRandomInt(min3, lvl), false, 0, -1, -1)
       );
     }
   }
@@ -604,6 +581,8 @@ class Monster {
 
     let itemRare = document.createElement("div");
     itemRare.classList.add("center");
+    let itemStatus = document.createElement("div");
+    itemStatus.classList.add("center");
 
     let itemPolLvl = document.createElement("div");
     itemPolLvl.classList.add("monsterCardPolLvl");
@@ -631,7 +610,7 @@ class Monster {
     itempAttArm.appendChild(itemArmor);
     itemAtPanel.appendChild(itempAttArm);
 
-    let itempCritDodje = document.createElement("div");
+    //let itempCritDodje = document.createElement("div");
     let itemCrit = document.createElement("div");
     let itemDodge = document.createElement("div");
     itempAttArm.appendChild(itemCrit);
@@ -657,12 +636,8 @@ class Monster {
       this.name + " " + this.surname + " id: " + this.id;
     //itemName.classList.add("center");
 
-    if (this.lvl == TOTAL_MAX_LEVEL) {
-      itemRare.textContent = "🔹Редкость: Редкая";
-      profileMonster.classList.add("rare");
-    } else {
-      itemRare.textContent = "◻️Редкость: Обычная";
-    }
+    itemRare.textContent = "◻️Редкость: " + this.rarity;
+    itemStatus.textContent = "Статус: " + this.status;
 
     itemLvl.textContent = "Уровень: " + this.lvl;
 
@@ -763,6 +738,8 @@ class Monster {
 
     itemGen.textContent = "Генетика: " + JSON.stringify(this.genetica);
     profileMonster.appendChild(itemRare);
+    profileMonster.appendChild(itemStatus);
+
     profileMonster.appendChild(itemName);
     profileMonster.appendChild(itemPolLvl);
 

@@ -17,14 +17,15 @@ function delete1MonsterClick() {
 
 function sell1MonsterClick() {
   //console.log("delete1MonsterClick idDeleteMonsterInput: ", idSellMonsterInput);
+  let koeff = 1.07;
 
   try {
     if (!poleFightsHaveMonsterPlayer) {
       let newMoney = Math.floor(
         (mapMonsters.get(idSellMonsterInput).getCurrentHP() /
           mapMonsters.get(idSellMonsterInput).getHp()) *
-          TOTAL_PRICE_SELL +
-          TOTAL_PRICE_SELL2 * mapMonsters.get(idSellMonsterInput).lvl
+          TOTAL_PRICE_SELL *
+          Math.pow(koeff, mapMonsters.get(idSellMonsterInput).lvl)
       );
 
       if (newMoney < 10) newMoney = 10;
@@ -286,8 +287,17 @@ function Events() {
   //
 }
 
+function progressLvlMinus(id) {
+  progressLVL[id] = progressLVL[id] - 1;
+  if (progressLVL[id] <= 0) {
+    id_range.value = Math.floor(id_range.value) + 1;
+  }
+  progressText.textContent = progressLVL[id_range.value];
+  idRange();
+}
 function idRange() {
   id_Count.innerHTML = id_range.value;
+  progressText.textContent = progressLVL[id_range.value];
   levelEnemy = Math.floor(id_range.value);
   //oldEnemyLevel = levelEnemy;
   //console.log("levelEnemy: ", levelEnemy);

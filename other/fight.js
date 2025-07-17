@@ -566,6 +566,7 @@ function endMove() {
       enemy.orCrit = false;
     }
     if (enemy.HP <= 0 && player.HP > 0) {
+      progressLvlMinus(oldEnemyLevel);
       player.percentHighHumidity = 0;
       mapMonsters.get(oldMonsterFightP).highHumidity = false;
       enemy.percentHighHumidity = 0;
@@ -587,9 +588,9 @@ function endMove() {
       console.log("Вы заработали за бой: ", fightMoney);
       moveInfostrTextM.textContent = "Вы заработали за бой: " + fightMoney;
 
-      chacnceNewMonster(150);
-      chacnceNewMonster(300);
-      chacnceNewMonster(450);
+      //chacnceNewMonster(150);
+      //chacnceNewMonster(300);
+      //chacnceNewMonster(450);
 
       win("Player");
     } else if (player.HP <= 0) {
@@ -627,7 +628,9 @@ function fight() {
 
     let enemyM = new Monster("bot", -1, false);
     //console.log("fight countId:", countId);
+
     enemyM.bot(levelEnemy);
+
     enemyM.divMonster(TOTAL_MONSTERS_FIGHT_ENEMY);
     poleFightsHaveMonsterEnemy = true;
 

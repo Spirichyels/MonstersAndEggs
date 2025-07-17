@@ -7,6 +7,7 @@ class Skill {
   type = "";
   text = "Просто способность";
   attribute = INTELLIGENCE;
+  percent = 0;
 
   constructor(lvl) {
     this.lvl = lvl;
@@ -116,14 +117,14 @@ class LightningStrike extends Skill {
 
 class WaterStrike extends Skill {
   duration = Math.floor(getRandomInt(2, this.lvl + 3));
-  randomDop2 = getRandomInt(0, 10);
+  percent = getRandomInt(0, 10);
   fullDamadge = 0;
   type = TOTAL_TYPE_SKILL_WATER_STRIKE;
   text = "🌊Водный удар";
 
   formula(intelligence) {
     let res = Math.floor(
-      (((55 * intelligence) / 50) * this.lvl) / 10 + this.randomDop2
+      (((55 * intelligence) / 50) * this.lvl) / 10 + this.percent
     );
     if (res > 75) return 75;
     else return res;
@@ -165,7 +166,7 @@ class BladeMail extends Skill {
   }
 }
 
-function createNewSkill(lvl, born, type, oldDuration) {
+function createNewSkill(lvl, born, type, oldDuration, oldPercent) {
   let weightSkills = new Map([
     [TOTAL_TYPE_SKILL_WATER_STRIKE, new WaterStrike(lvl)],
     [TOTAL_TYPE_SKILL_ICE_BREATH, new IceBreath(lvl)],
@@ -184,7 +185,8 @@ function createNewSkill(lvl, born, type, oldDuration) {
   newSkill = weightSkills.get(type);
 
   if (oldDuration != -1) {
-    newSkill.duration = oldDuration;
+    newSkill.duration = Math.floor(oldDuration);
+    newSkill.percent = Math.floor(oldPercent);
     //alert(newSkill.duration);
   }
 

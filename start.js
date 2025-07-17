@@ -107,9 +107,9 @@ function testMonsters() {
     let minLvl = document.getElementById("id_Count");
     let minLvl2 = document.getElementById("id_range");
 
-    minLvl.textContent = 6;
-    minLvl2.value = 6;
-    levelEnemy = 6;
+    //minLvl.textContent = 6;
+    //minLvl2.value = 6;
+    //levelEnemy = 6;
   }
 }
 
@@ -131,9 +131,10 @@ function startGame() {
     //console.log("Долой однополые браки");
     updateMonsters(false);
   }
+  //test123();
   //console.log(noMoreWomens);
-  //testMonsters();
-  //updateMonsters(false);
+  testMonsters();
+  updateMonsters(false);
 
   //localStorage.myMap = JSON.stringify(Array.from(mapMonsters));
   select();
