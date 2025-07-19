@@ -62,7 +62,7 @@ class Skill {
 }
 
 class FireBreath extends Skill {
-  duration = getRandomInt(1, this.lvl + 3);
+  duration = getRandomInt(1, this.lvl);
   fullDamadge = 0;
   type = TOTAL_TYPE_SKILL_FIRE_BREATH;
   text = "🔥Огненное дыхание";
@@ -73,7 +73,7 @@ class FireBreath extends Skill {
 }
 
 class PoisonousBreath extends Skill {
-  duration = getRandomInt(1, this.lvl + 3);
+  duration = getRandomInt(1, this.lvl);
   fullDamadge = 0;
   type = TOTAL_TYPE_SKILL_POISONOUS_BREATH;
   text = "🐍Ядовитое дыхание";
@@ -82,25 +82,14 @@ class PoisonousBreath extends Skill {
   formula(agility, i) {
     return Math.floor(((agility / 1.4) * (this.lvl + 1)) / (i + 1) / 1.8);
   }
-
-  //   getText(agility) {
-  //     return (
-  //       this.basa() +
-  //       this.getFullDamadge(agility) +
-  //       "[" +
-  //       this.getDamadge(agility) +
-  //       "]"
-  //     );
-  //   }
 }
 class IceBreath extends Skill {
-  duration = Math.floor(getRandomInt(3, this.lvl) / 3);
+  duration = Math.floor(getRandomInt(3, 3 + this.lvl) / 3);
   fullDamadge = 0;
   type = TOTAL_TYPE_SKILL_ICE_BREATH;
   text = "🧊Морозное дыхание";
 
   formula(intelligence, i) {
-    //console.log("формула мороза");
     return Math.floor(((intelligence / 1.5) * this.lvl) / (i + 1) / 2);
   }
 }

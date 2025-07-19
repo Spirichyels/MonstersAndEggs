@@ -10,14 +10,14 @@
 	overflow: hidden;
 	
 	width: 220px;
-	height: 350px;
+	height: 360px;
 	background-color: none;
 	border: 1px solid black; 
 
 }
 
 .card {
-	background-color: #f7f0de;
+	background-color: #f7e2af;
 	border: 2px solid #ccc;
 	border-radius: 10px;
 	padding: 12px;
@@ -26,9 +26,20 @@
 	
   }
 
+
+  .card.unusual{
+	/*border-color: #cbe6f8;*/
+	background-color: #f7cb86;
+  }
+
   .card.rare {
-	border-color: #cbe6f8;
+	/*border-color: #cbe6f8;*/
 	background-color: #e0f2fe;
+  }
+  .card.veryRare {
+	/*border-color: #cbe6f8;*/
+	background-color: #cbe8fc;
+
   }
   .card.epic {
 	border-color: #b197fc;
@@ -43,6 +54,14 @@
   }
   .card.sexPapa {
 	border: 3px solid green; 
+  }
+
+  .card.boss {
+	border: 5px solid#b197fc;
+  }
+  .card.completed {
+	background-color: #f5dec5;
+	border: 5px solid#f4ee4b;
   }
 
 .monsterCard:hover  {
@@ -91,5 +110,5 @@
 	color: red;
 }
 .strength {
-	color: orange
+	color: rgb(248, 68, 197)
 }

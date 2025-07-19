@@ -96,16 +96,34 @@ function createNewMonster() {
 
 function testMonsters() {
   for (let monster of mapMonsters.values()) {
-    monster.strength = 50;
-    monster.agility = 50;
-    monster.intelligence = 50;
-    monster.endurance = 50;
+    monster.firstEndurance = 50;
+    monster.firstStrength = 50;
+    monster.firstAgility = 50;
+    monster.firstIntelligence = 50;
 
     monster.setSkillBacpack(createNewSkill(getRandomInt(1, 10), false, 0, -1));
     monster.setSkillBacpack(createNewSkill(getRandomInt(1, 10), false, 0, -1));
     monster.setSkillBacpack(createNewSkill(getRandomInt(1, 10), false, 0, -1));
     let minLvl = document.getElementById("id_Count");
     let minLvl2 = document.getElementById("id_range");
+
+    progressLVL = {
+      1: 1,
+      2: 1,
+      3: 1,
+      4: 1,
+      5: 1,
+      6: 1,
+      7: 1,
+      8: 1,
+      9: 1,
+      10: 1,
+      11: 1,
+      12: 1,
+      13: 1,
+      14: 1,
+      15: 1,
+    };
 
     //minLvl.textContent = 6;
     //minLvl2.value = 6;
@@ -133,8 +151,8 @@ function startGame() {
   }
   //test123();
   //console.log(noMoreWomens);
-  testMonsters();
-  updateMonsters(false);
+  //testMonsters();
+  //updateMonsters(false);
 
   //localStorage.myMap = JSON.stringify(Array.from(mapMonsters));
   select();

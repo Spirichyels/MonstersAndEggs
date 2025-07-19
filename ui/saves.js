@@ -21,11 +21,17 @@ function onSaveLocalStorage() {
       firstArmor: monster.firstArmor,
       firstCrit: monster.firstCrit,
       firstDodge: monster.firstDodge,
+
       //
-      strength: monster.strength,
-      agility: monster.agility,
-      intelligence: monster.intelligence,
-      endurance: monster.endurance,
+      firstEndurance: monster.firstEndurance,
+      firstStrength: monster.firstStrength,
+      firstAgility: monster.firstAgility,
+      firstIntelligence: monster.firstIntelligence,
+
+      bonusEndurance: monster.bonusEndurance,
+      bonusStrength: monster.bonusStrength,
+      bonusAgility: monster.bonusAgility,
+      bonusIntelligence: monster.bonusIntelligence,
 
       //
       //gen = 1;
@@ -40,10 +46,10 @@ function onSaveLocalStorage() {
         firstCrit: monster.genetica.firstCrit,
         firstDodge: monster.genetica.firstDodge,
 
-        strength: monster.genetica.strength,
-        agility: monster.genetica.agility,
-        intelligence: monster.genetica.intelligence,
-        endurance: monster.genetica.endurance,
+        firstEndurance: monster.genetica.firstEndurance,
+        firstStrength: monster.genetica.firstStrength,
+        firstAgility: monster.genetica.firstAgility,
+        firstIntelligence: monster.genetica.firstIntelligence,
       },
       genskills: {
         skill0: monster.genskills.skill0,
@@ -113,10 +119,14 @@ function loadHelp(data) {
     data.firstArmor,
     data.firstCrit,
     data.firstDodge,
-    data.strength,
-    data.agility,
-    data.intelligence,
-    data.endurance,
+    data.firstEndurance,
+    data.firstStrength,
+    data.firstAgility,
+    data.firstIntelligence,
+    data.bonusEndurance,
+    data.bonusStrength,
+    data.bonusAgility,
+    data.bonusIntelligence,
     data.highHumidity,
     data.genetica,
     data.genskills,

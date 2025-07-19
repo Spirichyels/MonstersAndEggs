@@ -1,4 +1,8 @@
 function getRandomInt(min = 1, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function oldgetRandomInt(min = 1, max) {
   return Math.floor(Math.random() * max + min);
 }
 let getRandomWeight = (weights) => {
@@ -103,9 +107,9 @@ let newAttributeHpMana = (attribute) => {
 let newAttributeSAI = (attribute) => {
   let result = 0;
   let resultUp = getRandomWeight([TOTAL_UP, TOTAL_NORM, TOTAL_DOWN]);
-  if (resultUp == TOTAL_UP) result = Math.floor(attribute + getRandomInt(1, 3));
+  if (resultUp == TOTAL_UP) result = Math.floor(attribute + getRandomInt(1, 2));
   else if (resultUp == TOTAL_DOWN)
-    result = Math.floor(attribute - getRandomInt(1, 3));
+    result = Math.floor(attribute - getRandomInt(1, 2));
   else result = attribute;
 
   //console.log("resultUp: ", resultUp);
@@ -117,10 +121,9 @@ let newAttributeSAI = (attribute) => {
 let newAttributeAttack = (attribute) => {
   let result = 0;
   let resultUp = getRandomWeight([TOTAL_UP, TOTAL_NORM, TOTAL_DOWN]);
-  if (resultUp == TOTAL_UP)
-    result = Math.floor(attribute + getRandomInt(1, 10));
+  if (resultUp == TOTAL_UP) result = Math.floor(attribute + getRandomInt(1, 5));
   else if (resultUp == TOTAL_DOWN)
-    result = Math.floor(attribute - getRandomInt(1, 10));
+    result = Math.floor(attribute - getRandomInt(1, 5));
   else result = attribute;
 
   //console.log("resultUp: ", resultUp);
@@ -189,24 +192,24 @@ function chacnceUpAttribute(monster, max) {
     let x = [12, 14, 15, 16];
     let res = getRandomWeight(x);
     if (res == 12) {
-      monster.endurance += 1;
+      monster.firstEndurance += 1;
       console.log(
         "Монстер " + monster.name + " навсегда получил 1 выносливость"
       );
       moveInfostrTextD.textContent =
         "Монстер " + monster.name + " навсегда получил 1 выносливость";
     } else if (res == 14) {
-      monster.strength += 1;
+      monster.firstStrength += 1;
       console.log("Монстер " + monster.name + " навсегда получил 1 силу");
       moveInfostrTextD.textContent =
         "Монстер " + monster.name + " навсегда получил 1 силу";
     } else if (res == 15) {
-      monster.agility += 1;
+      monster.firstAgility += 1;
       console.log("Монстер " + monster.name + " навсегда получил 1 ловкость");
       moveInfostrTextD.textContent =
         "Монстер " + monster.name + " навсегда получил 1 ловкость";
     } else if (res == 16) {
-      monster.intelligence += 1;
+      monster.firstIntelligence += 1;
       console.log("Монстер " + monster.name + " навсегда получил 1 интеллект");
       moveInfostrTextD.textContent =
         "Монстер " + monster.name + " навсегда получил 1 интеллект";

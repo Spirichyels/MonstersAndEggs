@@ -19,6 +19,8 @@ const TOTAL_START_MONEY = 500;
 const STRENGTH = "strength";
 const AGILITY = "agility";
 const INTELLIGENCE = "intelligence";
+const ENDURANCE = "endurance";
+
 const ATTACK = "attack";
 const LVL = "lvl";
 const NOTHING = "lvl";
@@ -26,8 +28,8 @@ const NOTHING = "lvl";
 const TOTAL_RARITY_COMMON = "Обычная";
 const TOTAL_RARITY_UNUSUAL = "Необычная";
 const TOTAL_RARITY_RARE = "Редкая";
+const TOTAL_RARITY_VERY_RARE = "Очень Редкая";
 
-const TOTAL_RARITY_VERY_RARE = [4, "Очень Редкая", 5, "+", 4];
 const TOTAL_RARITY_ELITE = [5, "Элитная", 10, "+", 4];
 const TOTAL_RARITY_EPIC = [6, "Эпическая", 1.5, "*", 1];
 const TOTAL_RARITY_LEGENDARY = [7, "Легендарная", 2, "*", 1];
@@ -36,8 +38,8 @@ const TOTAL_RARITY_UNIQUE = [8, "Уникальная", 2, "*", 4];
 const TOTAL_STATUS_DISSAPERING = "Исчезающая";
 const TOTAL_STATUS_FELXIBLE = "Гибкая";
 const TOTAL_STATUS_BOSS = "БОСС";
+const TOTAL_STATUS_COMPLETED = "Завершенная";
 
-const TOTAL_STATUS_COMPLETED = [2, "Завершенная"];
 const TOTAL_STATUS_REFORGED = [3, "Перекованная"];
 const TOTAL_STATUS_BLOODY = [4, "Кровавая"];
 const TOTAL_STATUS_TRINITY = [5, "Триединство"];
@@ -123,41 +125,41 @@ let enemy = {
 
 let fix = 30;
 
-// let progressLVL = {
-//   1: 30,
-//   2: 60,
-//   3: 90,
-//   4: 120,
-//   5: 150,
-//   6: 180,
-//   7: 210,
-//   8: 240,
-//   9: 270,
-//   10: 300,
-//   11: 330,
-//   12: 360,
-//   13: 390,
-//   14: 420,
-//   15: 450,
-// };
-
 let progressLVL = {
-  1: 1,
-  2: 1,
-  3: 1,
-  4: 1,
-  5: 1,
-  6: 1,
-  7: 1,
-  8: 1,
-  9: 1,
-  10: 1,
-  11: 1,
-  12: 1,
-  13: 1,
-  14: 1,
-  15: 1,
+  1: 30,
+  2: 60,
+  3: 90,
+  4: 120,
+  5: 150,
+  6: 180,
+  7: 210,
+  8: 240,
+  9: 270,
+  10: 300,
+  11: 330,
+  12: 360,
+  13: 390,
+  14: 420,
+  15: 450,
 };
+
+// let progressLVL = {
+//   1: 1,
+//   2: 1,
+//   3: 1,
+//   4: 1,
+//   5: 1,
+//   6: 1,
+//   7: 1,
+//   8: 1,
+//   9: 1,
+//   10: 1,
+//   11: 1,
+//   12: 1,
+//   13: 1,
+//   14: 1,
+//   15: 1,
+// };
 
 progressText = document.getElementById("progress");
 

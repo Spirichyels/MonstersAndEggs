@@ -101,10 +101,10 @@ function helpSort(monster, number) {
   xSort = new Map([
     //[-1, "none"],
     [0, monster.id],
-    [1, monster.strength],
-    [2, monster.agility],
-    [3, monster.intelligence],
-    [4, monster.endurance],
+    [1, monster.getEndurance()],
+    [2, monster.getStrength()],
+    [3, monster.getAgility()],
+    [4, monster.getIntelligence()],
   ]);
   //console.log(number + " " + xSort.get(number));
 

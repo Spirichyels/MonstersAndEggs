@@ -86,7 +86,7 @@ function createEndMoveEnemy() {
   let turnEnemy = enemyMonster.skillBacpack.length + 1;
 
   let randomTurn = getRandomInt(1, turnEnemy);
-  if (enemyMonster.intelligence > enemyMonster.getCurrentMana()) {
+  if (enemyMonster.getIntelligence() > enemyMonster.getCurrentMana()) {
     randomTurn = 1;
     console.log("Мало маны у врага, randomTurn: " + randomTurn);
   }
@@ -223,29 +223,29 @@ function getRealAttackEnemy() {
 function createDamadgeSkills(user, monster, skillDamadge, noUser) {
   //alert("");
   //console.log(user.Mana);
-  if (user.Mana >= monster.intelligence) {
+  if (user.Mana >= monster.getIntelligence()) {
     let skill = monster.skillBacpack[user.endSkill];
     //console.log(skill);
     if (skill) {
       if (skill.type == TOTAL_TYPE_SKILL_FIRE_BREATH) {
-        skillDamadge.fireDamadge = skill.getDamadge(monster.intelligence);
+        skillDamadge.fireDamadge = skill.getDamadge(monster.getIntelligence());
       } else if (skill.type == TOTAL_TYPE_SKILL_POISONOUS_BREATH) {
-        skillDamadge.poisonousDamadge = skill.getDamadge(monster.agility);
+        skillDamadge.poisonousDamadge = skill.getDamadge(monster.getAgility());
       } else if (skill.type == TOTAL_TYPE_SKILL_ICE_BREATH) {
-        skillDamadge.iceDamadge = skill.getDamadge(monster.intelligence);
+        skillDamadge.iceDamadge = skill.getDamadge(monster.getIntelligence());
       } else if (skill.type == TOTAL_TYPE_SKILL_LIGHTING_STRIKE) {
-        skillDamadge.lightingDamadge = skill.formula(monster.intelligence);
+        skillDamadge.lightingDamadge = skill.formula(monster.getIntelligence());
         console.log("lightingDamadge", skillDamadge.lightingDamadge);
       } else if (skill.type == TOTAL_TYPE_SKILL_WAMPIRISM) {
         skillDamadge.wampirismDamadge = skill.formula(monster.getAttack());
       } else if (skill.type == TOTAL_TYPE_SKILL_BLADEMAIL) {
         skillDamadge.blademailDamadge = skill.formula();
       } else if (skill.type == TOTAL_TYPE_SKILL_WATER_STRIKE) {
-        skillDamadge.waterDamadge = skill.getDamadge(monster.intelligence);
+        skillDamadge.waterDamadge = skill.getDamadge(monster.getIntelligence());
         user.firstWater = true;
       }
 
-      user.Mana = Math.floor(user.Mana - monster.intelligence);
+      user.Mana = Math.floor(user.Mana - monster.getIntelligence());
     }
   } else {
     console.log(`${user.text}у не хватило маны`);
@@ -632,9 +632,18 @@ function fight() {
     enemyM.bot(levelEnemy);
 
     enemyM.divMonster(TOTAL_MONSTERS_FIGHT_ENEMY);
+
+    if (progressLVL[levelEnemy] == 1) {
+      enemyM.firstEndurance *= 2;
+      enemyM.firstStrength *= 2;
+      enemyM.firstAgility *= 2;
+      enemyM.firstIntelligence *= 2;
+    }
+
     poleFightsHaveMonsterEnemy = true;
 
     enemyMonster = enemyM;
+    updateEnemyMonster();
 
     player.HP = mapMonsters.get(oldMonsterFightP).getCurrentHP();
     player.Mana = mapMonsters.get(oldMonsterFightP).getCurrentMana();

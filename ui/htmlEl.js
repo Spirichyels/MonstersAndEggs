@@ -162,11 +162,8 @@ function select() {
 
 function monsterMaxLvlEvolution(monster) {
   try {
-    if (monster.lvl == TOTAL_MAX_LEVEL) {
-      monster.strength = monster.strength * 2;
-      monster.agility = monster.agility * 2;
-      monster.intelligence = monster.intelligence * 2;
-      monster.endurance = monster.intelligence * 2;
+    if (monster.lvl >= TOTAL_MAX_LEVEL) {
+      monster.status = TOTAL_STATUS_COMPLETED;
     }
   } catch (error) {
     console.log("monsterMaxLvlEvolution: ", error);
