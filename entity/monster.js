@@ -257,7 +257,11 @@ class Monster {
   }
 
   upLvl() {
-    this.lvl = this.lvl + getRandomInt(-1, 2);
+    if (this.lvl == 1) {
+      this.lvl = this.lvl + getRandomInt(-1, 3);
+    } else {
+      this.lvl = this.lvl + getRandomInt(-1, 1);
+    }
   }
   getAttack() {
     return Math.floor(this.firstAttack + this.getStrength() * 1.4);

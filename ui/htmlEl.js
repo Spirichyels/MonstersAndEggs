@@ -219,6 +219,15 @@ function skillEvents(skill) {
     useAbilityPl(skill.id, player);
   });
 }
+
+function sortEvents(isSort) {
+  isSort.addEventListener("change", () => {
+    if (isSorting.checked) {
+      changeSelectSort();
+    }
+    updateMonsters(false);
+  });
+}
 function Events() {
   //sex
   sexButton.addEventListener("click", sexButtonClick);
@@ -268,12 +277,73 @@ function Events() {
 
   // sorting
 
-  isSorting.addEventListener("change", () => {
-    if (isSorting.checked) {
-      changeSelectSort();
-    }
-    updateMonsters(false);
-  });
+  sortEvents(isSorting);
+  sortEvents(isReverce);
+  sortEvents(isWoman);
+  sortEvents(isMan);
+
+  sortEvents(isCommon);
+  sortEvents(isUnusual);
+  sortEvents(isRare);
+  sortEvents(isVeryRare);
+
+  sortEvents(isDissapering);
+  sortEvents(isFlexible);
+  sortEvents(isCompleted);
+
+  //   isSorting.addEventListener("change", () => {
+  //     if (isSorting.checked) {
+  //       changeSelectSort();
+  //     }
+  //     updateMonsters(false);
+  //   });
+  //   isReverce.addEventListener("change", () => {
+  //     if (isSorting.checked) {
+  //       changeSelectSort();
+  //     }
+  //     updateMonsters(false);
+  //   });
+
+  //   isWoman.addEventListener("change", () => {
+  //     if (isSorting.checked) {
+  //       changeSelectSort();
+  //     }
+  //     updateMonsters(false);
+  //   });
+  //   isMan.addEventListener("change", () => {
+  //     if (isSorting.checked) {
+  //       changeSelectSort();
+  //     }
+  //     updateMonsters(false);
+  //   });
+
+  //   isCommon.addEventListener("change", () => {
+  //     if (isSorting.checked) {
+  //       changeSelectSort();
+  //     }
+  //     updateMonsters(false);
+  //   });
+
+  //   isUnusual.addEventListener("change", () => {
+  //     if (isSorting.checked) {
+  //       changeSelectSort();
+  //     }
+  //     updateMonsters(false);
+  //   });
+
+  //   isRare.addEventListener("change", () => {
+  //     if (isSorting.checked) {
+  //       changeSelectSort();
+  //     }
+  //     updateMonsters(false);
+  //   });
+
+  //   isVeryRare.addEventListener("change", () => {
+  //     if (isSorting.checked) {
+  //       changeSelectSort();
+  //     }
+  //     updateMonsters(false);
+  //   });
 
   sortSelect.addEventListener("change", () => {
     if (isSorting.checked) {

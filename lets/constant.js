@@ -231,6 +231,21 @@ let moveInfostrTextD = document.getElementById("moveInfostrTextD");
 let endMovePlayerText = document.getElementById("endMovePlayerText");
 
 let isSorting = document.getElementById("isSorting");
+let isReverce = document.getElementById("isReverce");
+let isWoman = document.getElementById("isWoman");
+let isMan = document.getElementById("isMan");
+
+let isCommon = document.getElementById("isCommon");
+let isUnusual = document.getElementById("isUnusual");
+let isRare = document.getElementById("isRare");
+let isVeryRare = document.getElementById("isVeryRare");
+
+let isDissapering = document.getElementById("isDissapering");
+let isFlexible = document.getElementById("isFlexible");
+let isCompleted = document.getElementById("isCompleted");
+
+//let isMan = document.getElementById("isMan");
+
 sortSelect = document.selectForm.sortingAttribute;
 
 endMovePlayerText.textContent = TOTAL_PLAYER_MOVE_END_TEXT;

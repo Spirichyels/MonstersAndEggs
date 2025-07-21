@@ -100,15 +100,49 @@ let xSort;
 function helpSort(monster, number) {
   xSort = new Map([
     //[-1, "none"],
-    [0, monster.id],
+    [
+      0,
+      monster.getEndurance() +
+        monster.getStrength() +
+        monster.getAgility() +
+        monster.getIntelligence(),
+    ],
     [1, monster.getEndurance()],
     [2, monster.getStrength()],
     [3, monster.getAgility()],
     [4, monster.getIntelligence()],
+    [5, monster.lvl],
   ]);
   //console.log(number + " " + xSort.get(number));
 
   return xSort.get(number);
+}
+
+function sort2(monster) {
+  if (isCommon.checked && monster.rarity == TOTAL_RARITY_COMMON) {
+    sort3(monster);
+  }
+  if (isUnusual.checked && monster.rarity == TOTAL_RARITY_UNUSUAL) {
+    sort3(monster);
+  }
+  if (isRare.checked && monster.rarity == TOTAL_RARITY_RARE) {
+    sort3(monster);
+  }
+  if (isVeryRare.checked && monster.rarity == TOTAL_RARITY_VERY_RARE) {
+    sort3(monster);
+  }
+}
+
+function sort3(monster) {
+  if (isDissapering.checked && monster.status == TOTAL_STATUS_DISSAPERING) {
+    arrayMonstters.push([helpSort(monster, TOTAL_ID_SORTING), monster]);
+  }
+  if (isFlexible.checked && monster.status == TOTAL_STATUS_FELXIBLE) {
+    arrayMonstters.push([helpSort(monster, TOTAL_ID_SORTING), monster]);
+  }
+  if (isCompleted.checked && monster.status == TOTAL_STATUS_COMPLETED) {
+    arrayMonstters.push([helpSort(monster, TOTAL_ID_SORTING), monster]);
+  }
 }
 
 function sort() {
@@ -116,7 +150,13 @@ function sort() {
     if (isSorting.checked) {
       arrayMonstters = [];
       for (let monster of mapMonsters.values()) {
-        arrayMonstters.push([helpSort(monster, TOTAL_ID_SORTING), monster]);
+        if (isWoman.checked && monster.pol == false) {
+          //arrayMonstters.push([helpSort(monster, TOTAL_ID_SORTING), monster]);
+          sort2(monster);
+        }
+        if (isMan.checked && monster.pol == true) {
+          sort2(monster);
+        }
       }
     }
     sorting();
@@ -126,7 +166,11 @@ function sort() {
 
 function sorting() {
   if (isSorting.checked) {
-    arrayMonstters.sort((a, b) => b[0] - a[0]);
+    if (isReverce.checked) {
+      arrayMonstters.sort((a, b) => a[0] - b[0]);
+    } else {
+      arrayMonstters.sort((a, b) => b[0] - a[0]);
+    }
 
     //arrayMonstters.reverse();
   }

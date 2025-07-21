@@ -56,6 +56,11 @@
 	display: grid;
 	grid-template-columns: 1fr 2fr; 
 }
+
+.grid2{
+	display: grid;
+	grid-template-columns: 1fr auto; 
+}
 .flex{
 	
 	display: flex;
