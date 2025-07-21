@@ -228,7 +228,7 @@ class Monster {
     return this.firstStrength + this.bonusStrength;
   }
   getAgility() {
-    return this.firstAgility + this.bonusIntelligence;
+    return this.firstAgility + this.bonusAgility;
   }
   getIntelligence() {
     return this.firstIntelligence + this.bonusIntelligence;
