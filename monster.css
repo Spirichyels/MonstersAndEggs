@@ -1,0 +1,114 @@
+.monsterCard {
+	text-align: left;
+	font-size: 14px;
+	display: inline-block;
+	
+
+	margin: 2px;
+
+	list-style: none;
+	overflow: hidden;
+	
+	width: 220px;
+	height: 360px;
+	background-color: none;
+	border: 1px solid black; 
+
+}
+
+.card {
+	background-color: #f7e2af;
+	border: 2px solid #ccc;
+	border-radius: 10px;
+	padding: 12px;
+	width: 240px;
+	box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+	
+  }
+
+
+  .card.unusual{
+	/*border-color: #cbe6f8;*/
+	background-color: #f7cb86;
+  }
+
+  .card.rare {
+	/*border-color: #cbe6f8;*/
+	background-color: #e0f2fe;
+  }
+  .card.veryRare {
+	/*border-color: #cbe6f8;*/
+	background-color: #cbe8fc;
+
+  }
+  .card.epic {
+	border-color: #b197fc;
+	background-color: #ede9fe;
+  }
+  .card.legendary {
+	border-color: #f59f00;
+	background-color: #fff3cd;
+  }
+  .card.sexMama {
+	border: 3px solid rgb(249, 112, 0); 
+  }
+  .card.sexPapa {
+	border: 3px solid green; 
+  }
+
+  .card.boss {
+	border: 5px solid#b197fc;
+  }
+  .card.completed {
+	background-color: #f5dec5;
+	border: 5px solid#f4ee4b;
+  }
+
+.monsterCard:hover  {
+
+	border: 3px solid red; 
+}
+.monsterCardPolLvl {
+	display: grid;
+	grid-template-columns: 1fr auto ;
+}
+.atPanel {
+	display: grid;
+	grid-template-columns: 1fr 1fr  ;
+}
+
+
+.monsterHP {
+	color: red;
+}
+.monsterMP {
+	color: blue;
+}
+
+/* .itemAttack {
+	color: rgb(172, 114, 8);
+
+}
+.itemArmor {
+	color: rgb(94, 151, 8);
+}
+.itemDodge {
+	color: rgb(94, 151, 8);
+}
+.itemCrit {
+	color: rgb(94, 151, 8);
+} */
+
+.agility {
+	color: green
+
+}
+.intelligence {
+	color: blue;
+}
+.endurance {
+	color: red;
+}
+.strength {
+	color: rgb(248, 68, 197)
+}

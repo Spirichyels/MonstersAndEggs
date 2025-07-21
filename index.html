@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="styleFightText.css">
+	<link rel="stylesheet" href="monster.css">
+
+
+	<title>MonsterAndEggs</title>
+
+
+</head>
+
+<body id="All">
+	<div id="PoleFights">
+		<div id="tableFights">Поле боя
+
+
+			<div id="textPoleFights">Нажмите на кнопку, чтобы сразиться</div>
+			<button disabled id="fightButton">Бой</button>
+			<div id="progress">30</div>
+		</div>
+		<div id=str1>
+
+			<div class="monsterPlayerPoleFights"></div>
+			<div id="moveInfoPlayer">
+				<div id="moveInfostrTextPlayerA">-</div>
+			</div>
+			<div id="moveInfoEnemy">
+				<div id="moveInfostrTextEnemyA"></div>
+			</div>
+
+
+
+
+			<div class="monsterEnemyPoleFights"></div>
+
+
+
+		</div>
+
+		<div class="center">
+			<div id="moveInfoFight">
+				<div id="moveInfostrTextW"></div>
+				<div id="moveInfostrTextM"></div>
+				<div id="moveInfostrTextNM"></div>
+				<div id="moveInfostrTextD"></div>
+
+			</div>
+		</div>
+		<div id=str2>
+			<div class="monsterPlayerAttack">
+				<div>Здоровье: <a id="HpFightPlayer">--</a>
+				</div>
+				<div>Мана: <a id="ManaFightPlayer">--</a></div>
+				<div class="aStrSkill"><a>Атака</a><input type="checkbox" disabled id="attackButtonPl"></input></div>
+				<div class="aStrSkill">
+					<a id="skillNamePl0">name</a><input type="checkbox" disabled id="skillButtonPl1"></input>
+				</div>
+				<div class="aStrSkill">
+					<a id="skillNamePl1">name</a><input type="checkbox" disabled id="skillButtonPl2"></input>
+				</div>
+				<div class="aStrSkill">
+					<a id="skillNamePl2">name</a><input type="checkbox" disabled id="skillButtonPl3"></input>
+				</div>
+
+
+			</div>
+			<div id="EndMoveTable">
+				<div><button disabled id="endMoveButtonPl">Закончить ход</button></div>
+				<div id><a id="endMovePlayerText"></a></div>
+			</div>
+
+
+			<div class="monsterEnemyAttack">
+				<div>Здоровье: <a id="HpFightEnemy">--</a></div>
+				<div>Мана: <a id="ManaFightEnemy">--</a></div>
+
+				<div class="aStrSkill"> <a>name</a></div>
+				<div class="aStrSkill"><a>name</a></div>
+				<div class="aStrSkill"> <a>name</a></div>
+				<div class=""></div>
+
+
+
+
+			</div>
+
+
+		</div>
+
+
+
+
+
+	</div>
+
+
+	</div>
+	<div id="money"><input disabled id="id_range" onInput="idRange()" min="1" max="15" , value="1" step="1"
+			type="range">
+		<div> Level: <a id="id_Count">1</a></div>
+	</div>
+	<div id="money">Ваш счет: <a id="money_count">0</a>
+
+
+	</div>
+
+	<div id=sellMonster>
+		<div>введите id монстра (За здорового <a id="sell_price">??</a> монет) </div>
+		<input id=idSellMonster>
+		<button id="sellButton">Продать 1 монстра</button>
+	</div>
+
+	<div id=healMonster>
+		<div>введите id монстра (<a id="heal_price">??</a> монет) </div>
+		<input id=idHealMonster>
+		<button id="healButton">Исцелить 1 монстра</button>
+	</div>
+
+
+
+	<div id=deleteMonster>
+		<div>введите id монстра</div>
+		<input id=idDeleteMonster>
+		<button id="dellButton">Удалить 1 монстра</button>
+	</div>
+
+
+
+
+	<div id="Parents">
+
+		<div id="Mama"> Мама
+			<form name="mamaForm">
+				<select name="mamaSelect">
+					<option selected=" true" value=-1></option>
+				</select>
+			</form>
+			<div id="selectionMama"></div>
+
+		</div>
+
+		<div id="Papa"> Папа
+			<form name="papaForm">
+				<select name="papaSelect">
+					<option selected="true" value=-1></option>
+				</select>
+			</form>
+			<div id="selectionPapa"></div>
+
+
+
+		</div>
+
+
+	</div>
+	<div id=sex>
+		<button id="sexButton">Скрестить <a id="sex_price">??</a> монет</button>
+	</div>
+	<div class="grid" id=update>
+
+
+		<div><button id="saveButton">Сохранить</button><button id="loadButton">Загрузить</button></div>
+
+
+		<div class="flex">
+			<div>Сортировка<input type="checkbox" id="isSorting"></input></div>
+			<div class="formSelect">Аттрибут
+				<form name="selectForm"><select class="select" name="sortingAttribute">
+						<!-- <option value="-1"></option> -->
+						<option value="0">Общее</option>
+						<option value="1">Выносливость</option>
+						<option value="2">Сила</option>
+						<option value="3">Ловкость</option>
+						<option value="4">Интеллект</option>
+						<option value="5">Уровень</option>
+						<!-- 
+						<option value="6">Пол</option>
+						<option value="7">Редкость</option>
+						<option value="8">Здоровье</option>
+						<option value="7">Мана</option>
+						<option value="9">Атака</option>
+						<option value="10">Броня</option>
+						<option value="11">Уворот</option>
+						<option value="12">Крит</option>
+						<option value="13">Способность 1</option>
+						<option value="14">Способность 2</option>
+						<option value="15">Способность 3</option> -->
+
+
+
+					</select></form>
+			</div>
+
+			<div>По возрастанию<input type="checkbox" id="isReverce"></input></div>
+			<div>
+				<div class="grid2">♀️Жен<input checked="true" type="checkbox" id="isWoman"></input></div>
+				<div class="grid2">♂️Муж<input checked="true" type="checkbox" id="isMan"></input></div>
+			</div>
+			<div>
+				<div class="grid2">Обычная<input checked="true" type="checkbox" id="isCommon"></input></div>
+				<div class="grid2">Необычная<input checked="true" type="checkbox" id="isUnusual"></input></div>
+				<div class="grid2">Редкая<input checked="true" type="checkbox" id="isRare"></input></div>
+				<div class="grid2">Очень Редкая<input checked="true" type="checkbox" id="isVeryRare"></input></div>
+			</div>
+			<div>
+				<div class="grid2">Исчезающая<input checked="true" type="checkbox" id="isDissapering"></input></div>
+				<div class="grid2">Гибкая<input checked="true" type="checkbox" id="isFlexible"></input></div>
+				<div class="grid2">Завершенная<input checked="true" type="checkbox" id="isCompleted"></input></div>
+
+			</div>
+
+
+
+		</div>
+
+
+
+	</div>
+
+	<div ">monsters</div>
+
+	<div class=" monstersDivClass"></div>
+
+
+
+	<script>
+		// function idRange() {
+		// 	id_Count.innerHTML = id_range.value;
+		// }
+
+	</script>
+
+	<script src="lets/name.js"></script>
+	<script src="lets/famyly.js"></script>
+	<script src="lets/constant.js"></script>
+
+	<script src="entity/skills.js"></script>
+	<script src="entity/monster.js"></script>
+
+	<script src="other/fight.js"></script>
+	<script src="other/random.js"></script>
+
+	<script src="ui/htmlEl.js"></script>
+	<script src="ui/saves.js"></script>
+	<script src="ui/sotring.js"></script>
+
+	<script src="debug/debug.js"></script>
+
+
+
+	<script src="debug/test.js"></script>
+	<script src="start.js"></script>
+
+
+
+
+</body>
+
+<footer>
+	<div id="footer">alpha 0.00<a id="version">none</a></div>
+
+	<script>
+		let version = document.querySelector("#version")
+		date = new Date()
+		let year = date.getFullYear();
+		let month = date.getMonth()
+		let day = date.getDate();
+		month++;
+		month = month > 9 ? month : (0 + "" + month)
+		//let text = day + "" + month + "" + year;
+		let text = year + "" + month + "" + 1;
+
+		if (false) version.textContent = text;
+		else version.textContent = "20250791.4";
+
+
+
+	</script>
+</footer>
+
+</html>
