@@ -31,10 +31,10 @@ function updateMonsters(regen) {
 
       if (regen == true) {
         if (monster.getCurrentMana() < monster.getMana()) {
-          monster.currentMana += getRandomInt(1, 20);
+          monster.currentMana += 15;
         }
         if (monster.getCurrentHP() < monster.getHp()) {
-          monster.currentHP += getRandomInt(1, 3);
+          monster.currentHP += 4;
         }
         if (monster.getCurrentMana() > monster.getMana()) {
           monster.currentMana = monster.getMana();
