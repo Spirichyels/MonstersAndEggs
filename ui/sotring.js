@@ -31,10 +31,10 @@ function updateMonsters(regen) {
 
       if (regen == true) {
         if (monster.getCurrentMana() < monster.getMana()) {
-          monster.currentMana += getRandomInt(1, 20);
+          monster.currentMana += 15;
         }
         if (monster.getCurrentHP() < monster.getHp()) {
-          monster.currentHP += getRandomInt(1, 3);
+          monster.currentHP += 4;
         }
         if (monster.getCurrentMana() > monster.getMana()) {
           monster.currentMana = monster.getMana();
@@ -100,18 +100,19 @@ let xSort;
 function helpSort(monster, number) {
   xSort = new Map([
     //[-1, "none"],
+    [0, monster.id],
     [
-      0,
+      1,
       monster.getEndurance() +
         monster.getStrength() +
         monster.getAgility() +
         monster.getIntelligence(),
     ],
-    [1, monster.getEndurance()],
-    [2, monster.getStrength()],
-    [3, monster.getAgility()],
-    [4, monster.getIntelligence()],
-    [5, monster.lvl],
+    [2, monster.getEndurance()],
+    [3, monster.getStrength()],
+    [4, monster.getAgility()],
+    [5, monster.getIntelligence()],
+    [6, monster.lvl],
   ]);
   //console.log(number + " " + xSort.get(number));
 

@@ -257,7 +257,7 @@ class Monster {
   }
 
   upLvl() {
-    if (this.lvl == 1) {
+    if (this.lvl == 0) {
       this.lvl = this.lvl + getRandomInt(-1, 3);
     } else {
       this.lvl = this.lvl + getRandomInt(-1, 1);
