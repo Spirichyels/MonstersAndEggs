@@ -14,7 +14,7 @@ const TOTAL_PRICE_SELL = 25;
 const TOTAL_PRICE_SELL2 = 5;
 
 const TOTAL_PRICE_HEAL = 100;
-const TOTAL_START_MONEY = 500;
+const TOTAL_START_MONEY = 999999999;
 
 const STRENGTH = "strength";
 const AGILITY = "agility";
@@ -59,11 +59,17 @@ const TOTAL_SIZE_ARR = 4;
 
 const TOTAL_DEBUG = true;
 
+const TOTAL_MAX_BACKPACK_1 = 10;
+const TOTAL_MAX_BACKPACK_2 = 20;
+const TOTAL_MAX_BACKPACK_3 = 30;
+
 //Math.pow(koeff, i) * price; формула красивого распределения
 
 //переменные
 let TOTAL_CHEAT = false; //let чтобы можно было менять
 let TOTAL_ID_SORTING = -1;
+
+let maxBackpack = TOTAL_MAX_BACKPACK_1;
 
 let sex_price = document.getElementById("sex_price");
 let sell_price = document.getElementById("sell_price");
@@ -143,24 +149,6 @@ let progressLVL = {
   15: 450,
 };
 
-// let progressLVL = {
-//   1: 1,
-//   2: 1,
-//   3: 1,
-//   4: 1,
-//   5: 1,
-//   6: 1,
-//   7: 1,
-//   8: 1,
-//   9: 1,
-//   10: 1,
-//   11: 1,
-//   12: 1,
-//   13: 1,
-//   14: 1,
-//   15: 1,
-// };
-
 progressText = document.getElementById("progress");
 
 let skillDamadgePlayer = {
@@ -191,12 +179,6 @@ let oldHighHumidityPl = false;
 
 let poleFightsHaveMonsterEnemy = false; //Если True нельзя добавлять монстров (врагов) на стол
 let poleFightsHaveMonsterPlayer = false; //Если True нельзя добавлять монстров (Игрока) на стол
-
-//let endAttackPl = true;
-//let endAttackEn = true;
-
-//let endSkillPl = 1;
-//let endSkillEn = 1;
 
 let sexButton = document.getElementById("sexButton");
 
@@ -243,8 +225,6 @@ let isVeryRare = document.getElementById("isVeryRare");
 let isDissapering = document.getElementById("isDissapering");
 let isFlexible = document.getElementById("isFlexible");
 let isCompleted = document.getElementById("isCompleted");
-
-//let isMan = document.getElementById("isMan");
 
 sortSelect = document.selectForm.sortingAttribute;
 

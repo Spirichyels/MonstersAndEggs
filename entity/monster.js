@@ -256,12 +256,16 @@ class Monster {
     } else return this.currentMana;
   }
 
-  upLvl() {
+  upLvl2() {
     if (this.lvl == 0) {
       this.lvl = this.lvl + getRandomInt(-1, 3);
     } else {
       this.lvl = this.lvl + getRandomInt(-1, 1);
     }
+  }
+
+  upLvl() {
+    if (getRandomPercent(100, getlvlUp(this.lvl))) this.lvl = this.lvl + 1;
   }
   getAttack() {
     return Math.floor(this.firstAttack + this.getStrength() * 1.4);

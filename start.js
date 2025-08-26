@@ -149,7 +149,7 @@ function startGame() {
     //console.log("Долой однополые браки");
     updateMonsters(false);
   }
-  //test123();
+  test123();
   //console.log(noMoreWomens);
   //testMonsters();
   //updateMonsters(false);
