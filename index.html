@@ -269,17 +269,11 @@
 
 	<script>
 		let version = document.querySelector("#version")
-		date = new Date()
-		let year = date.getFullYear();
-		let month = date.getMonth()
-		let day = date.getDate();
-		month++;
-		month = month > 9 ? month : (0 + "" + month)
-		//let text = day + "" + month + "" + year;
-		let text = year + "" + month + "" + 1;
+
+		let ver = 250811
 
 		if (false) version.textContent = text;
-		else version.textContent = "25081";
+		else version.textContent = ver;
 
 
 

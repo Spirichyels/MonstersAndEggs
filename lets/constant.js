@@ -20,6 +20,7 @@ const STRENGTH = "strength";
 const AGILITY = "agility";
 const INTELLIGENCE = "intelligence";
 const ENDURANCE = "endurance";
+const NONE = "none";
 
 const ATTACK = "attack";
 const LVL = "lvl";

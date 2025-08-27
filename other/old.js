@@ -1,5 +1,125 @@
 // OLD
 
+// loadConstructor2(
+//     name,
+//     surname,
+//     id,
+//     lvl,
+//     pol,
+//     rarity,
+//     status,
+//     firstHp,
+//     firstMana,
+//     currentHP,
+//     currentMana,
+//     firstAttack,
+//     firstArmor,
+//     firstCrit,
+//     firstDodge,
+
+//     firstEndurance,
+//     firstStrength,
+//     firstAgility,
+//     firstIntelligence,
+
+//     bonusEndurance,
+//     bonusStrength,
+//     bonusAgility,
+//     bonusIntelligence,
+
+//     highHumidity,
+//     genetica,
+//     genskills,
+//     skillBacpack
+//   ) {
+//     this.name = name;
+//     this.surname = surname;
+//     this.id = id;
+//     this.lvl = lvl;
+//     this.rarity = rarity;
+//     this.status = status;
+//     this.pol = pol;
+
+//     this.firstHp = firstHp;
+//     this.firstMana = firstMana;
+
+//     this.currentHP = currentHP;
+//     this.currentMana = currentMana;
+
+//     this.firstAttack = firstAttack;
+//     this.firstArmor = firstArmor;
+//     this.firstCrit = firstCrit;
+//     this.firstDodge = firstDodge;
+//     //
+//     this.firstEndurance = firstEndurance;
+//     this.firstStrength = firstStrength;
+//     this.firstAgility = firstAgility;
+//     this.firstIntelligence = firstIntelligence;
+
+//     this.bonusEndurance = bonusEndurance;
+//     this.bonusStrength = bonusStrength;
+//     this.bonusAgility = bonusAgility;
+//     this.bonusIntelligence = bonusIntelligence;
+
+//     //
+//     //gen = 1;
+//     this.highHumidity = highHumidity;
+
+//     this.genetica.firstHp = genetica.firstHp;
+//     this.genetica.firstMana = genetica.firstMana;
+
+//     this.genetica.firstAttack = genetica.firstAttack;
+//     this.genetica.firstArmor = genetica.firstArmor;
+//     this.genetica.firstCrit = genetica.firstCrit;
+//     this.genetica.firstDodge = genetica.firstDodge;
+
+//     this.genetica.firstEndurance = genetica.firstEndurance;
+//     this.genetica.firstStrength = genetica.firstStrength;
+//     this.genetica.firstAgility = genetica.firstAgility;
+//     this.genetica.firstIntelligence = genetica.firstIntelligence;
+
+//     this.genskills.skill0 = genskills.skill0;
+//     this.genskills.skill1 = genskills.skill1;
+//     this.genskills.skill2 = genskills.skill2;
+
+//     //console.log(skillBacpack);
+
+//     if (skillBacpack.skill0.lvl != -1) {
+//       this.setSkillBacpack(
+//         createNewSkill(
+//           skillBacpack.skill0.lvl,
+//           true,
+//           skillBacpack.skill0.type,
+//           skillBacpack.skill0.duration,
+//           skillBacpack.skill0.percent
+//         )
+//       );
+//     }
+
+//     if (skillBacpack.skill1.lvl != -1) {
+//       this.setSkillBacpack(
+//         createNewSkill(
+//           skillBacpack.skill1.lvl,
+//           true,
+//           skillBacpack.skill1.type,
+//           skillBacpack.skill1.duration,
+//           skillBacpack.skill1.percent
+//         )
+//       );
+//     }
+
+//     if (skillBacpack.skill2.lvl != -1) {
+//       this.setSkillBacpack(
+//         createNewSkill(
+//           skillBacpack.skill2.lvl,
+//           true,
+//           skillBacpack.skill2.type,
+//           skillBacpack.skill2.duration,
+//           skillBacpack.skill2.percent
+//         )
+//       );
+//     }
+//   }
 //////////////////////////////////////////////
 if (skillDamadgePlayer.fireDamadge[0] != undefined) {
   enemy.HP = enemy.HP - skillDamadgePlayer.fireDamadge[0];

@@ -34,10 +34,17 @@ class Monster {
   currentHP = -1;
   currentMana = -1;
 
+  prioritetStat = NONE;
+
   firstAttack = 1;
   firstArmor = 1;
   firstCrit = 1;
   firstDodge = 1;
+
+  firstLightingArmor = 1;
+  firstFireArmor = 1;
+  firstIceArmor = 1;
+
   //
   firstEndurance = 1;
   firstStrength = 1;
@@ -77,124 +84,36 @@ class Monster {
   newSkillBackpack = [];
   newSkillBackpack2 = [];
 
-  loadConstructor(
-    name,
-    surname,
-    id,
-    lvl,
-    pol,
-    rarity,
-    status,
-    firstHp,
-    firstMana,
-    currentHP,
-    currentMana,
-    firstAttack,
-    firstArmor,
-    firstCrit,
-    firstDodge,
+  loadConstructor(data) {
+    //console.log(data);
+    Object.assign(this, data);
 
-    firstEndurance,
-    firstStrength,
-    firstAgility,
-    firstIntelligence,
-
-    bonusEndurance,
-    bonusStrength,
-    bonusAgility,
-    bonusIntelligence,
-
-    highHumidity,
-    genetica,
-    genskills,
-    skillBacpack
-  ) {
-    this.name = name;
-    this.surname = surname;
-    this.id = id;
-    this.lvl = lvl;
-    this.rarity = rarity;
-    this.status = status;
-    this.pol = pol;
-
-    this.firstHp = firstHp;
-    this.firstMana = firstMana;
-
-    this.currentHP = currentHP;
-    this.currentMana = currentMana;
-
-    this.firstAttack = firstAttack;
-    this.firstArmor = firstArmor;
-    this.firstCrit = firstCrit;
-    this.firstDodge = firstDodge;
-    //
-    this.firstEndurance = firstEndurance;
-    this.firstStrength = firstStrength;
-    this.firstAgility = firstAgility;
-    this.firstIntelligence = firstIntelligence;
-
-    this.bonusEndurance = bonusEndurance;
-    this.bonusStrength = bonusStrength;
-    this.bonusAgility = bonusAgility;
-    this.bonusIntelligence = bonusIntelligence;
-
-    //
-    //gen = 1;
-    this.highHumidity = highHumidity;
-
-    this.genetica.firstHp = genetica.firstHp;
-    this.genetica.firstMana = genetica.firstMana;
-
-    this.genetica.firstAttack = genetica.firstAttack;
-    this.genetica.firstArmor = genetica.firstArmor;
-    this.genetica.firstCrit = genetica.firstCrit;
-    this.genetica.firstDodge = genetica.firstDodge;
-
-    this.genetica.firstEndurance = genetica.firstEndurance;
-    this.genetica.firstStrength = genetica.firstStrength;
-    this.genetica.firstAgility = genetica.firstAgility;
-    this.genetica.firstIntelligence = genetica.firstIntelligence;
-
-    this.genskills.skill0 = genskills.skill0;
-    this.genskills.skill1 = genskills.skill1;
-    this.genskills.skill2 = genskills.skill2;
-
-    //console.log(skillBacpack);
-
-    if (skillBacpack.skill0.lvl != -1) {
-      this.setSkillBacpack(
-        createNewSkill(
-          skillBacpack.skill0.lvl,
-          skillBacpack.skill0.type,
-          skillBacpack.skill0.type,
-          skillBacpack.skill0.duration,
-          skillBacpack.skill0.percent
-        )
-      );
+    //genetica;
+    if (data.genetica) {
+      this.genetica = { ...this.genetica, ...data.genetica };
     }
 
-    if (skillBacpack.skill1.lvl != -1) {
-      this.setSkillBacpack(
-        createNewSkill(
-          skillBacpack.skill1.lvl,
-          skillBacpack.skill1.type,
-          skillBacpack.skill1.type,
-          skillBacpack.skill1.duration,
-          skillBacpack.skill1.percent
-        )
-      );
+    // genskills
+    if (data.genskills) {
+      this.genskills = { ...this.genskills, ...data.genskills };
     }
 
-    if (skillBacpack.skill2.lvl != -1) {
-      this.setSkillBacpack(
-        createNewSkill(
-          skillBacpack.skill2.lvl,
-          skillBacpack.skill2.type,
-          skillBacpack.skill2.type,
-          skillBacpack.skill2.duration,
-          skillBacpack.skill2.percent
-        )
-      );
+    this.skillBacpack = [];
+
+    if (data.skillBacpack) {
+      for (let key in data.skillBacpack) {
+        let skill = data.skillBacpack[key];
+
+        this.setSkillBacpack(
+          createNewSkill(
+            skill.lvl,
+            true,
+            skill.type,
+            skill.duration,
+            skill.percent
+          )
+        );
+      }
     }
   }
 
@@ -282,6 +201,16 @@ class Monster {
     else return x;
   }
 
+  getLightingArmor() {
+    return this.firstLightingArmor;
+  }
+  getFireArmor() {
+    return this.firstFireArmor;
+  }
+  getIceArmor() {
+    return this.firstIceArmor;
+  }
+
   createGen() {
     for (var key in this.genetica) {
       this.genetica[key] = getRandomInt(1, 100);
@@ -336,6 +265,13 @@ class Monster {
       this.firstArmor = Math.floor(getRandomInt(0, 20));
       this.firstCrit = Math.floor(getRandomInt(1, 15));
       this.firstDodge = Math.floor(getRandomInt(1, 15));
+
+      this.firstLightingArmor = Math.floor(getRandomInt(1, 5));
+      this.firstFireArmor = Math.floor(getRandomInt(1, 5));
+      this.firstIceArmor = Math.floor(getRandomInt(1, 5));
+
+      let arr = [STRENGTH, AGILITY, ENDURANCE, INTELLIGENCE];
+      this.prioritetStat = arr[getRandomSkill(arr)];
     } else if (!create) {
     }
     this.rarity = getRandomWeightSkill([
@@ -394,6 +330,10 @@ class Monster {
     this.firstAgility = getRandomInt(min, Math.floor((lvl * 10) / xren));
     this.firstIntelligence = getRandomInt(min, Math.floor((lvl * 10) / xren));
     this.firstEndurance = getRandomInt(min, Math.floor((lvl * 10) / xren));
+
+    this.firstLightingArmor = getRandomInt(min, Math.floor((lvl * 10) / xren));
+    this.firstFireArmor = getRandomInt(min, Math.floor((lvl * 10) / xren));
+    this.firstIceArmor = getRandomInt(min, Math.floor((lvl * 10) / xren));
 
     this.firstHp = getRandomInt(30, Math.floor((lvl * 100) / xren));
     this.firstMana = getRandomInt(1, Math.floor((lvl * 100) / xren));
@@ -558,6 +498,19 @@ class Monster {
     this.firstIntelligence = newAttributeSAI(
       mapMonsters.get(dominant(papa, mama, "firstIntelligence"))
         .firstIntelligence
+    );
+
+    this.firstLightingArmor = newAttributeSAI(
+      mapMonsters.get(dominant(papa, mama, "firstLightingArmor"))
+        .firstLightingArmor
+    );
+
+    this.firstFireArmor = newAttributeSAI(
+      mapMonsters.get(dominant(papa, mama, "firstFireArmor")).firstFireArmor
+    );
+
+    this.firstIceArmor = newAttributeSAI(
+      mapMonsters.get(dominant(papa, mama, "firstIceArmor")).firstIceArmor
     );
 
     this.bornSkills(mapMonsters.get(mama), mapMonsters.get(papa));
@@ -740,6 +693,26 @@ class Monster {
     let itemAgility = document.createElement("div");
     let itemIntelligence = document.createElement("div");
 
+    let itempStatPanel = document.createElement("div");
+    itempStatPanel.appendChild(itemEndurance);
+    itempStatPanel.appendChild(itemStrenth);
+    itempStatPanel.appendChild(itemAgility);
+    itempStatPanel.appendChild(itemIntelligence);
+
+    let itemLightingArmor = document.createElement("div");
+    let itemFireArmor = document.createElement("div");
+    let itemIceArmor = document.createElement("div");
+
+    let itemArmorsPanel = document.createElement("div");
+    itemArmorsPanel.appendChild(itemLightingArmor);
+    itemArmorsPanel.appendChild(itemFireArmor);
+    itemArmorsPanel.appendChild(itemIceArmor);
+
+    let itemStatAndArmorPanel = document.createElement("div");
+    itemStatAndArmorPanel.classList.add("statAndArmorPanel");
+    itemStatAndArmorPanel.appendChild(itempStatPanel);
+    itemStatAndArmorPanel.appendChild(itemArmorsPanel);
+
     let skills = document.createElement("div");
     let skill0 = document.createElement("div");
     let skill1 = document.createElement("div");
@@ -812,6 +785,10 @@ class Monster {
     itemCrit.appendChild(xcrit);
 
     itemEndurance.textContent = "🧱Вын.: ";
+    if (this.prioritetStat == ENDURANCE) {
+      itemEndurance.classList.add("prioritet", "endurance");
+    }
+
     let monsterEndurancethis = document.createElement("a");
     monsterEndurancethis.textContent = this.firstEndurance;
     monsterEndurancethis.classList.add("endurance");
@@ -822,6 +799,9 @@ class Monster {
       itemEndurance.appendChild(bonusMonsterEndurancethis);
     }
 
+    if (this.prioritetStat == STRENGTH) {
+      itemStrenth.classList.add("prioritet", "strength");
+    }
     itemStrenth.textContent = "💪Сила: ";
     let monsterStrength = document.createElement("a");
     monsterStrength.textContent = this.firstStrength;
@@ -833,6 +813,9 @@ class Monster {
       itemStrenth.appendChild(bonusMonsterStrength);
     }
 
+    if (this.prioritetStat == AGILITY) {
+      itemAgility.classList.add("prioritet", "agility");
+    }
     itemAgility.textContent = "🤸‍♂️Ловк.: ";
     let monsterAgility = document.createElement("a");
     monsterAgility.textContent = this.firstAgility;
@@ -844,6 +827,9 @@ class Monster {
       itemAgility.appendChild(bonusMonsterAgility);
     }
 
+    if (this.prioritetStat == INTELLIGENCE) {
+      itemIntelligence.classList.add("prioritet", "intelligence");
+    }
     itemIntelligence.textContent = "🧠Интелл.: ";
     let monsterIntelligence = document.createElement("a");
     monsterIntelligence.textContent = this.firstIntelligence;
@@ -854,6 +840,22 @@ class Monster {
     if (this.bonusIntelligence != 0) {
       itemIntelligence.appendChild(bonusMonsterIntelligence);
     }
+
+    itemLightingArmor.textContent = "⚡Сопр. молн. ";
+    let monsterLightingArmor = document.createElement("a");
+    monsterLightingArmor.textContent = this.getLightingArmor();
+    itemLightingArmor.appendChild(monsterLightingArmor);
+
+    itemFireArmor.textContent = "🔥Сопр. огню ";
+    let monsterFireArmor = document.createElement("a");
+    monsterFireArmor.textContent = this.getFireArmor();
+    itemFireArmor.appendChild(monsterFireArmor);
+
+    itemIceArmor.textContent = "🧊Сопр. холоду ";
+    let monsterIceArmor = document.createElement("a");
+    monsterIceArmor.textContent = this.getFireArmor();
+    itemIceArmor.appendChild(monsterIceArmor);
+    //this.getIceArmor();
 
     skills.textContent = "Способности:(Ур.|Длит.)";
     try {
@@ -878,10 +880,7 @@ class Monster {
 
     profileMonster.appendChild(itemAtPanel);
 
-    profileMonster.appendChild(itemEndurance);
-    profileMonster.appendChild(itemStrenth);
-    profileMonster.appendChild(itemAgility);
-    profileMonster.appendChild(itemIntelligence);
+    profileMonster.appendChild(itemStatAndArmorPanel);
 
     let itemNull = document.createElement("div");
     itemNull.textContent = "__________________________";

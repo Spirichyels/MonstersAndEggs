@@ -1,4 +1,8 @@
-function test123() {}
+function test123() {
+  let arr = [STRENGTH, AGILITY, ENDURANCE, INTELLIGENCE];
+  let x = getRandomSkill(arr);
+  console.log(arr[x]);
+}
 
 function clickerFormula() {
   let price = 30;

@@ -1,5 +1,85 @@
 function onSaveLocalStorage() {
   let map = mapMonsters;
+  const entries = Array.from(map.entries()).map(([id, monster]) => {
+    return [id, { ...monster }];
+  });
+  //   const playload = {
+  //     version: 25081,
+  //     data: entries,
+  //   };
+
+  localStorage.setItem("monsters", JSON.stringify(entries));
+
+  localStorage.setItem("id_range.min", id_range.value);
+  localStorage.setItem("progressLVL", JSON.stringify(progressLVL));
+  localStorage.setItem("countId", countId);
+  localStorage.setItem("money", money.textContent);
+  localStorage.setItem("version", ver);
+}
+
+function loadHelp(data) {
+  let x = new Monster();
+  x.loadConstructor(data);
+  return x;
+}
+
+function onLoadLocalStorage() {
+  const stored = localStorage.getItem("monsters");
+  if (!stored) return new Map();
+  const parsed = JSON.parse(stored);
+
+  const restoredMap = new Map(parsed.map(([id, data]) => [id, loadHelp(data)]));
+
+  //console.log(restoredMap);
+  //mapMonsters = [];
+  clearMonsters();
+
+  mapMonsters = restoredMap;
+  countId = localStorage.getItem("countId");
+  money.textContent = localStorage.getItem("money");
+  updateMonsters(false);
+
+  id_range.value = localStorage.getItem("id_range.min");
+
+  progressLVLLocalStor = localStorage.getItem("progressLVL");
+  progressLVL = JSON.parse(progressLVLLocalStor);
+  idRange();
+}
+
+function loadMonstersToStorage() {
+  const stored = localStorage.getItem("monsters");
+  if (!stored) return new Map();
+  const parsed = JSON.parse(stored);
+
+  const restoredMap = new Map(parsed.map(([id, data]) => [id, loadHelp(data)]));
+
+  return restoredMap;
+}
+
+function saveMonstersToStorage(map) {
+  const entries = Array.from(map.entries()).map(([id, monster]) => [
+    id,
+    {
+      id: monster.id,
+      name: monster.name,
+      attack: monster.attack,
+      hp: monster.hp,
+      gen: {
+        hp: monster.gen.hp,
+        attack: monster.gen.attack,
+      },
+    },
+  ]);
+  localStorage.setItem("monsters", JSON.stringify(entries));
+}
+// function loadHelp2(data) {
+//   let x = new Monster();
+//   x.loadConstructor(data.id, data.name, data.atack, data.hp, data.gen);
+//   return x;
+// }
+
+function onSaveLocalStorage2() {
+  let map = mapMonsters;
   const entries = Array.from(map.entries()).map(([id, monster]) => [
     id,
     {
@@ -101,7 +181,7 @@ function onSaveLocalStorage() {
   localStorage.setItem("money", money.textContent);
 }
 
-function loadHelp(data) {
+function loadHelp2(data) {
   let x = new Monster();
   x.loadConstructor(
     data.name,
@@ -134,8 +214,7 @@ function loadHelp(data) {
   );
   return x;
 }
-
-function onLoadLocalStorage() {
+function onLoadLocalStorage2() {
   const stored = localStorage.getItem("monsters");
   if (!stored) return new Map();
   const parsed = JSON.parse(stored);
@@ -156,35 +235,3 @@ function onLoadLocalStorage() {
   progressLVL = JSON.parse(progressLVLLocalStor);
   idRange();
 }
-
-function loadMonstersToStorage() {
-  const stored = localStorage.getItem("monsters");
-  if (!stored) return new Map();
-  const parsed = JSON.parse(stored);
-
-  const restoredMap = new Map(parsed.map(([id, data]) => [id, loadHelp(data)]));
-
-  return restoredMap;
-}
-
-function saveMonstersToStorage(map) {
-  const entries = Array.from(map.entries()).map(([id, monster]) => [
-    id,
-    {
-      id: monster.id,
-      name: monster.name,
-      attack: monster.attack,
-      hp: monster.hp,
-      gen: {
-        hp: monster.gen.hp,
-        attack: monster.gen.attack,
-      },
-    },
-  ]);
-  localStorage.setItem("monsters", JSON.stringify(entries));
-}
-// function loadHelp2(data) {
-//   let x = new Monster();
-//   x.loadConstructor(data.id, data.name, data.atack, data.hp, data.gen);
-//   return x;
-// }

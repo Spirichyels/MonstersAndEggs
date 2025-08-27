@@ -75,6 +75,13 @@
 .atPanel {
 	display: grid;
 	grid-template-columns: 1fr 1fr  ;
+	
+}
+
+.statAndArmorPanel {
+	display: grid;
+	grid-template-columns: 1fr 1fr  ;
+	
 }
 
 
@@ -100,15 +107,46 @@
 } */
 
 .agility {
-	color: green
+	color: green;
+	--stat-color: green;
 
 }
 .intelligence {
 	color: blue;
+	--stat-color: blue;
 }
 .endurance {
 	color: red;
+	--stat-color: red;
 }
 .strength {
-	color: rgb(248, 68, 197)
+	color: rgb(248, 68, 197);
+	--stat-color: rgb(248, 68, 197);
 }
+.prioritet {
+	border: 1px solid var(--stat-color, #000);
+}
+
+.prioritet:is(.agility, .intelligence, .endurance, .strength) {
+	color: unset;
+}
+
+
+/* .prioritet.e {
+	border: 1px solid red
+}
+
+.prioritet.s {
+	border: 1px solid rgb(248, 68, 197)
+}
+
+.prioritet.a {
+	border: 1px solid green
+}
+
+.prioritet.i {
+	border: 1px solid blue;
+
+} */
+
+

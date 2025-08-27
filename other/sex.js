@@ -24,11 +24,7 @@ function sexButtonClick() {
           false
         );
 
-        //mapMonsters.get(papaTarget).printMonster();
-        //mapMonsters.get(mamaTarget).printMonster();
-
         newMonster.born(papaTarget, mamaTarget);
-        //newMonster.printGeneticaMonster();
 
         mapMonsters.set(countId, newMonster);
 
