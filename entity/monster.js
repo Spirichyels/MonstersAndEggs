@@ -252,11 +252,13 @@ class Monster {
     this.pol = getRandomInt(1, 10) > 5 ? true : false;
     this.createGen();
     this.createGenSkills();
+    let arr = [STRENGTH, AGILITY, ENDURANCE, INTELLIGENCE];
+    this.prioritetStat = arr[getRandomSkill(arr)];
     if (create) {
+      this.firstEndurance = getRandomInt(1, 20);
       this.firstStrength = getRandomInt(1, 20);
       this.firstAgility = getRandomInt(1, 20);
       this.firstIntelligence = getRandomInt(1, 20);
-      this.firstEndurance = getRandomInt(1, 20);
 
       this.firstHp = getRandomInt(1, 60);
       this.firstMana = getRandomInt(1, 20);
@@ -269,9 +271,6 @@ class Monster {
       this.firstLightingArmor = Math.floor(getRandomInt(1, 5));
       this.firstFireArmor = Math.floor(getRandomInt(1, 5));
       this.firstIceArmor = Math.floor(getRandomInt(1, 5));
-
-      let arr = [STRENGTH, AGILITY, ENDURANCE, INTELLIGENCE];
-      this.prioritetStat = arr[getRandomSkill(arr)];
     } else if (!create) {
     }
     this.rarity = getRandomWeightSkill([
@@ -464,7 +463,67 @@ class Monster {
     }
   }
 
-  born(papa, mama) {
+  born(papa, mama, genBudget) {
+    this.firstHp = newAttributeHpMana(
+      mapMonsters.get(dominant(papa, mama, "firstHp")).firstHp
+    );
+
+    this.firstMana = newAttributeHpMana(
+      mapMonsters.get(dominant(papa, mama, "firstMana")).firstMana
+    );
+
+    this.firstAttack = newAttributeAttack(
+      mapMonsters.get(dominant(papa, mama, "firstAttack")).firstAttack
+    );
+    this.firstArmor = newAttributeSAI(
+      mapMonsters.get(dominant(papa, mama, "firstArmor")).firstArmor
+    );
+    this.firstCrit = newAttributeSAI(
+      mapMonsters.get(dominant(papa, mama, "firstCrit")).firstCrit
+    );
+    this.firstDodge = newAttributeSAI(
+      mapMonsters.get(dominant(papa, mama, "firstDodge")).firstDodge
+    );
+
+    // let testArr = [
+    //   firstEndurance,
+    //   firstStrength,
+    //   firstAgility,
+    //   firstIntelligence,
+    // ];
+
+    let stats = [];
+
+    let result = {};
+    let newGenBudget = getRandomFloat(genBudget.statMin, genBudget.statMax);
+    console.log(newGenBudget);
+    let x;
+    for (let i = 0; i < 3; i++) {
+      x = getRandomInt(1, newGenBudget / 2);
+      stats.push(x);
+      newGenBudget -= x;
+    }
+    stats.push(Math.floor(newGenBudget));
+
+    console.log(stats);
+
+    this.firstLightingArmor = newAttributeSAI(
+      mapMonsters.get(dominant(papa, mama, "firstLightingArmor"))
+        .firstLightingArmor
+    );
+
+    this.firstFireArmor = newAttributeSAI(
+      mapMonsters.get(dominant(papa, mama, "firstFireArmor")).firstFireArmor
+    );
+
+    this.firstIceArmor = newAttributeSAI(
+      mapMonsters.get(dominant(papa, mama, "firstIceArmor")).firstIceArmor
+    );
+
+    this.bornSkills(mapMonsters.get(mama), mapMonsters.get(papa));
+  }
+
+  born2(papa, mama) {
     this.firstHp = newAttributeHpMana(
       mapMonsters.get(dominant(papa, mama, "firstHp")).firstHp
     );

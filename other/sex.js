@@ -8,6 +8,28 @@ function getlvlUp(lvl) {
   return chanceUpLvl;
 }
 
+function sredneeGenBudget(papa, mama) {
+  let papaBudget =
+    papa.firstEndurance +
+    papa.firstStrength +
+    papa.firstAgility +
+    papa.firstIntelligence;
+
+  let mamaBudget =
+    mama.firstEndurance +
+    mama.firstStrength +
+    mama.firstAgility +
+    mama.firstIntelligence;
+
+  let x = (papaBudget + mamaBudget) / 2;
+
+  let genBudget = {
+    statMin: x * 0.9,
+    statMax: x * 1.1,
+  };
+  return genBudget;
+}
+
 function sexButtonClick() {
   if (mapMonsters.size < maxBackpack) {
     if (
@@ -24,7 +46,14 @@ function sexButtonClick() {
           false
         );
 
-        newMonster.born(papaTarget, mamaTarget);
+        let genBudget = sredneeGenBudget(
+          mapMonsters.get(papaTarget),
+          mapMonsters.get(mamaTarget)
+        );
+
+        console.log("genBudget: ", genBudget);
+
+        newMonster.born(papaTarget, mamaTarget, genBudget);
 
         mapMonsters.set(countId, newMonster);
 
