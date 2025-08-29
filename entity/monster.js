@@ -46,10 +46,16 @@ class Monster {
   firstIceArmor = 1;
 
   //
-  firstEndurance = 1;
-  firstStrength = 1;
-  firstAgility = 1;
-  firstIntelligence = 1;
+  firstStat = {
+    firstEndurance: { value: 1, prioritet: false },
+    firstStrength: { value: 1, prioritet: false },
+    firstAgility: { value: 1, prioritet: false },
+    firstIntelligence: { value: 1, prioritet: false },
+  };
+  //   firstEndurance = 1;
+  //   firstStrength = 1;
+  //   firstAgility = 1;
+  //   firstIntelligence = 1;
 
   bonusEndurance = 0;
   bonusStrength = 0;
@@ -72,6 +78,8 @@ class Monster {
     firstStrength: 1,
     firstAgility: 1,
     firstIntelligence: 1,
+
+    prioritetStat: 1,
   };
   genskills = {
     skill0: 1,
@@ -139,18 +147,26 @@ class Monster {
     this.skillBacpack.splice(id, 1);
   }
 
+  getProritetStat() {
+    return this.firstStat[this.prioritetStat];
+  }
+
+  setProritetStat(value) {
+    this.firstStat[this.prioritetStat] = value;
+  }
+
   getEndurance() {
-    return this.firstEndurance + this.bonusEndurance;
+    return this.firstStat.firstEndurance.value + this.bonusEndurance;
   }
 
   getStrength() {
-    return this.firstStrength + this.bonusStrength;
+    return this.firstStat.firstStrength.value + this.bonusStrength;
   }
   getAgility() {
-    return this.firstAgility + this.bonusAgility;
+    return this.firstStat.firstAgility.value + this.bonusAgility;
   }
   getIntelligence() {
-    return this.firstIntelligence + this.bonusIntelligence;
+    return this.firstStat.firstIntelligence.value + this.bonusIntelligence;
   }
 
   getHp() {
@@ -254,11 +270,16 @@ class Monster {
     this.createGenSkills();
     let arr = [STRENGTH, AGILITY, ENDURANCE, INTELLIGENCE];
     this.prioritetStat = arr[getRandomSkill(arr)];
+
+    for (let [key, value] of Object.entries(this.firstStat)) {
+      if (this.prioritetStat == key) value.prioritet = true;
+    }
+
     if (create) {
-      this.firstEndurance = getRandomInt(1, 20);
-      this.firstStrength = getRandomInt(1, 20);
-      this.firstAgility = getRandomInt(1, 20);
-      this.firstIntelligence = getRandomInt(1, 20);
+      this.firstStat.firstEndurance.value = getRandomInt(1, 20);
+      this.firstStat.firstStrength.value = getRandomInt(1, 20);
+      this.firstStat.firstAgility.value = getRandomInt(1, 20);
+      this.firstStat.firstIntelligence.value = getRandomInt(1, 20);
 
       this.firstHp = getRandomInt(1, 60);
       this.firstMana = getRandomInt(1, 20);
@@ -325,10 +346,22 @@ class Monster {
     const xren = 1.3;
     let min = lvl - 10;
     if (min < 1) min = lvl;
-    this.firstStrength = getRandomInt(min, Math.floor((lvl * 10) / xren));
-    this.firstAgility = getRandomInt(min, Math.floor((lvl * 10) / xren));
-    this.firstIntelligence = getRandomInt(min, Math.floor((lvl * 10) / xren));
-    this.firstEndurance = getRandomInt(min, Math.floor((lvl * 10) / xren));
+    this.firstStat.firstStrength.value = getRandomInt(
+      min,
+      Math.floor((lvl * 10) / xren)
+    );
+    this.firstStat.firstAgility.value = getRandomInt(
+      min,
+      Math.floor((lvl * 10) / xren)
+    );
+    this.firstStat.firstIntelligence.value = getRandomInt(
+      min,
+      Math.floor((lvl * 10) / xren)
+    );
+    this.firstStat.firstEndurance.value = getRandomInt(
+      min,
+      Math.floor((lvl * 10) / xren)
+    );
 
     this.firstLightingArmor = getRandomInt(min, Math.floor((lvl * 10) / xren));
     this.firstFireArmor = getRandomInt(min, Math.floor((lvl * 10) / xren));
@@ -493,17 +526,58 @@ class Monster {
     // ];
 
     let stats = [];
-
     let result = {};
+
     let newGenBudget = getRandomFloat(genBudget.statMin, genBudget.statMax);
     console.log(newGenBudget);
     let x;
-    for (let i = 0; i < 3; i++) {
+    if (getRandomPercent(100, 65)) {
+      for (let [key, value] of Object.entries(this.firstStat)) {
+        value.prioritet = false;
+      }
+      this.prioritetStat = genBudget.prioritetStat;
+    }
+    this.firstStat[genBudget.prioritetStat] = genBudget.prioritetStatZna4;
+
+    newGenBudget = Math.floor(newGenBudget) - genBudget.prioritetStatZna4.value;
+    console.log(newGenBudget);
+
+    //let prioritetStat = genBudget.prioritetStat;
+    //let prioritetZna4 = genBudget.
+
+    // if (this.prioritetStat == ENDURANCE) {
+    //   this.firstEndurance = newAttributeSAI(
+    //     mapMonsters.get(dominant(papa, mama, "firstEndurance")).firstStat.firstEndurance
+    //   );
+    // } else if (this.prioritetStat == STRENGTH) {
+    //   this.firstStrength = newAttributeSAI(
+    //     mapMonsters.get(dominant(papa, mama, "firstStrength")).firstStrength
+    //   );
+    // } else if (this.prioritetStat == AGILITY) {
+    //   this.firstAgility = newAttributeSAI(
+    //     mapMonsters.get(dominant(papa, mama, "firstAgility")).firstAgility
+    //   );
+    // } else if (this.prioritetStat == INTELLIGENCE) {
+    //   this.firstIntelligence = newAttributeSAI(
+    //     mapMonsters.get(dominant(papa, mama, "firstIntelligence"))
+    //       .firstIntelligence
+    //   );
+    // }
+
+    for (let i = 0; i < 2; i++) {
       x = getRandomInt(1, newGenBudget / 2);
       stats.push(x);
       newGenBudget -= x;
     }
     stats.push(Math.floor(newGenBudget));
+
+    let i = 0;
+    for (let [key, value] of Object.entries(this.firstStat)) {
+      if (value.prioritet == false) {
+        value.value = stats[i];
+        i++;
+      }
+    }
 
     console.log(stats);
 
@@ -849,7 +923,7 @@ class Monster {
     }
 
     let monsterEndurancethis = document.createElement("a");
-    monsterEndurancethis.textContent = this.firstEndurance;
+    monsterEndurancethis.textContent = this.firstStat.firstEndurance.value;
     monsterEndurancethis.classList.add("endurance");
     let bonusMonsterEndurancethis = document.createElement("a");
     bonusMonsterEndurancethis.textContent = " + " + this.bonusEndurance;
@@ -863,7 +937,7 @@ class Monster {
     }
     itemStrenth.textContent = "💪Сила: ";
     let monsterStrength = document.createElement("a");
-    monsterStrength.textContent = this.firstStrength;
+    monsterStrength.textContent = this.firstStat.firstStrength.value;
     monsterStrength.classList.add("strength");
     let bonusMonsterStrength = document.createElement("a");
     bonusMonsterStrength.textContent = " + " + this.bonusStrength;
@@ -877,7 +951,7 @@ class Monster {
     }
     itemAgility.textContent = "🤸‍♂️Ловк.: ";
     let monsterAgility = document.createElement("a");
-    monsterAgility.textContent = this.firstAgility;
+    monsterAgility.textContent = this.firstStat.firstAgility.value;
     monsterAgility.classList.add("agility");
     let bonusMonsterAgility = document.createElement("a");
     bonusMonsterAgility.textContent = " + " + this.bonusAgility;
@@ -891,7 +965,7 @@ class Monster {
     }
     itemIntelligence.textContent = "🧠Интелл.: ";
     let monsterIntelligence = document.createElement("a");
-    monsterIntelligence.textContent = this.firstIntelligence;
+    monsterIntelligence.textContent = this.firstStat.firstIntelligence.value;
     monsterIntelligence.classList.add("intelligence");
     let bonusMonsterIntelligence = document.createElement("a");
     bonusMonsterIntelligence.textContent = " + " + this.bonusIntelligence;

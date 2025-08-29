@@ -16,10 +16,11 @@ const TOTAL_PRICE_SELL2 = 5;
 const TOTAL_PRICE_HEAL = 100;
 const TOTAL_START_MONEY = 999999999;
 
-const STRENGTH = "strength";
-const AGILITY = "agility";
-const INTELLIGENCE = "intelligence";
-const ENDURANCE = "endurance";
+const ENDURANCE = "firstEndurance";
+const STRENGTH = "firstStrength";
+const AGILITY = "firstAgility";
+const INTELLIGENCE = "firstIntelligence";
+
 const NONE = "none";
 
 const ATTACK = "attack";

@@ -10,23 +10,39 @@ function getlvlUp(lvl) {
 
 function sredneeGenBudget(papa, mama) {
   let papaBudget =
-    papa.firstEndurance +
-    papa.firstStrength +
-    papa.firstAgility +
-    papa.firstIntelligence;
+    papa.firstStat.firstEndurance.value +
+    papa.firstStat.firstStrength.value +
+    papa.firstStat.firstAgility.value +
+    papa.firstStat.firstIntelligence.value;
 
   let mamaBudget =
-    mama.firstEndurance +
-    mama.firstStrength +
-    mama.firstAgility +
-    mama.firstIntelligence;
+    mama.firstStat.firstEndurance.value +
+    mama.firstStat.firstStrength.value +
+    mama.firstStat.firstAgility.value +
+    mama.firstStat.firstIntelligence.value;
 
-  let x = (papaBudget + mamaBudget) / 2;
+  let generalBudget = (papaBudget + mamaBudget) / 2;
+
+  let finallyDominant = dominant(papa.id, mama.id, "prioritetStat");
+
+  //console.log("y", y);
 
   let genBudget = {
-    statMin: x * 0.9,
-    statMax: x * 1.1,
+    prioritetStat: mapMonsters.get(finallyDominant).prioritetStat,
+    prioritetStatKoeff: 1.0,
+    prioritetStatZna4: mapMonsters.get(finallyDominant).getProritetStat(),
+
+    statMin: generalBudget * 0.9,
+    statMax: generalBudget * 1.1,
+
+    lvl: 1.0,
   };
+
+  if (papa.prioritetStat == mama.prioritetStat) {
+    genBudget.prioritetStatKoeff = 1.2;
+  }
+
+  console.log(genBudget);
   return genBudget;
 }
 
