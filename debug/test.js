@@ -1,7 +1,48 @@
 function test123() {
-  let arr = [STRENGTH, AGILITY, ENDURANCE, INTELLIGENCE];
-  let x = getRandomSkill(arr);
-  console.log(arr[x]);
+  let x = "";
+  for (let i = 0; i < 10000; i++) {
+    x = getNewRandomRarity(TOTAL_RARITY2).text;
+    console.log(x);
+    //if (x == "Легендарная") console.log(x);
+  }
+}
+
+function testStandartFormulaGenbudget() {
+  const koefRare = 0.09;
+  let newKoeffBudget = 0;
+  let newRarity = getRandomRarity();
+  let newLevel = getRandomInt(1, 15);
+  let newDebuff = 1;
+
+  //newKoeffBudget = 1 + newRarity.id * koefRare;
+
+  //console.log(newKoeffBudget);
+  for (let l = 0; l < 15; l++) {
+    let text = "";
+    for (let i = 0; i < 7; i++) {
+      newKoeffBudget = 1 + koefRare;
+      text +=
+        " " + Math.floor(levelGenBudgetFormula(30, l) * koeffRarityFormula(i));
+    }
+    console.log(l + ": " + text);
+  }
+  //raryUp(40, 1.03);
+}
+
+function raryUp(n, koef) {
+  for (let i = 1; i <= 8; i++) {
+    //console.log(n * (1 + i * koef));
+    console.log(n * Math.pow(koef, i));
+
+    //console.log(1 + i * 0.061);
+  }
+}
+
+function lvlKoefStatFormula(n) {
+  for (let i = 1; i <= 15; i++) {
+    console.log(n * (1 + i * 0.061));
+    //console.log(1 + i * 0.061);
+  }
 }
 
 function clickerFormula() {

@@ -8,7 +8,7 @@ function getlvlUp(lvl) {
   return chanceUpLvl;
 }
 
-function sredneeGenBudget(papa, mama) {
+function sredneeGenBudget(papa, mama, newLvl) {
   let papaBudget =
     papa.firstStat.firstEndurance.value +
     papa.firstStat.firstStrength.value +
@@ -27,22 +27,28 @@ function sredneeGenBudget(papa, mama) {
 
   //console.log("y", y);
 
+  let koeff =
+    (0.004 *
+      (mapMonsters.get(papaTarget).getMoreSex() +
+        mapMonsters.get(mamaTarget).getMoreSex())) /
+    2;
+
   let genBudget = {
     prioritetStat: mapMonsters.get(finallyDominant).prioritetStat,
     prioritetStatKoeff: 1.0,
     prioritetStatZna4: mapMonsters.get(finallyDominant).getProritetStat(),
 
     statMin: generalBudget * 0.9,
-    statMax: generalBudget * 1.1,
+    statMax: generalBudget * (1 + newLvl * 0.061 - koeff),
 
-    lvl: 1.0,
+    lvl: 0.061,
   };
 
   if (papa.prioritetStat == mama.prioritetStat) {
     genBudget.prioritetStatKoeff = 1.2;
   }
 
-  console.log(genBudget);
+  //console.log(genBudget);
   return genBudget;
 }
 
@@ -57,14 +63,24 @@ function sexButtonClick() {
         mapMonsters.get(papaTarget).upLvl();
         mapMonsters.get(mamaTarget).upLvl();
 
+        mapMonsters.get(papaTarget).upMoreSex();
+        mapMonsters.get(mamaTarget).upMoreSex();
+
         let newMonster = new Monster(
           names[getRandomInt(0, names.length)],
           false
         );
 
+        let newLvl = Math.floor(
+          (mapMonsters.get(papaTarget).lvl + mapMonsters.get(mamaTarget).lvl) /
+            2 -
+            getRandomInt(-1, 0)
+        );
+
         let genBudget = sredneeGenBudget(
           mapMonsters.get(papaTarget),
-          mapMonsters.get(mamaTarget)
+          mapMonsters.get(mamaTarget),
+          newLvl
         );
 
         console.log("genBudget: ", genBudget);
@@ -73,11 +89,8 @@ function sexButtonClick() {
 
         mapMonsters.set(countId, newMonster);
 
-        newMonster.lvl = Math.floor(
-          (mapMonsters.get(papaTarget).lvl + mapMonsters.get(mamaTarget).lvl) /
-            2 -
-            getRandomInt(-1, 0)
-        );
+        newMonster.lvl = newLvl;
+
         monsterMaxLvlEvolution(mapMonsters.get(papaTarget));
         monsterMaxLvlEvolution(mapMonsters.get(mamaTarget));
 

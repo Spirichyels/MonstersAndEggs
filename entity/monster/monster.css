@@ -17,37 +17,42 @@
 }
 
 .card {
-	background-color: #f7e2af;
+	
 	border: 2px solid #ccc;
 	border-radius: 10px;
 	padding: 12px;
 	width: 240px;
 	box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+  }
+  .card.usual{
+	background-color: #f7e2af;
 	
   }
 
-
   .card.unusual{
-	/*border-color: #cbe6f8;*/
 	background-color: #f7cb86;
   }
 
   .card.rare {
-	/*border-color: #cbe6f8;*/
 	background-color: #e0f2fe;
   }
   .card.veryRare {
-	/*border-color: #cbe6f8;*/
-	background-color: #cbe8fc;
+	background-color: #90cff8;
+  }
 
+  .card.elit {
+	background-color: #a6ef8e;
   }
   .card.epic {
-	border-color: #b197fc;
-	background-color: #ede9fe;
+	
+	background-color: #b3aad8;
+
+  }
+  .card.mithic {
+	background-color: rgb(250, 191, 251);
   }
   .card.legendary {
-	border-color: #f59f00;
-	background-color: #fff3cd;
+	background-color: yellow
   }
   .card.sexMama {
 	border: 3px solid rgb(249, 112, 0); 

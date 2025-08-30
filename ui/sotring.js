@@ -43,6 +43,8 @@ function updateMonsters(regen) {
           monster.currentHP = monster.getHp();
         }
         monster.highHumidity = false;
+
+        monster.downMoreSex();
       }
 
       if (isSorting.checked) {

@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="styleFightText.css">
-	<link rel="stylesheet" href="monster.css">
+	<link rel="stylesheet" href="entity/monster/monster.css">
 
 
 	<title>MonsterAndEggs</title>
@@ -241,7 +241,10 @@
 	<script src="lets/constant.js"></script>
 
 	<script src="entity/skills.js"></script>
-	<script src="entity/monster.js"></script>
+	<script src="entity/monster/functionsMonsters.js"></script>
+	<script src="entity/monster/monster.js"></script>
+
+
 
 	<script src="other/fight.js"></script>
 	<script src="other/random.js"></script>
@@ -270,7 +273,7 @@
 	<script>
 		let version = document.querySelector("#version")
 
-		let ver = 250811
+		let ver = 2508123
 
 		if (false) version.textContent = text;
 		else version.textContent = ver;

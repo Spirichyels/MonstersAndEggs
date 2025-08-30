@@ -1,9 +1,15 @@
-function getRandomInt(min = 1, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
+function getRandomInt(oldMin = 1, olMax) {
+  let max = Math.floor(olMax);
+  let min = Math.floor(oldMin);
+
+  let x = Math.floor(Math.random() * (max - min + 1) + min);
+  //console.log("randomInt: " + x);
+
+  return x;
 }
 
-function getRandomFloat(min = 1, max) {
-  return Math.random() * (max - min + 1) + min;
+function getRandomFloat(min, max) {
+  return Math.random() * (max - min) + min;
 }
 
 function oldgetRandomInt(min = 1, max) {
@@ -80,6 +86,80 @@ let getRandomSkill = (mapSkills) => {
   }
   return result;
 };
+
+let getRandomObject = (mapSkills) => {
+  getRandomWeight(mapSkills.keys());
+  //console.log("mapSkills: ", mapSkills);
+  let sumMax = 0;
+
+  for (let weight of mapSkills.keys()) {
+    sumMax += weight;
+  }
+  //console.log("sumMax: ", sumMax);
+
+  let result = 0;
+  let x = getRandomInt(0, sumMax);
+  //console.log("x:", x);
+
+  for (let weight of mapSkills.keys()) {
+    x -= weight;
+    if (x <= 0) {
+      result = weight;
+      break;
+    }
+  }
+  return result;
+};
+
+function getRandomRarity(TOTAL_RARITY) {
+  let sumMax = 0;
+  for (let [key, rarity] of Object.entries(TOTAL_RARITY)) {
+    sumMax += rarity.weight;
+  }
+  //console.log("sumMax: ", sumMax);
+
+  let result = 0;
+  let x = getRandomInt(0, sumMax);
+  //console.log("x:", x);
+
+  for (let [key, rarity] of Object.entries(TOTAL_RARITY)) {
+    x -= rarity.weight;
+    if (x <= 0) {
+      result = { ...rarity };
+      break;
+    }
+  }
+  //console.log("result: ", result);
+  return result;
+}
+
+function boostWeight(rarityObject, rarityType, multiplier) {
+  for (let [key, value] of Object.entries(rarityObject)) {
+    if (value.weight > 100)
+      value.weight = Math.floor(value.weight / multiplier);
+  }
+
+  //console.log(rarityObject);
+  //   if (rarityObject[rarityType]) {
+  //     rarityObject[rarityType].weight /= multiplier;
+  //   }
+
+  return { ...rarityObject };
+}
+
+function getNewRandomRarity(TOTAL_RARITY, boostRare = 1) {
+  let NEW_TOTAL_RARITY = boostWeight(
+    JSON.parse(JSON.stringify(TOTAL_RARITY)),
+    "RARE",
+    boostRare
+  );
+
+  //console.log(NEW_TOTAL_RARITY);
+  let result = getRandomRarity(NEW_TOTAL_RARITY);
+  //console.log("result: ", result);
+  return result;
+}
+
 function getRandomCrit(attack, crit) {
   let x = getRandomInt(1, 100);
   //console.log("crit: ", x <= crit ? 2 : 1);

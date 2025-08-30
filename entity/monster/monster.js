@@ -34,8 +34,6 @@ class Monster {
   currentHP = -1;
   currentMana = -1;
 
-  prioritetStat = NONE;
-
   firstAttack = 1;
   firstArmor = 1;
   firstCrit = 1;
@@ -45,24 +43,21 @@ class Monster {
   firstFireArmor = 1;
   firstIceArmor = 1;
 
-  //
+  prioritetStat = NONE;
+  moreSex = 1;
+
   firstStat = {
     firstEndurance: { value: 1, prioritet: false },
     firstStrength: { value: 1, prioritet: false },
     firstAgility: { value: 1, prioritet: false },
     firstIntelligence: { value: 1, prioritet: false },
   };
-  //   firstEndurance = 1;
-  //   firstStrength = 1;
-  //   firstAgility = 1;
-  //   firstIntelligence = 1;
 
   bonusEndurance = 0;
   bonusStrength = 0;
   bonusAgility = 0;
   bonusIntelligence = 0;
-  //
-  //gen = 1;
+
   highHumidity = false;
 
   genetica = {
@@ -73,11 +68,6 @@ class Monster {
     firstArmor: 1,
     firstCrit: 1,
     firstDodge: 1,
-
-    firstEndurance: 1,
-    firstStrength: 1,
-    firstAgility: 1,
-    firstIntelligence: 1,
 
     prioritetStat: 1,
   };
@@ -92,6 +82,18 @@ class Monster {
   newSkillBackpack = [];
   newSkillBackpack2 = [];
 
+  upMoreSex() {
+    this.moreSex += getRandomInt(1, 2);
+  }
+
+  downMoreSex() {
+    if (this.moreSex <= 1) this.moreSex = 1;
+    else this.moreSex -= 1;
+  }
+
+  getMoreSex() {
+    return this.moreSex;
+  }
   loadConstructor(data) {
     //console.log(data);
     Object.assign(this, data);
@@ -266,6 +268,7 @@ class Monster {
     this.surname = surname[getRandomInt(0, surname.length)];
     this.id = countId;
     this.pol = getRandomInt(1, 10) > 5 ? true : false;
+    this.rarity = getRandomRarity(TOTAL_RARITY);
     this.createGen();
     this.createGenSkills();
     let arr = [STRENGTH, AGILITY, ENDURANCE, INTELLIGENCE];
@@ -276,13 +279,35 @@ class Monster {
     }
 
     if (create) {
-      this.firstStat.firstEndurance.value = getRandomInt(1, 20);
-      this.firstStat.firstStrength.value = getRandomInt(1, 20);
-      this.firstStat.firstAgility.value = getRandomInt(1, 20);
-      this.firstStat.firstIntelligence.value = getRandomInt(1, 20);
-
       this.firstHp = getRandomInt(1, 60);
       this.firstMana = getRandomInt(1, 20);
+
+      let newGenBudget = getGenBudget(this.lvl, this.rarity.id);
+
+      //console.log(newGenBudget);
+
+      let i = 0;
+      let keys = Object.keys(this.firstStat);
+
+      shuffleArray(keys);
+
+      for (let key of keys) {
+        let stat = this.firstStat[key];
+        // Логика назначения значений характеристикам
+        if (i === 3) stat.value = newGenBudget; // последнему даём всё
+        else {
+          if (stat.prioritet === true)
+            stat.value = Math.floor(
+              getRandomInt(newGenBudget / 8, newGenBudget / 1.8)
+            );
+          else if (stat.prioritet === false)
+            stat.value = Math.floor(getRandomInt(1, newGenBudget / 2.3));
+        }
+
+        newGenBudget -= stat.value;
+        i++;
+      }
+      //console.log(newGenBudget);
 
       this.firstAttack = getRandomInt(1, 20);
       this.firstArmor = Math.floor(getRandomInt(0, 20));
@@ -294,48 +319,48 @@ class Monster {
       this.firstIceArmor = Math.floor(getRandomInt(1, 5));
     } else if (!create) {
     }
-    this.rarity = getRandomWeightSkill([
-      [TOTAL_RARITY_COMMON, 10000],
-      [TOTAL_RARITY_UNUSUAL, 200],
-      [TOTAL_RARITY_RARE, 20],
-      [TOTAL_RARITY_VERY_RARE, 5],
-    ]);
+    // this.rarity = getRandomWeightSkill([
+    //   [TOTAL_RARITY_COMMON, 10000],
+    //   [TOTAL_RARITY_UNUSUAL, 200],
+    //   [TOTAL_RARITY_RARE, 20],
+    //   [TOTAL_RARITY_VERY_RARE, 5],
+    // ]);
 
-    let bonuses = new Map([
-      [2, ENDURANCE],
-      [3, STRENGTH],
-      [4, AGILITY],
-      [5, INTELLIGENCE],
-    ]);
+    // let bonuses = new Map([
+    //   [2, ENDURANCE],
+    //   [3, STRENGTH],
+    //   [4, AGILITY],
+    //   [5, INTELLIGENCE],
+    // ]);
 
-    if (this.rarity == TOTAL_RARITY_UNUSUAL) {
-      let min = 1;
-      let max = 5;
-      this.againBonusAttribute(bonuses, min, max);
-      if (getRandomPercent(100, 20))
-        this.againBonusAttribute(bonuses, min, max);
-    }
+    // if (this.rarity == TOTAL_RARITY_UNUSUAL) {
+    //   let min = 1;
+    //   let max = 5;
+    //   this.againBonusAttribute(bonuses, min, max);
+    //   if (getRandomPercent(100, 20))
+    //     this.againBonusAttribute(bonuses, min, max);
+    // }
 
-    if (this.rarity == TOTAL_RARITY_RARE) {
-      let min = 6;
-      let max = 10;
-      this.againBonusAttribute(bonuses, min, max);
-      if (getRandomPercent(100, 20))
-        this.againBonusAttribute(bonuses, min, max);
-      if (getRandomPercent(100, 10))
-        this.againBonusAttribute(bonuses, min, max);
-    }
+    // if (this.rarity == TOTAL_RARITY_RARE) {
+    //   let min = 6;
+    //   let max = 10;
+    //   this.againBonusAttribute(bonuses, min, max);
+    //   if (getRandomPercent(100, 20))
+    //     this.againBonusAttribute(bonuses, min, max);
+    //   if (getRandomPercent(100, 10))
+    //     this.againBonusAttribute(bonuses, min, max);
+    // }
 
-    if (this.rarity == TOTAL_RARITY_VERY_RARE) {
-      let min = 10;
-      let max = 20;
-      this.againBonusAttribute(bonuses, min, max);
-      if (getRandomPercent(100, 20))
-        this.againBonusAttribute(bonuses, min, max);
-      if (getRandomPercent(100, 10))
-        this.againBonusAttribute(bonuses, min, max);
-      if (getRandomPercent(100, 5)) this.againBonusAttribute(bonuses, min, max);
-    }
+    // if (this.rarity == TOTAL_RARITY_VERY_RARE) {
+    //   let min = 10;
+    //   let max = 20;
+    //   this.againBonusAttribute(bonuses, min, max);
+    //   if (getRandomPercent(100, 20))
+    //     this.againBonusAttribute(bonuses, min, max);
+    //   if (getRandomPercent(100, 10))
+    //     this.againBonusAttribute(bonuses, min, max);
+    //   if (getRandomPercent(100, 5)) this.againBonusAttribute(bonuses, min, max);
+    // }
   }
 
   bot(lvl) {
@@ -518,17 +543,15 @@ class Monster {
       mapMonsters.get(dominant(papa, mama, "firstDodge")).firstDodge
     );
 
-    // let testArr = [
-    //   firstEndurance,
-    //   firstStrength,
-    //   firstAgility,
-    //   firstIntelligence,
-    // ];
-
     let stats = [];
     let result = {};
 
     let newGenBudget = getRandomFloat(genBudget.statMin, genBudget.statMax);
+    let newPrioritetStatZna4 = { ...genBudget.prioritetStatZna4 };
+    newPrioritetStatZna4.value = getRandomInt(
+      newPrioritetStatZna4.value / 2,
+      newGenBudget / 2
+    );
     console.log(newGenBudget);
     let x;
     if (getRandomPercent(100, 65)) {
@@ -537,32 +560,12 @@ class Monster {
       }
       this.prioritetStat = genBudget.prioritetStat;
     }
-    this.firstStat[genBudget.prioritetStat] = genBudget.prioritetStatZna4;
 
-    newGenBudget = Math.floor(newGenBudget) - genBudget.prioritetStatZna4.value;
+    this.firstStat[genBudget.prioritetStat] = { ...newPrioritetStatZna4 };
+
     console.log(newGenBudget);
-
-    //let prioritetStat = genBudget.prioritetStat;
-    //let prioritetZna4 = genBudget.
-
-    // if (this.prioritetStat == ENDURANCE) {
-    //   this.firstEndurance = newAttributeSAI(
-    //     mapMonsters.get(dominant(papa, mama, "firstEndurance")).firstStat.firstEndurance
-    //   );
-    // } else if (this.prioritetStat == STRENGTH) {
-    //   this.firstStrength = newAttributeSAI(
-    //     mapMonsters.get(dominant(papa, mama, "firstStrength")).firstStrength
-    //   );
-    // } else if (this.prioritetStat == AGILITY) {
-    //   this.firstAgility = newAttributeSAI(
-    //     mapMonsters.get(dominant(papa, mama, "firstAgility")).firstAgility
-    //   );
-    // } else if (this.prioritetStat == INTELLIGENCE) {
-    //   this.firstIntelligence = newAttributeSAI(
-    //     mapMonsters.get(dominant(papa, mama, "firstIntelligence"))
-    //       .firstIntelligence
-    //   );
-    // }
+    newGenBudget = Math.floor(newGenBudget) - newPrioritetStatZna4.value;
+    console.log(newGenBudget);
 
     for (let i = 0; i < 2; i++) {
       x = getRandomInt(1, newGenBudget / 2);
@@ -579,7 +582,7 @@ class Monster {
       }
     }
 
-    console.log(stats);
+    //console.log(stats);
 
     this.firstLightingArmor = newAttributeSAI(
       mapMonsters.get(dominant(papa, mama, "firstLightingArmor"))
@@ -754,6 +757,8 @@ class Monster {
     profileMonster.classList.add("monsterCard");
     profileMonster.classList.add("card");
 
+    profileMonster.classList.add(this.rarity.css);
+
     if (this.rarity == TOTAL_RARITY_UNUSUAL) {
       profileMonster.classList.add("unusual");
     } else if (this.rarity == TOTAL_RARITY_RARE) {
@@ -859,7 +864,7 @@ class Monster {
       //"Имя: " +
       this.name + " " + this.surname + " id: " + this.id;
 
-    itemRare.textContent = "◻️Редкость: " + this.rarity;
+    itemRare.textContent = "Редкость: " + this.rarity.text;
     itemStatus.textContent = "Статус: " + this.status;
 
     itemLvl.textContent = "Уровень: " + this.lvl;
@@ -1005,10 +1010,16 @@ class Monster {
     }
 
     itemGen.textContent = "Генетика: " + JSON.stringify(this.genetica);
-    profileMonster.appendChild(itemRare);
-    profileMonster.appendChild(itemStatus);
+    let zati4ka = document.createElement("div");
+    zati4ka.textContent = "________________________________";
 
     profileMonster.appendChild(itemName);
+    profileMonster.appendChild(itemRare);
+    profileMonster.appendChild(zati4ka);
+    //profileMonster.appendChild(zati4ka);
+
+    //profileMonster.appendChild(itemStatus);
+
     profileMonster.appendChild(itemPolLvl);
 
     profileMonster.appendChild(itemAtPanel);
@@ -1016,7 +1027,7 @@ class Monster {
     profileMonster.appendChild(itemStatAndArmorPanel);
 
     let itemNull = document.createElement("div");
-    itemNull.textContent = "__________________________";
+    itemNull.textContent = "________________________________";
     profileMonster.appendChild(itemNull);
 
     profileMonster.appendChild(skills);

@@ -27,6 +27,125 @@ const ATTACK = "attack";
 const LVL = "lvl";
 const NOTHING = "lvl";
 
+const TOTAL_RARITY2 = {
+  COMMON: {
+    id: 0,
+    weight: 100000,
+    text: "Обычная",
+    css: "usual",
+  },
+  UNUSUAL: {
+    id: 1,
+    weight: 50000,
+    text: "Необычная",
+    css: "unusual",
+  },
+
+  RARE: {
+    id: 2,
+    weight: 25000,
+    text: "Редкая",
+    css: "rare",
+  },
+
+  VERY_RARE: {
+    id: 3,
+    weight: 10000,
+    text: "Очень Редкая",
+    css: "veryRare",
+  },
+
+  ELITE: {
+    id: 4,
+    weight: 2500,
+    text: "Элитная",
+    css: "elit",
+  },
+
+  EPIC: {
+    id: 5,
+    weight: 1000,
+    text: "Эпическая",
+    css: "epic",
+  },
+  MITHIC: {
+    id: 6,
+    weight: 10,
+    text: "Мифическая",
+    css: "mithic",
+  },
+
+  LEGENDARY: {
+    id: 7,
+    weight: 1,
+    text: "Легендарная",
+    css: "legendary",
+  },
+
+  UNIQUE: {
+    id: 8,
+    weight: 0,
+    text: "Уникальная",
+    css: "unusual",
+  },
+};
+const TOTAL_RARITY = {
+  COMMON: {
+    id: 0,
+    weight: 1,
+    text: "Обычная",
+    css: "usual",
+  },
+  UNUSUAL: {
+    id: 1,
+    weight: 2,
+    text: "Необычная",
+    css: "unusual",
+  },
+  RARE: {
+    id: 2,
+    weight: 3,
+    text: "Редкая",
+    css: "rare",
+  },
+  VERY_RARE: {
+    id: 3,
+    weight: 4,
+    text: "Очень Редкая",
+    css: "veryRare",
+  },
+  ELITE: {
+    id: 4,
+    weight: 5,
+    text: "Элитная",
+    css: "elit",
+  },
+  EPIC: {
+    id: 5,
+    weight: 6,
+    text: "Эпическая",
+    css: "epic",
+  },
+  Mithic: {
+    id: 6,
+    weight: 7,
+    text: "Мифическая",
+    css: "mithic",
+  },
+  LEGENDARY: {
+    id: 7,
+    weight: 8,
+    text: "Легендарная",
+    css: "legendary",
+  },
+  UNIQUE: {
+    id: 8,
+    weight: 0,
+    text: "Уникальная",
+    css: "unusual",
+  },
+};
+
 const TOTAL_RARITY_COMMON = "Обычная";
 const TOTAL_RARITY_UNUSUAL = "Необычная";
 const TOTAL_RARITY_RARE = "Редкая";
