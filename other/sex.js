@@ -53,6 +53,49 @@ function sredneeGenBudget(papa, mama, newLvl) {
 }
 
 function sexButtonClick() {
+  if (
+    mapMonsters.get(papaTarget).lvl < TOTAL_MAX_LEVEL &&
+    mapMonsters.get(mamaTarget).lvl < TOTAL_MAX_LEVEL &&
+    !poleFightsHaveMonsterPlayer
+  ) {
+    if (money.textContent >= TOTAL_PRICE_SEX) {
+      let newMonster = new Monster(names[getRandomInt(0, names.length)], false);
+
+      let finallyDominant = dominant(papaTarget, mamaTarget, "prioritetStat");
+      console.log(mapMonsters.get(finallyDominant).getProritetStat());
+
+      newMonster.born(papaTarget, mamaTarget, {
+        key: mapMonsters.get(finallyDominant).getProritetStat(),
+        value: 123,
+        prioritet: true,
+      });
+
+      mapMonsters.set(countId, newMonster);
+
+      newMonster.lvl = Math.floor(
+        (mapMonsters.get(papaTarget).lvl + mapMonsters.get(mamaTarget).lvl) / 2
+      );
+      newMonster.upLvl();
+      monsterMaxLvlEvolution(mapMonsters.get(papaTarget));
+      monsterMaxLvlEvolution(mapMonsters.get(mamaTarget));
+
+      //newMonster.surname = mapMonsters.get(papaTarget).surname;
+      newMonster.divMonster(TOTAL_MONSTERS_BACKUP);
+
+      selectPolMonster(newMonster);
+      money.textContent = Math.floor(money.textContent - TOTAL_PRICE_SEX);
+      monsterMaxLvlEvolution(newMonster);
+      updateMonsters(true);
+    } else console.log("НУЖНО БОЛЬШЕ ЗОЛОТА!");
+  } else
+    console.log(
+      `Один из ваших монстров находится в бою или больше не может размножаться (после ${TOTAL_MAX_LEVEL} лвл нельзя) `
+    );
+
+  //console.log(resultGen);
+}
+
+function sexButtonClick3() {
   if (mapMonsters.size < maxBackpack) {
     if (
       mapMonsters.get(papaTarget).lvl < TOTAL_MAX_LEVEL &&

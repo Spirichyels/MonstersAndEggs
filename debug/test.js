@@ -1,16 +1,19 @@
 function test123() {
-  let x = "";
-  for (let i = 0; i < 10000; i++) {
-    x = getNewRandomRarity(TOTAL_RARITY2).text;
-    console.log(x);
-    //if (x == "Легендарная") console.log(x);
-  }
+  console.log(Math.floor(1 + getRandomFloat(0.0, 1.9)));
+  console.log(Math.floor(1 + getRandomInt(0, 1)));
+
+  //   let x = "";
+  //   for (let i = 0; i < 10000; i++) {
+  //     x = getNewRandomRarity(TOTAL_RARITY2).text;
+  //     console.log(x);
+  //if (x == "Легендарная") console.log(x);
+  //  }
 }
 
 function testStandartFormulaGenbudget() {
   const koefRare = 0.09;
   let newKoeffBudget = 0;
-  let newRarity = getRandomRarity();
+  let newRarity = getRandomRarity(TOTAL_RARITY);
   let newLevel = getRandomInt(1, 15);
   let newDebuff = 1;
 

@@ -150,7 +150,7 @@ class Monster {
   }
 
   getProritetStat() {
-    return this.firstStat[this.prioritetStat];
+    return { [this.prioritetStat]: this.firstStat[this.prioritetStat] };
   }
 
   setProritetStat(value) {
@@ -521,7 +521,7 @@ class Monster {
     }
   }
 
-  born(papa, mama, genBudget) {
+  born(papa, mama, prioritet = { key, value, prioritet }) {
     this.firstHp = newAttributeHpMana(
       mapMonsters.get(dominant(papa, mama, "firstHp")).firstHp
     );
@@ -543,46 +543,79 @@ class Monster {
       mapMonsters.get(dominant(papa, mama, "firstDodge")).firstDodge
     );
 
-    let stats = [];
-    let result = {};
-
-    let newGenBudget = getRandomFloat(genBudget.statMin, genBudget.statMax);
-    let newPrioritetStatZna4 = { ...genBudget.prioritetStatZna4 };
-    newPrioritetStatZna4.value = getRandomInt(
-      newPrioritetStatZna4.value / 2,
-      newGenBudget / 2
-    );
-    console.log(newGenBudget);
-    let x;
-    if (getRandomPercent(100, 65)) {
+    let newGenBudget = getGenBudget(this.lvl, this.rarity.id);
+    console.log(this.firstStat["firstEndurance"]);
+    if (prioritet.prioritet) {
       for (let [key, value] of Object.entries(this.firstStat)) {
         value.prioritet = false;
       }
-      this.prioritetStat = genBudget.prioritetStat;
+      this.firstStat["firstEndurance"].prioritet = prioritet.prioritet;
     }
 
-    this.firstStat[genBudget.prioritetStat] = { ...newPrioritetStatZna4 };
-
-    console.log(newGenBudget);
-    newGenBudget = Math.floor(newGenBudget) - newPrioritetStatZna4.value;
-    console.log(newGenBudget);
-
-    for (let i = 0; i < 2; i++) {
-      x = getRandomInt(1, newGenBudget / 2);
-      stats.push(x);
-      newGenBudget -= x;
-    }
-    stats.push(Math.floor(newGenBudget));
+    //console.log(newGenBudget);
 
     let i = 0;
-    for (let [key, value] of Object.entries(this.firstStat)) {
-      if (value.prioritet == false) {
-        value.value = stats[i];
-        i++;
-      }
-    }
+    let keys = Object.keys(this.firstStat);
 
-    //console.log(stats);
+    shuffleArray(keys);
+
+    for (let key of keys) {
+      let stat = this.firstStat[key];
+      // Логика назначения значений характеристикам
+      if (i === 3) stat.value = newGenBudget; // последнему даём всё
+      else {
+        if (stat.prioritet === true)
+          stat.value = Math.floor(
+            getRandomInt(newGenBudget / 8, newGenBudget / 1.8)
+          );
+        else if (stat.prioritet === false)
+          stat.value = Math.floor(getRandomInt(1, newGenBudget / 2.3));
+      }
+
+      newGenBudget -= stat.value;
+      i++;
+
+      // let stats = [];
+      // let result = {};
+
+      // let newGenBudget = getRandomFloat(genBudget.statMin, genBudget.statMax);
+      // let newPrioritetStatZna4 = { ...genBudget.prioritetStatZna4 };
+      // newPrioritetStatZna4.value = getRandomInt(
+      //   newPrioritetStatZna4.value / 2,
+      //   newGenBudget / 2
+      // );
+      // console.log(newGenBudget);
+      // let x;
+      // if (getRandomPercent(100, 65)) {
+      //   for (let [key, value] of Object.entries(this.firstStat)) {
+      //     value.prioritet = false;
+      //   }
+      //   this.prioritetStat = genBudget.prioritetStat;
+      // }
+
+      // this.firstStat[genBudget.prioritetStat] = { ...newPrioritetStatZna4 };
+
+      // console.log(newGenBudget);
+      // newGenBudget = Math.floor(newGenBudget) - newPrioritetStatZna4.value;
+      // console.log(newGenBudget);
+
+      // for (let i = 0; i < 2; i++) {
+      //   x = getRandomInt(1, newGenBudget / 2);
+      //   stats.push(x);
+      //   newGenBudget -= x;
+      // }
+      // stats.push(Math.floor(newGenBudget));
+
+      // let i = 0;
+      // for (let [key, value] of Object.entries(this.firstStat)) {
+      //   if (value.prioritet == false) {
+      //     value.value = stats[i];
+      //     i++;
+      //   }
+      // }
+
+      //console.log(stats);
+    }
 
     this.firstLightingArmor = newAttributeSAI(
       mapMonsters.get(dominant(papa, mama, "firstLightingArmor"))
@@ -826,10 +859,36 @@ class Monster {
     itempAttArm.appendChild(itemCrit);
     itempAttArm.appendChild(itemDodge);
 
-    let itemEndurance = document.createElement("div");
-    let itemStrenth = document.createElement("div");
-    let itemAgility = document.createElement("div");
-    let itemIntelligence = document.createElement("div");
+    let itemEndurance = newItemStatCss(
+      "🧱Вын.: ",
+      this.firstStat.firstEndurance.value,
+      "firstEndurance",
+      this.bonusEndurance,
+      this.firstStat.firstEndurance.prioritet
+    );
+
+    let itemStrenth = newItemStatCss(
+      "💪Сила: ",
+      this.firstStat.firstStrength.value,
+      "firstStrength",
+      this.bonusStrength,
+      this.firstStat.firstStrength.prioritet
+    );
+
+    let itemAgility = newItemStatCss(
+      "🤸‍♂️Ловк.: ",
+      this.firstStat.firstAgility.value,
+      "firstAgility",
+      this.bonusAgility,
+      this.firstStat.firstAgility.prioritet
+    );
+    let itemIntelligence = newItemStatCss(
+      "🧠Интелл.: ",
+      this.firstStat.firstIntelligence.value,
+      "firstIntelligence",
+      this.bonusIntelligence,
+      this.firstStat.firstIntelligence.prioritet
+    );
 
     let itempStatPanel = document.createElement("div");
     itempStatPanel.appendChild(itemEndurance);
@@ -921,63 +980,6 @@ class Monster {
     xcrit.textContent = this.getCrit() + "%";
     xcrit.classList.add("agility");
     itemCrit.appendChild(xcrit);
-
-    itemEndurance.textContent = "🧱Вын.: ";
-    if (this.prioritetStat == ENDURANCE) {
-      itemEndurance.classList.add("prioritet", "endurance");
-    }
-
-    let monsterEndurancethis = document.createElement("a");
-    monsterEndurancethis.textContent = this.firstStat.firstEndurance.value;
-    monsterEndurancethis.classList.add("endurance");
-    let bonusMonsterEndurancethis = document.createElement("a");
-    bonusMonsterEndurancethis.textContent = " + " + this.bonusEndurance;
-    itemEndurance.appendChild(monsterEndurancethis);
-    if (this.bonusEndurance != 0) {
-      itemEndurance.appendChild(bonusMonsterEndurancethis);
-    }
-
-    if (this.prioritetStat == STRENGTH) {
-      itemStrenth.classList.add("prioritet", "strength");
-    }
-    itemStrenth.textContent = "💪Сила: ";
-    let monsterStrength = document.createElement("a");
-    monsterStrength.textContent = this.firstStat.firstStrength.value;
-    monsterStrength.classList.add("strength");
-    let bonusMonsterStrength = document.createElement("a");
-    bonusMonsterStrength.textContent = " + " + this.bonusStrength;
-    itemStrenth.appendChild(monsterStrength);
-    if (this.bonusStrength != 0) {
-      itemStrenth.appendChild(bonusMonsterStrength);
-    }
-
-    if (this.prioritetStat == AGILITY) {
-      itemAgility.classList.add("prioritet", "agility");
-    }
-    itemAgility.textContent = "🤸‍♂️Ловк.: ";
-    let monsterAgility = document.createElement("a");
-    monsterAgility.textContent = this.firstStat.firstAgility.value;
-    monsterAgility.classList.add("agility");
-    let bonusMonsterAgility = document.createElement("a");
-    bonusMonsterAgility.textContent = " + " + this.bonusAgility;
-    itemAgility.appendChild(monsterAgility);
-    if (this.bonusAgility != 0) {
-      itemAgility.appendChild(bonusMonsterAgility);
-    }
-
-    if (this.prioritetStat == INTELLIGENCE) {
-      itemIntelligence.classList.add("prioritet", "intelligence");
-    }
-    itemIntelligence.textContent = "🧠Интелл.: ";
-    let monsterIntelligence = document.createElement("a");
-    monsterIntelligence.textContent = this.firstStat.firstIntelligence.value;
-    monsterIntelligence.classList.add("intelligence");
-    let bonusMonsterIntelligence = document.createElement("a");
-    bonusMonsterIntelligence.textContent = " + " + this.bonusIntelligence;
-    itemIntelligence.appendChild(monsterIntelligence);
-    if (this.bonusIntelligence != 0) {
-      itemIntelligence.appendChild(bonusMonsterIntelligence);
-    }
 
     itemLightingArmor.textContent = "⚡Сопр. молн. ";
     let monsterLightingArmor = document.createElement("a");

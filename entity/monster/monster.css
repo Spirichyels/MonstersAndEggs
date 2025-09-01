@@ -111,23 +111,25 @@
 	color: rgb(94, 151, 8);
 } */
 
-.agility {
+
+.firstEndurance {
+	color: red;
+	--stat-color: red;
+}
+.firstStrength {
+	color: rgb(248, 68, 197);
+	--stat-color: rgb(248, 68, 197);
+}
+.firstAgility {
 	color: green;
 	--stat-color: green;
 
 }
-.intelligence {
+.firstIntelligence {
 	color: blue;
 	--stat-color: blue;
 }
-.endurance {
-	color: red;
-	--stat-color: red;
-}
-.strength {
-	color: rgb(248, 68, 197);
-	--stat-color: rgb(248, 68, 197);
-}
+
 .prioritet {
 	border: 1px solid var(--stat-color, #000);
 }
