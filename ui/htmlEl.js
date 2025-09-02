@@ -242,6 +242,10 @@ function Events() {
   sortEvents(isUnusual);
   sortEvents(isRare);
   sortEvents(isVeryRare);
+  //   sortEvents(isElit);
+  //   sortEvents(isEpic);
+  //   sortEvents(isMithic);
+  //   sortEvents(isLegendary);
 
   sortEvents(isDissapering);
   sortEvents(isFlexible);

@@ -1,14 +1,4 @@
-function test123() {
-  console.log(Math.floor(1 + getRandomFloat(0.0, 1.9)));
-  console.log(Math.floor(1 + getRandomInt(0, 1)));
-
-  //   let x = "";
-  //   for (let i = 0; i < 10000; i++) {
-  //     x = getNewRandomRarity(TOTAL_RARITY2).text;
-  //     console.log(x);
-  //if (x == "Легендарная") console.log(x);
-  //  }
-}
+function test123() {}
 
 function testStandartFormulaGenbudget() {
   const koefRare = 0.09;

@@ -8,50 +8,6 @@ function getlvlUp(lvl) {
   return chanceUpLvl;
 }
 
-function sredneeGenBudget(papa, mama, newLvl) {
-  let papaBudget =
-    papa.firstStat.firstEndurance.value +
-    papa.firstStat.firstStrength.value +
-    papa.firstStat.firstAgility.value +
-    papa.firstStat.firstIntelligence.value;
-
-  let mamaBudget =
-    mama.firstStat.firstEndurance.value +
-    mama.firstStat.firstStrength.value +
-    mama.firstStat.firstAgility.value +
-    mama.firstStat.firstIntelligence.value;
-
-  let generalBudget = (papaBudget + mamaBudget) / 2;
-
-  let finallyDominant = dominant(papa.id, mama.id, "prioritetStat");
-
-  //console.log("y", y);
-
-  let koeff =
-    (0.004 *
-      (mapMonsters.get(papaTarget).getMoreSex() +
-        mapMonsters.get(mamaTarget).getMoreSex())) /
-    2;
-
-  let genBudget = {
-    prioritetStat: mapMonsters.get(finallyDominant).prioritetStat,
-    prioritetStatKoeff: 1.0,
-    prioritetStatZna4: mapMonsters.get(finallyDominant).getProritetStat(),
-
-    statMin: generalBudget * 0.9,
-    statMax: generalBudget * (1 + newLvl * 0.061 - koeff),
-
-    lvl: 0.061,
-  };
-
-  if (papa.prioritetStat == mama.prioritetStat) {
-    genBudget.prioritetStatKoeff = 1.2;
-  }
-
-  //console.log(genBudget);
-  return genBudget;
-}
-
 function sexButtonClick() {
   if (
     mapMonsters.get(papaTarget).lvl < TOTAL_MAX_LEVEL &&
@@ -62,12 +18,24 @@ function sexButtonClick() {
       let newMonster = new Monster(names[getRandomInt(0, names.length)], false);
 
       let finallyDominant = dominant(papaTarget, mamaTarget, "prioritetStat");
-      console.log(mapMonsters.get(finallyDominant).getProritetStat());
+      console.log("finallyDominant:", finallyDominant);
+      console.log(mapMonsters.get(finallyDominant).getKeyProritetStat());
+      let newChance =
+        mapMonsters.get(papaTarget).getKeyProritetStat() ==
+        mapMonsters.get(mamaTarget).getKeyProritetStat()
+          ? 80
+          : 60;
+      //console.log(newChance);
 
       newMonster.born(papaTarget, mamaTarget, {
-        key: mapMonsters.get(finallyDominant).getProritetStat(),
-        value: 123,
+        key: mapMonsters.get(finallyDominant).getKeyProritetStat(),
+        value: newAttributeSAI(
+          mapMonsters.get(finallyDominant).firstStat[
+            mapMonsters.get(finallyDominant).getKeyProritetStat()
+          ].value
+        ),
         prioritet: true,
+        chance: newChance,
       });
 
       mapMonsters.set(countId, newMonster);

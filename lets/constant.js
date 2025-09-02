@@ -14,7 +14,7 @@ const TOTAL_PRICE_SELL = 25;
 const TOTAL_PRICE_SELL2 = 5;
 
 const TOTAL_PRICE_HEAL = 100;
-const TOTAL_START_MONEY = 999999999;
+const TOTAL_START_MONEY = 500;
 
 const ENDURANCE = "firstEndurance";
 const STRENGTH = "firstStrength";
@@ -27,7 +27,7 @@ const ATTACK = "attack";
 const LVL = "lvl";
 const NOTHING = "lvl";
 
-const TOTAL_RARITY2 = {
+const TOTAL_RARITY = {
   COMMON: {
     id: 0,
     weight: 100000,
@@ -89,7 +89,7 @@ const TOTAL_RARITY2 = {
     css: "unusual",
   },
 };
-const TOTAL_RARITY = {
+const TOTAL_RARITY2 = {
   COMMON: {
     id: 0,
     weight: 1,
@@ -342,6 +342,10 @@ let isCommon = document.getElementById("isCommon");
 let isUnusual = document.getElementById("isUnusual");
 let isRare = document.getElementById("isRare");
 let isVeryRare = document.getElementById("isVeryRare");
+let isElit = document.getElementById("isElit");
+let isEpic = document.getElementById("isEpic");
+let isMithic = document.getElementById("isMithic");
+let isLegendary = document.getElementById("isLegendary");
 
 let isDissapering = document.getElementById("isDissapering");
 let isFlexible = document.getElementById("isFlexible");

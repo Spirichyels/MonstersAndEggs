@@ -122,30 +122,47 @@ function helpSort(monster, number) {
 }
 
 function sort2(monster) {
-  if (isCommon.checked && monster.rarity == TOTAL_RARITY_COMMON) {
+  if (isCommon.checked && monster.rarity.id === TOTAL_RARITY.COMMON.id) {
     sort3(monster);
   }
-  if (isUnusual.checked && monster.rarity == TOTAL_RARITY_UNUSUAL) {
+  if (isUnusual.checked && monster.rarity.id === TOTAL_RARITY.UNUSUAL.id) {
     sort3(monster);
   }
-  if (isRare.checked && monster.rarity == TOTAL_RARITY_RARE) {
+  if (isRare.checked && monster.rarity.id === TOTAL_RARITY.RARE.id) {
     sort3(monster);
   }
-  if (isVeryRare.checked && monster.rarity == TOTAL_RARITY_VERY_RARE) {
+  if (isVeryRare.checked && monster.rarity.id === TOTAL_RARITY.VERY_RARE.id) {
+    sort3(monster);
+  }
+
+  if (isElit.checked && monster.rarity.id === TOTAL_RARITY.ELITE.id) {
+    sort3(monster);
+  }
+  if (isEpic.checked && monster.rarity.id === TOTAL_RARITY.EPIC.id) {
+    sort3(monster);
+  }
+
+  if (isMithic.checked && monster.rarity.id === TOTAL_RARITY.MITHIC.id) {
+    sort3(monster);
+  }
+  if (isLegendary.checked && monster.rarity.id === TOTAL_RARITY.LEGENDARY.id) {
     sort3(monster);
   }
 }
 
 function sort3(monster) {
-  if (isDissapering.checked && monster.status == TOTAL_STATUS_DISSAPERING) {
-    arrayMonstters.push([helpSort(monster, TOTAL_ID_SORTING), monster]);
-  }
-  if (isFlexible.checked && monster.status == TOTAL_STATUS_FELXIBLE) {
-    arrayMonstters.push([helpSort(monster, TOTAL_ID_SORTING), monster]);
-  }
-  if (isCompleted.checked && monster.status == TOTAL_STATUS_COMPLETED) {
-    arrayMonstters.push([helpSort(monster, TOTAL_ID_SORTING), monster]);
-  }
+  //   if (isDissapering.checked && monster.status == TOTAL_STATUS_DISSAPERING) {
+  //     arrayMonstters.push([helpSort(monster, TOTAL_ID_SORTING), monster]);
+  //   }
+  //   if (isFlexible.checked && monster.status == TOTAL_STATUS_FELXIBLE) {
+  //     arrayMonstters.push([helpSort(monster, TOTAL_ID_SORTING), monster]);
+  //   }
+  //   if (isCompleted.checked && monster.status == TOTAL_STATUS_COMPLETED) {
+  //     arrayMonstters.push([helpSort(monster, TOTAL_ID_SORTING), monster]);
+  //   } else {
+  //     arrayMonstters.push([helpSort(monster, TOTAL_ID_SORTING), monster]);
+  //   }
+  arrayMonstters.push([helpSort(monster, TOTAL_ID_SORTING), monster]);
 }
 
 function sort() {

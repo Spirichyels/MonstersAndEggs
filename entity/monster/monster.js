@@ -153,6 +153,10 @@ class Monster {
     return { [this.prioritetStat]: this.firstStat[this.prioritetStat] };
   }
 
+  getKeyProritetStat() {
+    return this.prioritetStat;
+  }
+
   setProritetStat(value) {
     this.firstStat[this.prioritetStat] = value;
   }
@@ -319,48 +323,6 @@ class Monster {
       this.firstIceArmor = Math.floor(getRandomInt(1, 5));
     } else if (!create) {
     }
-    // this.rarity = getRandomWeightSkill([
-    //   [TOTAL_RARITY_COMMON, 10000],
-    //   [TOTAL_RARITY_UNUSUAL, 200],
-    //   [TOTAL_RARITY_RARE, 20],
-    //   [TOTAL_RARITY_VERY_RARE, 5],
-    // ]);
-
-    // let bonuses = new Map([
-    //   [2, ENDURANCE],
-    //   [3, STRENGTH],
-    //   [4, AGILITY],
-    //   [5, INTELLIGENCE],
-    // ]);
-
-    // if (this.rarity == TOTAL_RARITY_UNUSUAL) {
-    //   let min = 1;
-    //   let max = 5;
-    //   this.againBonusAttribute(bonuses, min, max);
-    //   if (getRandomPercent(100, 20))
-    //     this.againBonusAttribute(bonuses, min, max);
-    // }
-
-    // if (this.rarity == TOTAL_RARITY_RARE) {
-    //   let min = 6;
-    //   let max = 10;
-    //   this.againBonusAttribute(bonuses, min, max);
-    //   if (getRandomPercent(100, 20))
-    //     this.againBonusAttribute(bonuses, min, max);
-    //   if (getRandomPercent(100, 10))
-    //     this.againBonusAttribute(bonuses, min, max);
-    // }
-
-    // if (this.rarity == TOTAL_RARITY_VERY_RARE) {
-    //   let min = 10;
-    //   let max = 20;
-    //   this.againBonusAttribute(bonuses, min, max);
-    //   if (getRandomPercent(100, 20))
-    //     this.againBonusAttribute(bonuses, min, max);
-    //   if (getRandomPercent(100, 10))
-    //     this.againBonusAttribute(bonuses, min, max);
-    //   if (getRandomPercent(100, 5)) this.againBonusAttribute(bonuses, min, max);
-    // }
   }
 
   bot(lvl) {
@@ -521,7 +483,7 @@ class Monster {
     }
   }
 
-  born(papa, mama, prioritet = { key, value, prioritet }) {
+  born(papa, mama, prioritet = { key, value, prioritet, chance }) {
     this.firstHp = newAttributeHpMana(
       mapMonsters.get(dominant(papa, mama, "firstHp")).firstHp
     );
@@ -543,17 +505,18 @@ class Monster {
       mapMonsters.get(dominant(papa, mama, "firstDodge")).firstDodge
     );
 
-    let newGenBudget = getGenBudget(this.lvl, this.rarity.id);
-    console.log(this.firstStat["firstEndurance"]);
-    if (prioritet.prioritet) {
+    if (getRandomPercent(100, prioritet.chance) == true) {
+      console.log("2характеристика от родителей " + prioritet.chance);
+      this.prioritetStat = prioritet.key;
       for (let [key, value] of Object.entries(this.firstStat)) {
-        value.prioritet = false;
+        if (this.prioritetStat == key) value.prioritet = true;
+        else value.prioritet = false;
       }
-      this.firstStat["firstEndurance"].prioritet = prioritet.prioritet;
     }
 
-    //console.log(newGenBudget);
-
+    let newGenBudget = getGenBudget(this.lvl, this.rarity.id);
+    this.firstStat[this.prioritetStat].value = prioritet.value;
+    newGenBudget -= prioritet.value;
     let i = 0;
     let keys = Object.keys(this.firstStat);
 
@@ -564,57 +527,14 @@ class Monster {
       // Логика назначения значений характеристикам
       if (i === 3) stat.value = newGenBudget; // последнему даём всё
       else {
-        if (stat.prioritet === true)
-          stat.value = Math.floor(
-            getRandomInt(newGenBudget / 8, newGenBudget / 1.8)
-          );
-        else if (stat.prioritet === false)
+        if (stat.prioritet === false)
           stat.value = Math.floor(getRandomInt(1, newGenBudget / 2.3));
+        else if (stat.prioritet === true) {
+        }
       }
 
       newGenBudget -= stat.value;
       i++;
-
-      // let stats = [];
-      // let result = {};
-
-      // let newGenBudget = getRandomFloat(genBudget.statMin, genBudget.statMax);
-      // let newPrioritetStatZna4 = { ...genBudget.prioritetStatZna4 };
-      // newPrioritetStatZna4.value = getRandomInt(
-      //   newPrioritetStatZna4.value / 2,
-      //   newGenBudget / 2
-      // );
-      // console.log(newGenBudget);
-      // let x;
-      // if (getRandomPercent(100, 65)) {
-      //   for (let [key, value] of Object.entries(this.firstStat)) {
-      //     value.prioritet = false;
-      //   }
-      //   this.prioritetStat = genBudget.prioritetStat;
-      // }
-
-      // this.firstStat[genBudget.prioritetStat] = { ...newPrioritetStatZna4 };
-
-      // console.log(newGenBudget);
-      // newGenBudget = Math.floor(newGenBudget) - newPrioritetStatZna4.value;
-      // console.log(newGenBudget);
-
-      // for (let i = 0; i < 2; i++) {
-      //   x = getRandomInt(1, newGenBudget / 2);
-      //   stats.push(x);
-      //   newGenBudget -= x;
-      // }
-      // stats.push(Math.floor(newGenBudget));
-
-      // let i = 0;
-      // for (let [key, value] of Object.entries(this.firstStat)) {
-      //   if (value.prioritet == false) {
-      //     value.value = stats[i];
-      //     i++;
-      //   }
-      // }
-
-      //console.log(stats);
     }
 
     this.firstLightingArmor = newAttributeSAI(
@@ -955,7 +875,7 @@ class Monster {
       this.getAttack(),
       "⚔️Атака: ",
       "",
-      "strength",
+      "firstStrength",
       isBot
     );
     this.waterAttributeDiv(
@@ -963,7 +883,7 @@ class Monster {
       this.getArmor(),
       " 🛡️Броня: ",
       "",
-      "agility",
+      "firstAgility",
       isBot
     );
     this.waterAttributeDiv(
@@ -971,14 +891,14 @@ class Monster {
       this.getDodge(),
       "🌀Уворот: ",
       "%",
-      "agility",
+      "firstAgility",
       isBot
     );
 
     itemCrit.textContent = "💥Крит: ";
     let xcrit = document.createElement("a");
     xcrit.textContent = this.getCrit() + "%";
-    xcrit.classList.add("agility");
+    xcrit.classList.add("firstAgility");
     itemCrit.appendChild(xcrit);
 
     itemLightingArmor.textContent = "⚡Сопр. молн. ";
