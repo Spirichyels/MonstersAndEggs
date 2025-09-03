@@ -1,3 +1,9 @@
+function uiUpdate() {
+  document.getElementById("currentCountMonsters").textContent =
+    mapMonsters.size;
+  document.getElementById("maxCountMonsters").textContent = maxBackpack;
+}
+
 function updateMonsters(regen) {
   //try {
   if (!poleFightsHaveMonsterEnemy && !poleFightsHaveMonsterPlayer) {
@@ -51,6 +57,8 @@ function updateMonsters(regen) {
       } else {
         monster.divMonster(TOTAL_MONSTERS_BACKUP);
       }
+
+      uiUpdate();
 
       selectPolMonster(monster);
     }

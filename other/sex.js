@@ -9,56 +9,65 @@ function getlvlUp(lvl) {
 }
 
 function sexButtonClick() {
-  if (
-    mapMonsters.get(papaTarget).lvl < TOTAL_MAX_LEVEL &&
-    mapMonsters.get(mamaTarget).lvl < TOTAL_MAX_LEVEL &&
-    !poleFightsHaveMonsterPlayer
-  ) {
-    if (money.textContent >= TOTAL_PRICE_SEX) {
-      let newMonster = new Monster(names[getRandomInt(0, names.length)], false);
+  if (mapMonsters.size < maxBackpack) {
+    if (
+      mapMonsters.get(papaTarget).lvl < TOTAL_MAX_LEVEL &&
+      mapMonsters.get(mamaTarget).lvl < TOTAL_MAX_LEVEL &&
+      !poleFightsHaveMonsterPlayer
+    ) {
+      if (money.textContent >= TOTAL_PRICE_SEX) {
+        let newMonster = new Monster(
+          names[getRandomInt(0, names.length)],
+          false
+        );
 
-      let finallyDominant = dominant(papaTarget, mamaTarget, "prioritetStat");
-      console.log("finallyDominant:", finallyDominant);
-      console.log(mapMonsters.get(finallyDominant).getKeyProritetStat());
-      let newChance =
-        mapMonsters.get(papaTarget).getKeyProritetStat() ==
-        mapMonsters.get(mamaTarget).getKeyProritetStat()
-          ? 80
-          : 60;
-      //console.log(newChance);
+        let finallyDominant = dominant(papaTarget, mamaTarget, "prioritetStat");
+        console.log("finallyDominant:", finallyDominant);
+        console.log(mapMonsters.get(finallyDominant).getKeyProritetStat());
+        let newChance =
+          mapMonsters.get(papaTarget).getKeyProritetStat() ==
+          mapMonsters.get(mamaTarget).getKeyProritetStat()
+            ? 80
+            : 60;
+        //console.log(newChance);
 
-      newMonster.born(papaTarget, mamaTarget, {
-        key: mapMonsters.get(finallyDominant).getKeyProritetStat(),
-        value: newAttributeSAI(
-          mapMonsters.get(finallyDominant).firstStat[
-            mapMonsters.get(finallyDominant).getKeyProritetStat()
-          ].value
-        ),
-        prioritet: true,
-        chance: newChance,
-      });
+        newMonster.born(papaTarget, mamaTarget, {
+          key: mapMonsters.get(finallyDominant).getKeyProritetStat(),
+          value: newAttributeSAI(
+            mapMonsters.get(finallyDominant).firstStat[
+              mapMonsters.get(finallyDominant).getKeyProritetStat()
+            ].value
+          ),
+          prioritet: true,
+          chance: newChance,
+        });
 
-      mapMonsters.set(countId, newMonster);
+        mapMonsters.set(countId, newMonster);
 
-      newMonster.lvl = Math.floor(
-        (mapMonsters.get(papaTarget).lvl + mapMonsters.get(mamaTarget).lvl) / 2
+        newMonster.lvl = Math.floor(
+          (mapMonsters.get(papaTarget).lvl + mapMonsters.get(mamaTarget).lvl) /
+            2
+        );
+        newMonster.upLvl();
+        monsterMaxLvlEvolution(mapMonsters.get(papaTarget));
+        monsterMaxLvlEvolution(mapMonsters.get(mamaTarget));
+
+        //newMonster.surname = mapMonsters.get(papaTarget).surname;
+        newMonster.divMonster(TOTAL_MONSTERS_BACKUP);
+
+        selectPolMonster(newMonster);
+        money.textContent = Math.floor(money.textContent - TOTAL_PRICE_SEX);
+        monsterMaxLvlEvolution(newMonster);
+        updateMonsters(true);
+      } else console.log("НУЖНО БОЛЬШЕ ЗОЛОТА!");
+    } else
+      console.log(
+        `Один из ваших монстров находится в бою или больше не может размножаться (после ${TOTAL_MAX_LEVEL} лвл нельзя) `
       );
-      newMonster.upLvl();
-      monsterMaxLvlEvolution(mapMonsters.get(papaTarget));
-      monsterMaxLvlEvolution(mapMonsters.get(mamaTarget));
-
-      //newMonster.surname = mapMonsters.get(papaTarget).surname;
-      newMonster.divMonster(TOTAL_MONSTERS_BACKUP);
-
-      selectPolMonster(newMonster);
-      money.textContent = Math.floor(money.textContent - TOTAL_PRICE_SEX);
-      monsterMaxLvlEvolution(newMonster);
-      updateMonsters(true);
-    } else console.log("НУЖНО БОЛЬШЕ ЗОЛОТА!");
-  } else
-    console.log(
-      `Один из ваших монстров находится в бою или больше не может размножаться (после ${TOTAL_MAX_LEVEL} лвл нельзя) `
-    );
+  } else {
+    console.log(`У вас сликшом много монстров `);
+    alert(`У вас сликшом много монстров `);
+  }
 
   //console.log(resultGen);
 }

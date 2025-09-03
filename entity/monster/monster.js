@@ -114,15 +114,19 @@ class Monster {
       for (let key in data.skillBacpack) {
         let skill = data.skillBacpack[key];
 
-        this.setSkillBacpack(
-          createNewSkill(
-            skill.lvl,
-            true,
-            skill.type,
-            skill.duration,
-            skill.percent
-          )
-        );
+        try {
+          this.setSkillBacpack(
+            createNewSkill(
+              skill.lvl,
+              true,
+              skill.type,
+              skill.duration,
+              skill.percent
+            )
+          );
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   }
@@ -302,10 +306,10 @@ class Monster {
         else {
           if (stat.prioritet === true)
             stat.value = Math.floor(
-              getRandomInt(newGenBudget / 8, newGenBudget / 1.8)
+              getRandomInt(newGenBudget / 8, newGenBudget / 3)
             );
           else if (stat.prioritet === false)
-            stat.value = Math.floor(getRandomInt(1, newGenBudget / 2.3));
+            stat.value = Math.floor(getRandomInt(1, newGenBudget / 3));
         }
 
         newGenBudget -= stat.value;
@@ -505,6 +509,10 @@ class Monster {
       mapMonsters.get(dominant(papa, mama, "firstDodge")).firstDodge
     );
 
+    let newGenBudget = getGenBudget(this.lvl, this.rarity.id);
+    console.log("firstBudget: ", newGenBudget);
+    let proverka = 3;
+    let newValue = prioritet.value;
     if (getRandomPercent(100, prioritet.chance) == true) {
       console.log("2характеристика от родителей " + prioritet.chance);
       this.prioritetStat = prioritet.key;
@@ -512,11 +520,21 @@ class Monster {
         if (this.prioritetStat == key) value.prioritet = true;
         else value.prioritet = false;
       }
-    }
 
-    let newGenBudget = getGenBudget(this.lvl, this.rarity.id);
-    this.firstStat[this.prioritetStat].value = prioritet.value;
-    newGenBudget -= prioritet.value;
+      for (let i = 0; i < 200; i++) {
+        if (newGenBudget / 2.5 < prioritet.value) {
+          newValue = newValue - 1;
+          console.log("newGenBudget слишком маленький: " + prioritet.value);
+        } else {
+          newGenBudget -= newValue;
+          //proverka = 2;
+          break;
+        }
+      }
+      this.firstStat[this.prioritetStat].value = newValue;
+    }
+    console.log("2Budget: ", newGenBudget);
+
     let i = 0;
     let keys = Object.keys(this.firstStat);
 
@@ -524,18 +542,15 @@ class Monster {
 
     for (let key of keys) {
       let stat = this.firstStat[key];
-      // Логика назначения значений характеристикам
-      if (i === 3) stat.value = newGenBudget; // последнему даём всё
-      else {
-        if (stat.prioritet === false)
-          stat.value = Math.floor(getRandomInt(1, newGenBudget / 2.3));
-        else if (stat.prioritet === true) {
-        }
+      if (i === proverka) {
+        stat.value = newGenBudget;
+      } else if (stat.prioritet === false) {
+        stat.value = Math.floor(getRandomInt(1, newGenBudget / 3));
       }
-
       newGenBudget -= stat.value;
       i++;
     }
+    console.log("EndBudget: ", newGenBudget);
 
     this.firstLightingArmor = newAttributeSAI(
       mapMonsters.get(dominant(papa, mama, "firstLightingArmor"))

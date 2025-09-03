@@ -14,6 +14,9 @@ function onSaveLocalStorage() {
   localStorage.setItem("progressLVL", JSON.stringify(progressLVL));
   localStorage.setItem("countId", countId);
   localStorage.setItem("money", money.textContent);
+  localStorage.setItem("maxBackpack", maxBackpack);
+  localStorage.setItem("backpack_price", backpack_price.textContent);
+
   localStorage.setItem("version", ver);
 }
 
@@ -37,6 +40,8 @@ function onLoadLocalStorage() {
   mapMonsters = restoredMap;
   countId = localStorage.getItem("countId");
   money.textContent = localStorage.getItem("money");
+  backpack_price.textContent = localStorage.getItem("backpack_price");
+  maxBackpack = Math.floor(localStorage.getItem("maxBackpack"));
   updateMonsters(false);
 
   id_range.value = localStorage.getItem("id_range.min");

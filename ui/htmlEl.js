@@ -43,6 +43,23 @@ function sell1MonsterClick() {
   }
 }
 
+function buyBackpackButtonClick() {
+  if (Math.floor(money.textContent) >= Math.floor(backpack_price.textContent)) {
+    money.textContent =
+      Math.floor(money.textContent) - Math.floor(backpack_price.textContent);
+
+    backpack_price.textContent = Math.floor(
+      Math.floor(backpack_price.textContent) * 1.2 -
+        ((Math.floor(backpack_price.textContent) * 1.2) % 10)
+    );
+
+    maxBackpack++;
+    updateMonsters(false);
+  } else {
+    alert("У вас не достаточно денег");
+  }
+}
+
 function heal1MonsterClick() {
   //console.log("delete1MonsterClick idDeleteMonsterInput: ", idSellMonsterInput);
 
@@ -226,6 +243,8 @@ function Events() {
   skillEvents(skillButtonPl1);
   skillEvents(skillButtonPl2);
   skillEvents(skillButtonPl3);
+
+  buyBackpackButton.addEventListener("click", buyBackpackButtonClick);
 
   //   skillButtonPl1.addEventListener("click", () => {
   //     useAbility(skillButtonPl1.id);

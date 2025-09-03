@@ -276,24 +276,26 @@ function chacnceUpAttribute(monster, max) {
     let x = [12, 14, 15, 16];
     let res = getRandomWeight(x);
     if (res == 12) {
-      monster.firstEndurance += 1;
+      monster.firstStat.firstEndurance.value += 1;
       console.log(
         "Монстер " + monster.name + " навсегда получил 1 выносливость"
       );
       moveInfostrTextD.textContent =
         "Монстер " + monster.name + " навсегда получил 1 выносливость";
     } else if (res == 14) {
-      monster.firstStrength += 1;
+      monster.firstStat.firstStrength.value += 1;
       console.log("Монстер " + monster.name + " навсегда получил 1 силу");
       moveInfostrTextD.textContent =
         "Монстер " + monster.name + " навсегда получил 1 силу";
     } else if (res == 15) {
-      monster.firstAgility += 1;
-      console.log("Монстер " + monster.name + " навсегда получил 1 ловкость");
+      monster.firstStat.firstAgility += 1;
+      console.log(
+        "Монстер " + monster.name.value + " навсегда получил 1 ловкость"
+      );
       moveInfostrTextD.textContent =
         "Монстер " + monster.name + " навсегда получил 1 ловкость";
     } else if (res == 16) {
-      monster.firstIntelligence += 1;
+      monster.firstStat.firstIntelligence.value += 1;
       console.log("Монстер " + monster.name + " навсегда получил 1 интеллект");
       moveInfostrTextD.textContent =
         "Монстер " + monster.name + " навсегда получил 1 интеллект";

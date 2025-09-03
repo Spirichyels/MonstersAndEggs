@@ -129,6 +129,9 @@
 		<button id="dellButton">Удалить 1 монстра</button>
 	</div>
 
+	<div>________________________________</div>
+
+
 
 
 
@@ -227,46 +230,50 @@
 
 	</div>
 
-	<div ">monsters</div>
+	<div id=buyBackpackMonsters>
+		<div>+ 1 место Цена:<a id="priceBackpackMonsters">60</a> монет </div>
+		<button id="buyBackpackMonstersButton">Купить</button>
+	</div>
+	<div">monsters <a id="currentCountMonsters">0</a> из <a id="maxCountMonsters"">0</a></div>
 
 	<div class=" monstersDivClass"></div>
 
 
 
-	<script>
-		// function idRange() {
-		// 	id_Count.innerHTML = id_range.value;
-		// }
+			<script>
+				// function idRange() {
+				// 	id_Count.innerHTML = id_range.value;
+				// }
 
-	</script>
+			</script>
 
-	<script src="lets/name.js"></script>
-	<script src="lets/famyly.js"></script>
-	<script src="lets/constant.js"></script>
+			<script src="lets/name.js"></script>
+			<script src="lets/famyly.js"></script>
+			<script src="lets/constant.js"></script>
 
-	<script src="entity/skills.js"></script>
-	<script src="entity/monster/functionsMonsters.js"></script>
-	<script src="entity/monster/statCss.js"></script>
+			<script src="entity/skills.js"></script>
+			<script src="entity/monster/functionsMonsters.js"></script>
+			<script src="entity/monster/statCss.js"></script>
 
-	<script src="entity/monster/monster.js"></script>
-
-
-
-	<script src="other/fight.js"></script>
-	<script src="other/random.js"></script>
-
-	<script src="other/sex.js"></script>
-
-	<script src="ui/htmlEl.js"></script>
-	<script src="ui/saves.js"></script>
-	<script src="ui/sotring.js"></script>
-
-	<script src="debug/debug.js"></script>
+			<script src="entity/monster/monster.js"></script>
 
 
 
-	<script src="debug/test.js"></script>
-	<script src="start.js"></script>
+			<script src="other/fight.js"></script>
+			<script src="other/random.js"></script>
+
+			<script src="other/sex.js"></script>
+
+			<script src="ui/htmlEl.js"></script>
+			<script src="ui/saves.js"></script>
+			<script src="ui/sotring.js"></script>
+
+			<script src="debug/debug.js"></script>
+
+
+
+			<script src="debug/test.js"></script>
+			<script src="start.js"></script>
 
 
 
@@ -279,7 +286,7 @@
 	<script>
 		let version = document.querySelector("#version")
 
-		let ver = 2508123
+		let ver = 2509110
 
 		if (false) version.textContent = text;
 		else version.textContent = ver;

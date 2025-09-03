@@ -184,6 +184,9 @@ const TOTAL_MAX_BACKPACK_1 = 10;
 const TOTAL_MAX_BACKPACK_2 = 20;
 const TOTAL_MAX_BACKPACK_3 = 30;
 
+const buyBackpackButton = document.getElementById("buyBackpackMonstersButton");
+const backpack_price = document.getElementById("priceBackpackMonsters");
+
 //Math.pow(koeff, i) * price; формула красивого распределения
 
 //переменные
