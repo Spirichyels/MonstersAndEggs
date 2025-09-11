@@ -14,13 +14,13 @@ function koeffRarityFormula(rareId) {
   return Math.pow(koeff, rareId);
 }
 
-function getGenBudget(levelMonster, idRareMonter) {
-  const STANDART_BUDGET = 30;
+function getGenBudget(budget = 30, levelMonster, idRareMonter) {
+  //const STANDART_BUDGET = 30;
   const MIN_BUDGET_KOEFF = 0.95;
   const MAX_BUDGET_KOEFF = 1.05;
 
   let normalBudget =
-    levelGenBudgetFormula(STANDART_BUDGET, levelMonster) *
+    levelGenBudgetFormula(budget, levelMonster) *
     koeffRarityFormula(idRareMonter);
   //console.log(getRandomFloat(MIN_BUDGET_KOEFF, MAX_BUDGET_KOEFF));
 

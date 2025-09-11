@@ -1,4 +1,12 @@
-function test123() {}
+function test123() {
+  for (let i = 0; i < 20; i++) {
+    //console.log(getGenBudget(getRandomInt(10, 60), 1, 0));
+  }
+
+  for (let monster of mapMonsters.values()) {
+    console.log(monster.getBudget());
+  }
+}
 
 function testStandartFormulaGenbudget() {
   const koefRare = 0.09;

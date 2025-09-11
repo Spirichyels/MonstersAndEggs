@@ -46,6 +46,8 @@ class Monster {
   prioritetStat = NONE;
   moreSex = 1;
 
+  startBudget = 1;
+
   firstStat = {
     firstEndurance: { value: 1, prioritet: false },
     firstStrength: { value: 1, prioritet: false },
@@ -165,6 +167,10 @@ class Monster {
     this.firstStat[this.prioritetStat] = value;
   }
 
+  getBudget() {
+    return this.startBudget;
+  }
+
   getEndurance() {
     return this.firstStat.firstEndurance.value + this.bonusEndurance;
   }
@@ -282,40 +288,30 @@ class Monster {
     let arr = [STRENGTH, AGILITY, ENDURANCE, INTELLIGENCE];
     this.prioritetStat = arr[getRandomSkill(arr)];
 
-    for (let [key, value] of Object.entries(this.firstStat)) {
-      if (this.prioritetStat == key) value.prioritet = true;
-    }
-
     if (create) {
       this.firstHp = getRandomInt(1, 60);
       this.firstMana = getRandomInt(1, 20);
 
-      let newGenBudget = getGenBudget(this.lvl, this.rarity.id);
-
-      //console.log(newGenBudget);
+      this.startBudget = getGenBudget(
+        getRandomInt(10, 30),
+        this.lvl,
+        this.rarity.id
+      );
+      let newGenBudget = this.startBudget;
 
       let i = 0;
       let keys = Object.keys(this.firstStat);
-
       shuffleArray(keys);
-
       for (let key of keys) {
         let stat = this.firstStat[key];
         // Логика назначения значений характеристикам
         if (i === 3) stat.value = newGenBudget; // последнему даём всё
         else {
-          if (stat.prioritet === true)
-            stat.value = Math.floor(
-              getRandomInt(newGenBudget / 8, newGenBudget / 3)
-            );
-          else if (stat.prioritet === false)
-            stat.value = Math.floor(getRandomInt(1, newGenBudget / 3));
+          stat.value = Math.floor(getRandomInt(1, newGenBudget / 3));
         }
-
         newGenBudget -= stat.value;
         i++;
       }
-      //console.log(newGenBudget);
 
       this.firstAttack = getRandomInt(1, 20);
       this.firstArmor = Math.floor(getRandomInt(0, 20));
